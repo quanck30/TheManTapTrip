@@ -8,7 +8,7 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 });
 // })->middleware('auth:sanctum');
-Route::get('/getUser', function () {
+Route::get('/v1/getUser', function () {
     $user = User::all();
     return response()->json([
         'message' => "ok",
