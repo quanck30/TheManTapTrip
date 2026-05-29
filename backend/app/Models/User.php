@@ -10,14 +10,35 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
+use Laravel\Sanctum\HasApiTokens;
+use Laravel\Socialite\Contracts\User as ContractsUser;
 
 #[Fillable(['display_name'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens;
 
+    public static function findOrCreateUserWithGoogle(ContractsUser $googleUser): self
+    {
+        return DB::transaction(function () use ($googleUser) {
+            $userAuth = UserAuth::where('provider', 'google')
+                ->where('provider_key', $googleUser->getId())
+                ->first();
+            if ($userAuth) return $userAuth->user;
+            $user = self::create([
+                'display_name' => $googleUser->getName() ?? $googleUser->getEmail() ?? $googleUser->getNickname() ?? 'Google User',
+            ]);
+            $user->userAuths()->create([
+                'provider' => 'google',
+                'provider_key' => $googleUser->getId(),
+                'pass_hash' => null,
+            ]);
+            return $user;
+        });
+    }
     /**
      * キャストする属性を取得します。
      *
