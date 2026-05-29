@@ -21,13 +21,20 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, HasApiTokens;
 
+    /**
+     * Google認証ユーザーに対応するローカルユーザーを取得または作成します。
+     */
     public static function findOrCreateUserWithGoogle(ContractsUser $googleUser): self
     {
         return DB::transaction(function () use ($googleUser) {
             $userAuth = UserAuth::where('provider', 'google')
                 ->where('provider_key', $googleUser->getId())
                 ->first();
+
+            // 既にGoogle認証情報がある場合は、紐づくユーザーを返します。
             if ($userAuth) return $userAuth->user;
+
+            // 初回ログイン時はユーザー本体とGoogle認証情報を同時に作成します。
             $user = self::create([
                 'display_name' => $googleUser->getName() ?? $googleUser->getEmail() ?? $googleUser->getNickname() ?? 'Google User',
             ]);

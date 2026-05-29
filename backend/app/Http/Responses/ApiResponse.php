@@ -2,8 +2,14 @@
 
 namespace App\Http\Responses;
 
+/**
+ * APIレスポンスのJSON形式を共通化します。
+ */
 class ApiResponse
 {
+    /**
+     * 正常終了時の共通レスポンスを返します。
+     */
     public static function success(
         mixed $data = null,
         string $message = '成功しました',
@@ -16,6 +22,9 @@ class ApiResponse
         ], $status);
     }
 
+    /**
+     * エラー発生時の共通レスポンスを返します。
+     */
     public static function error(
         string $message = 'エラー発生しました',
         int $status = 400,
