@@ -12,7 +12,7 @@ use Override;
 class LoginRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * このログインリクエストは誰でも送信できます。
      */
     public function authorize(): bool
     {
@@ -20,18 +20,21 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * ログインに必要なアクセストークンを検証します。
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            //
+            // フロントエンドから受け取ったOAuthアクセストークンを必須にします。
             'access_token' => ['required', 'string'],
         ];
     }
 
+    /**
+     * バリデーションエラーも通常のAPIレスポンス形式で返します。
+     */
     #[Override]
     protected function failedValidation(Validator $validator): void
     {
