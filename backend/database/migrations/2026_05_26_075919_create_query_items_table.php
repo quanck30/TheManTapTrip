@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('question_id')->constrained();
             $table->string('title')->unique();
-            $table->string('search_type')->unique();
+            $table->string('search_type');
             $table->timestamps();
         });
     }
