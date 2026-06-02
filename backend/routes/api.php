@@ -20,6 +20,7 @@ Route::get('/v1/getUser', function () {
     ]);
 });
 
+// Google Places Api を使用した場所検索APi
 Route::post('/v1/placeSearch', [PlaceSearchController::class, 'placeSearch']);
 // Googleアクセストークンを使ったログインAPIです。
 Route::post('/v1/auth/google', [GoogleAuthController::class, 'googleLogin']);
