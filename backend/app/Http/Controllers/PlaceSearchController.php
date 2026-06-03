@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PlaceSearchRequest;
 use App\Http\Responses\ApiResponse;
-use Backend\App\Services\PlaceSearchService;
+use App\Services\PlaceSearchService;
 use Exception;
 use Illuminate\Support\Facades\Log;
 
