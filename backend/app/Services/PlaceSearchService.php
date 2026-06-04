@@ -22,7 +22,7 @@ class PlaceSearchService
         // APIに送るリクエストBody
         $body = [
             'includedTypes' => $answers,
-            'maxResultCount' => 5,
+            'maxResultCount' => 1,
             'locationRestriction' => [
                 'circle' => [
                     'center' => [
@@ -31,6 +31,13 @@ class PlaceSearchService
                     ],
                     'radius' => (double)$location['radius']
                 ]
+            ],
+            "routingParameters" => [
+                "origin" => [
+                    "latitude"=> (double)$location['latitude'],
+                    "longitude"=> (double)$location['longitude']
+                ],
+                "travelMode" => "BICYCLE"
             ]
         ];
 
@@ -38,8 +45,8 @@ class PlaceSearchService
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
             'X-Goog-Api-Key' => $apikey,
-            'X-Goog-FieldMask' => 'places.id,places.displayName,places.editorialSummary,places.photos,places.formattedAddress,places.addressComponents,places.rating,places.types,places.location,places.priceLevel,places.parkingOptions',       // 取得する内容
-            'Language' => 'ja',             // 言語
+            'X-Goog-FieldMask' => 'places.id,places.displayName,places.editorialSummary,places.photos,places.formattedAddress,places.addressComponents,places.rating,places.types,places.location,places.priceLevel,places.parkingOptions,routingSummaries',       // 取得する内容
+            'Accept-Language' => 'ja',             // 言語
         ])->post($url, $body);
 
         // 結果のエラーチェック
@@ -47,22 +54,55 @@ class PlaceSearchService
             throw new \Exception('Google APIからのデータ取得に失敗しました。詳細: ' . $response->body());
         }
 
-        // $rowPlaces = $response->json()['places'] ?? [];
+        // データ部を取得
+        $rowPlaces = $response->json()['places'] ?? [];
 
-        // // 結果を成形
-        // $formattedPlaces = [];
-        // foreach($rowPlaces as $place) {
+        // Googleから places と同階層で返ってくるルート情報を取得
+        $rawRoutings = $response->json()['routingSummaries'] ?? [];
 
-        //     $formattedPlaces[] = [
-        //             'google_place_id' => $place['id'] ?? null,
-        //             'name' => $place['displayName']['text'] ?? '名称未設定',
-        //             'latitude' => $place['location']['latitude'] ?? null,
-        //             'longitude' => $place['location']['longitude'] ?? null,
-        //             'rating' => $place['rating'] ?? null,
-        //             'price_level' => $place['priceLevel'] ?? null,
-        //             'primary_type' => $place['primaryType'] ?? null,
-        //     ];
-        // }
+        // 結果を成形して、返す
+        return $this->formatPlaces($rowPlaces);
+    }
+
+    /**
+     * 引数のデータをフロント用に成形する
+     * @param array $rowPlaces
+     * @return array{google_place_id: mixed, latitude: mixed, longitude: mixed, name: mixed, price_level: mixed, primary_type: mixed, rating: mixed[]}
+     */
+    private function formatPlaces(array $rowPlaces)
+    {
+        $formattedPlaces = [];          // 成形後のデータ格納用
+
+        // 取得されたすべての場所の情報を成形
+        foreach($rowPlaces as $key => $place) {
+
+            // routingSummaries の中から純正のルート案内URL（directionUri）を安全に抽出
+            $directionUrl = $rawRoutings[$key]['legs'][0]['directionUri'] ?? null;
+
+            $formattedPlaces[] = [
+                    'google_place_id' => $place['id'] ?? null,                  // 場所の識別番号
+                    'name' => $place['displayName']['text'] ?? '名称未設定',     // 表示名
+                    'address' => $place['formattedAddress'],                    // 住所
+                    'latitude' => $place['location']['latitude'] ?? null,       // 緯度
+                    'longitude' => $place['location']['longitude'] ?? null,     // 経度
+                    'rating' => $place['rating'] ?? null,                       // 評価
+                    'price_level' => $place['priceLevel'] ?? null,              // 価格帯
+
+                    // 駐車場:データがない（null）の時は一律 false になるように
+                    'has_parking' => isset($place['parkingOptions']['freeParkingLot']) ? (bool)$place['parkingOptions']['freeParkingLot'] : false,
+
+                    // 説明文:入っていないスポットも多いため、ない場合の初期文字を設定
+                    'summary' => $place['editorialSummary']['text'] ?? '説明はありません。',
+
+                    // 写真:大量の配列から「1枚目の写真の名前（ID）」だけを代表でもらう
+                    'photo_reference' => $place['photos'][0]['name'] ?? null,
+
+                    // ルート:
+                    'direction_url' => $directionUrl,
+            ];
+        }
+
+        return $formattedPlaces;
     }
 }
 
