@@ -44,7 +44,7 @@ class PlaceSearchService
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
             'X-Goog-Api-Key' => $apikey,
-            'X-Goog-FieldMask' => 'places.id,places.displayName,places.editorialSummary,places.photos,places.formattedAddress,places.addressComponents,places.rating,places.types,places.location,places.priceLevel,places.parkingOptions,routingSummaries',       // 取得する内容
+            'X-Goog-FieldMask' => 'places.id,places.displayName,places.editorialSummary,places.photos,places.formattedAddress,places.rating,places.types,places.location,places.priceLevel,places.parkingOptions,routingSummaries',       // 取得する内容
             'Accept-Language' => 'ja',             // 言語
         ])->post($url, $body);
 
@@ -96,6 +96,7 @@ class PlaceSearchService
                     'latitude' => $lat,                                         // 緯度
                     'longitude' => $lng,                                        // 経度
                     'rating' => $place['rating'] ?? null,                       // 評価
+                    'types' => $place['types'] ?? [],                           // カテゴリー
                     'price_level' => $place['priceLevel'] ?? null,              // 価格帯
 
                     // 駐車場:データがない（null）の時は一律 false になるように
