@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class PlaceSearchService
 {
@@ -11,7 +10,7 @@ class PlaceSearchService
      * 回答をもとにGoogle Places Apiから場所を検索して返す
      * @param array $location 連想配列（latitude, longitude, radius）
      * @param array $answers ユーザーの回答（GoogleのType配列）
-     * @return array
+     * @return array 条件に合った場所
      */
     public function search(array $location, array $answers)
     {
@@ -37,7 +36,7 @@ class PlaceSearchService
                     "latitude"=> (double)$location['latitude'],
                     "longitude"=> (double)$location['longitude']
                 ],
-                "travelMode" => "BICYCLE"
+                "travelMode" => "DRIVE"
             ]
         ];
 
@@ -61,30 +60,41 @@ class PlaceSearchService
         $rawRoutings = $response->json()['routingSummaries'] ?? [];
 
         // 結果を成形して、返す
-        return $this->formatPlaces($rowPlaces);
+        return $this->formatPlaces($rowPlaces, $rawRoutings);
     }
 
     /**
      * 引数のデータをフロント用に成形する
-     * @param array $rowPlaces
-     * @return array{google_place_id: mixed, latitude: mixed, longitude: mixed, name: mixed, price_level: mixed, primary_type: mixed, rating: mixed[]}
+     * @param array $rowPlaces Googleから返ってきた生の場所データ
+     * @param array $rawRoutings Googleから返ってきた生のルートデータ
+     * @return array 成形されたデータ
      */
-    private function formatPlaces(array $rowPlaces)
+    private function formatPlaces(array $rowPlaces, array $rawRoutings)
     {
         $formattedPlaces = [];          // 成形後のデータ格納用
 
         // 取得されたすべての場所の情報を成形
         foreach($rowPlaces as $key => $place) {
 
-            // routingSummaries の中から純正のルート案内URL（directionUri）を安全に抽出
+            // routingSummariesの中からルート案内URL（directionUri）を取得
             $directionUrl = $rawRoutings[$key]['legs'][0]['directionUri'] ?? null;
+
+            $lat = $place['location']['latitude'] ?? null;       // 緯度
+            $lng = $place['location']['longitude'] ?? null;      // 経度
+
+            // apiからルート案内URLを取得できなかった場合、無料URLを作成
+            if (!$directionUrl) {
+                if ($lat && $lng) {
+                    $directionUrl = "https://www.google.com/maps/dir/?api=1&destination={$lat},{$lng}&travelmode=drive";
+                }
+            }
 
             $formattedPlaces[] = [
                     'google_place_id' => $place['id'] ?? null,                  // 場所の識別番号
                     'name' => $place['displayName']['text'] ?? '名称未設定',     // 表示名
-                    'address' => $place['formattedAddress'],                    // 住所
-                    'latitude' => $place['location']['latitude'] ?? null,       // 緯度
-                    'longitude' => $place['location']['longitude'] ?? null,     // 経度
+                    'address' => $place['formattedAddress'] ?? null,            // 住所
+                    'latitude' => $lat,                                         // 緯度
+                    'longitude' => $lng,                                        // 経度
                     'rating' => $place['rating'] ?? null,                       // 評価
                     'price_level' => $place['priceLevel'] ?? null,              // 価格帯
 
