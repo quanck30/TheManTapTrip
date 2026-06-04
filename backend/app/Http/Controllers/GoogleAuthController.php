@@ -28,7 +28,7 @@ class GoogleAuthController extends Controller
             // フロントエンドから受け取ったGoogleアクセストークンをSocialiteで検証します。
             /** @var AbstractProvider $provider */
             $provider = Socialite::driver('google');
-            $googleUser = $provider->stateless()->userFromToken($request->access_token);
+            $googleUser = $provider->stateless()->userFromToken($request->accessToken);
         } catch (ClientException $e) {
             // Google側でトークンが無効と判断された場合は認証エラーを返します。
             return ApiResponse::error(
@@ -77,10 +77,10 @@ class GoogleAuthController extends Controller
             return ApiResponse::success([
                 'user' => [
                     'id' => $user->id,
-                    'display_name' => $user->display_name,
+                    'displayName' => $user->display_name,
                 ],
                 'token' => $token,
-                'token_type' => 'Bearer',
+                'tokenType' => 'Bearer',
             ], 'Googleログインに成功しました');
         } catch (Throwable $e) {
             // Google認証後のユーザー作成やトークン発行に失敗した場合の処理です。
