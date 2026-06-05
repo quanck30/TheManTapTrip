@@ -1,9 +1,12 @@
 <?php
 
+use App\Models\QueryItem;
+use App\Models\Question;
 use App\Http\Controllers\GoogleAuthController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\QuestionController;
 
 // Sanctumで認証済みのユーザー情報を返します。
 Route::get('/user', function (Request $request) {
@@ -18,6 +21,19 @@ Route::get('/v1/getUser', function () {
         'data' => $user
     ]);
 });
+//questionをpostmanでテスト
+Route::get('/test', function(){
+    $question = Question::all();
+    return response()->json([
+        'data'=>$question
+    ]);
+});
+
+
+// 質問一覧と選択肢をJSONで返します。
+Route::get('/v1/questions', [QuestionController::class, 'index']);
+
+
 
 // Googleアクセストークンを使ったログインAPIです。
 Route::post('/v1/auth/google', [GoogleAuthController::class, 'googleLogin']);
