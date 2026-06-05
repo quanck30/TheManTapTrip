@@ -1,0 +1,43 @@
+/* button.css - 共通ボタンコンポーネント*/
+
+.btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 15px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 26px; /* 丸みのあるボタン */
+  border: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: opacity 0.2s ease, transform 0.1s ease;
+}
+
+.btn:active {
+  opacity: 0.92;
+  transform: scale(0.985);
+}
+
+/* 1. プライマリーボタン（青色グラデーション） */
+.btn-primary {
+  background: linear-gradient(135deg, #46cdff 0%, #25a7f5 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(37, 167, 245, 0.35);
+}
+
+/* 2. セカンダリーボタン（アウトライン・白背景） */
+.btn-secondary {
+  background-color: #ffffff;
+  color: #25a7f5;
+  border: 2px solid #25a7f5;
+  padding: 13px 22px; /* ボーダー分内側を小さく調整 */
+}
+
+/* 3. アクセントボタン（緑色：詳細画面・予約用） */
+.btn-accent {
+  background-color: #00e676;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 230, 118, 0.35);
+}
