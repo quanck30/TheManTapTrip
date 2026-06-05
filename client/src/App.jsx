@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+
 // CSSインポート
 import './Styles/reset.css';
 import './Styles/variables.css';
@@ -9,7 +10,7 @@ import './Styles/button.css';
 import './Styles/card.css';
 import './Styles/welcome.css';
 import './Styles/login.css';
-import './Styles/home.css';
+import './Styles/Home.css';
 import './Styles/profile.css';
 import './Styles/detail.css';
 

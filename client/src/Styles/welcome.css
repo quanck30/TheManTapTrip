@@ -1,64 +1,109 @@
-/* ようこそ画面用 */
-
-/* アプリ共通変数（未定義の場合のフォールバック） */
-:root {
-  --primary-color: #46cdff;
-  --primary-gradient: linear-gradient(135deg, #46cdff 0%, #25a7f5 100%);
-  --bg-color: #f5f5f5;
-  --text-main: #2c3e50;
-  --text-sub: #7f8c8d;
-}
-
-.welcome-screen {
+.welcome-container {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, #e3f2fd 0%, #f7fafc 100%);
+  padding: 40px 24px 32px 24px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 60px 24px;
-  height: 100%;
-  box-sizing: border-box;
-  background: linear-gradient(180deg, #ffffff 0%, #eef9ff 100%);
-  position: relative;
-  overflow: hidden;
+  font-family: sans-serif;
 }
 
-.welcome-logo-area {
-  text-align: center;
-  margin-top: 40px;
-  z-index: 2;
-}
-
-.welcome-logo-title {
-  font-size: 32px;
-  font-weight: 800;
-  color: var(--primary-color);
-  letter-spacing: -0.5px;
-  margin-bottom: 8px;
-}
-
-.welcome-logo-sub {
-  font-size: 16px;
-  color: var(--text-sub);
-  font-weight: 500;
-}
-
-/* Figmaに描かれているドット・ルートマップ風背景の再現 */
-.route-illustration {
+.welcome-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
   width: 100%;
-  height: 260px;
-  background-image: radial-gradient(circle, #bce7ff 2.5px, transparent 2.5px);
-  background-size: 28px 28px;
-  position: relative;
-  opacity: 0.8;
-  margin: 20px 0;
-  z-index: 1;
 }
 
-/* 画面下のボタンエリア */
-.welcome-action-area {
+.welcome-logo-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.welcome-logo-icon {
+  font-size: 24px;
+  background: #2c3e50;
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.welcome-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1a202c;
+  margin: 0;
+}
+
+.welcome-subtitle {
+  font-size: 24px;
+  font-weight: 800;
+  color: #2b6cb0;
+  margin: 0 0 12px 0;
+  text-align: center;
+}
+
+.welcome-description {
+  font-size: 13px;
+  color: #4a5568;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.welcome-graphic {
+  width: 100%;
+  height: 240px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #a7f3d0 0%, #818cf8 100%);
+  position: relative;
+  box-shadow: 0 12px 32px rgba(43, 108, 176, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.welcome-graphic-text {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.welcome-actions {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 14px;
-  z-index: 2;
+  align-items: center;
+}
+
+.welcome-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+}
+
+.welcome-btn-register {
+  background-color: #90cdf4;
+  color: #1a202c;
+  border: none;
+}
+
+.welcome-login-link {
+  font-size: 13px;
+  color: #2b6cb0;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  margin-top: 6px;
 }

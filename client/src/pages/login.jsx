@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { loginService } from '../Services/auth';
 import TempButton from '../components/buttons/TempButton';
+import '../Styles/login.css';
 
 function Login({ onLoginSuccess, onBackToWelcome, onNavigateToRegister }) {
   const [email, setEmail] = useState('');
@@ -26,92 +27,65 @@ function Login({ onLoginSuccess, onBackToWelcome, onNavigateToRegister }) {
   };
 
   return (
-    <div 
-      className="login-container"
-      style={{
-        padding: '40px 24px',
-        backgroundColor: '#ffffff',
-        height: '100%',
-        boxSizing: 'border-box',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center'
-      }}
-    >
+    <div className="login-container">
       {/* 戻るボタン */}
-      <div style={{ position: 'absolute', top: '16px', left: '16px' }}>
-        <span 
-          onClick={onBackToWelcome}
-          style={{ fontSize: '18px', cursor: 'pointer', color: '#7f8c8d', padding: '8px' }}
-        >
+      <div className="login-back-wrapper">
+        <span className="login-back-btn" onClick={onBackToWelcome}>
           ＜ 戻る
         </span>
       </div>
 
       {/* ヘッダー */}
-      <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-        <h2 style={{ fontSize: '24px', fontWeight: '800', color: '#2c3e50', margin: '0 0 8px 0' }}>ログイン</h2>
-        <p style={{ fontSize: '14px', color: '#7f8c8d', margin: 0 }}>おかえりなさい！アカウントにログインしてください</p>
+      <div className="login-header">
+        <h2 className="login-title">ログイン</h2>
+        <p className="login-subtitle">おかえりなさい！アカウントにログインしてください</p>
       </div>
 
       {/* フォーム */}
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-        {error && (
-          <div style={{ backgroundColor: '#fff5f5', color: '#e53e3e', padding: '12px', borderRadius: '8px', fontSize: '13px', border: '1px solid #fed7d7' }}>
-            ⚠️ {error}
-          </div>
-        )}
+      <form onSubmit={handleSubmit} className="login-form">
+        {error && <div className="login-error">⚠️ {error}</div>}
 
-        <div>
-          <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', color: '#475569', marginBottom: '6px' }}>メールアドレス</label>
+        <div className="form-group">
+          <label>メールアドレス</label>
           <input 
             type="email" 
             placeholder="example@email.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={isLoading}
-            style={{ width: '100%', padding: '12px 16px', border: '1px solid #e2e8f0', borderRadius: '10px', fontSize: '14px', boxSizing: 'border-box', backgroundColor: '#f8fafc' }} 
             required
           />
         </div>
 
-        <div>
-          <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', color: '#475569', marginBottom: '6px' }}>パスワード</label>
+        <div className="form-group">
+          <label>パスワード</label>
           <input 
             type="password" 
             placeholder="••••••••"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             disabled={isLoading}
-            style={{ width: '100%', padding: '12px 16px', border: '1px solid #e2e8f0', borderRadius: '10px', fontSize: '14px', boxSizing: 'border-box', backgroundColor: '#f8fafc' }} 
             required
           />
         </div>
 
-        <div style={{ textAlign: 'right' }}>
-          <span style={{ fontSize: '12px', color: '#2f80ed', cursor: 'pointer' }}>パスワードをお忘れですか？</span>
+        <div className="login-forgot-pass">
+          <span>パスワードをお忘れですか？</span>
         </div>
 
-        <div style={{ marginTop: '16px' }}>
-          <TempButton 
-            text={isLoading ? "ログイン中..." : "ログイン"} 
-            variant="primary" 
-            type="submit"
-            disabled={isLoading}
-            style={{ width: '100%', padding: '14px' }} 
-          />
-        </div>
+        <TempButton 
+          text={isLoading ? "ログイン中..." : "ログイン"} 
+          variant="primary" 
+          type="submit"
+          disabled={isLoading}
+          className="login-submit-btn"
+        />
       </form>
 
-      {/* 新規登録への誘導リンク */}
-      <div style={{ textAlign: 'center', marginTop: '32px', fontSize: '13px', color: '#7f8c8d' }}>
+      {/* 新規登録への誘導 */}
+      <div className="login-footer">
         アカウントをお持ちでないですか？{' '}
-        <span 
-          onClick={onNavigateToRegister}
-          style={{ color: '#2f80ed', fontWeight: '600', cursor: 'pointer', textDecoration: 'underline' }}
-        >
-          新規登録
-        </span>
+        <span onClick={onNavigateToRegister}>新規登録</span>
       </div>
     </div>
   );
