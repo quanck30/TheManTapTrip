@@ -50,9 +50,9 @@ class PlaceSearchService
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
             'X-Goog-Api-Key' => $apikey,
-            // 'X-Goog-FieldMask' => 'places.id,places.displayName,places.editorialSummary,places.photos,places.formattedAddress,places.rating,places.types,places.location,places.priceLevel,places.parkingOptions,routingSummaries',       // 取得する内容
+            // 'X-Goog-FieldMask' => 'places.id,places.displayName,places.editorialSummary,places.photos,places.formattedAddress,places.rating,places.primary_type,places.types,places.location,places.priceLevel,places.parkingOptions,routingSummaries',       // 取得する内容
 
-            'X-Goog-FieldMask' => 'places.id,places.displayName,places.editorialSummary,places.photos,places.formattedAddress,places.rating,places.types,places.location,places.priceLevel,places.parkingOptions',       // 取得する内容
+            'X-Goog-FieldMask' => 'places.id,places.displayName,places.editorialSummary,places.photos,places.formattedAddress,places.rating,places.primaryType,places.types,places.location,places.priceLevel,places.parkingOptions',       // 取得する内容
 
             'Accept-Language' => 'ja',             // 言語
         ])->post($url, $body);
@@ -105,6 +105,7 @@ class PlaceSearchService
                     'latitude' => $lat,                                         // 緯度
                     'longitude' => $lng,                                        // 経度
                     'rating' => $place['rating'] ?? null,                       // 評価
+                    'primaryType' => $place['primaryType'] ?? null,             // メインタイプ
                     'types' => $place['types'] ?? [],                           // カテゴリー
                     'price_level' => $place['priceLevel'] ?? null,              // 価格帯
 

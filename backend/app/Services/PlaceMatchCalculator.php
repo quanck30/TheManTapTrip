@@ -16,12 +16,17 @@ class PlaceMatchCalculator
     {
         // 質問の解答に対応するカテゴリーを一つにまとめる
         $requiredTypes = [];
+        $mainRequiredTypes = [];
         foreach ($answers as $questionKey => $choice) {
-            // カプセル化したマッパー関数を呼び出す
-            $types = $this->categoryMapper->getGoogleTypes($questionKey, $choice, 'match_types');
 
-            // 配列が上書きされないように、結合していく
-            $requiredTypes = array_merge($requiredTypes, $types);
+            // カプセル化したマッパー関数を呼び出す、メイン目的purposeのカテゴリーだけ別配列に分ける
+            if ($questionKey === "purpose") {
+                $mainRequiredTypes = $this->categoryMapper->getGoogleTypes($questionKey, $choice, 'match_types');
+            } else {
+                $types = $this->categoryMapper->getGoogleTypes($questionKey, $choice, 'match_types');
+                // 配列が上書きされないように、結合していく
+                $requiredTypes = array_merge($requiredTypes, $types);
+            }
         }
 
         // 重複したカテゴリを一つにする
@@ -33,12 +38,30 @@ class PlaceMatchCalculator
 
             // 共通した要素を抽出
             $matchedTypes = array_intersect($placeTypes, $requiredTypes);
+            $mainMatchedTypes = array_intersect($placeTypes, $mainRequiredTypes);
+            $primaryType = $place['primary_type'] ?? ($placeTypes[0] ?? null);          // その場所の「本業ジャンル」を取得（なければ配列の先頭を代用）
 
             // 場所のマッチ度を計算
-            $match_score = count($matchedTypes) * 5;
+            $matchTypesCount = count($matchedTypes);
+            $matchScore = $matchTypesCount > 0 ? (count($matchedTypes) / $matchTypesCount) * 10 : 0;
+
+            $mainMatchTypesCount = count($matchedTypes);
+            $matchScore = $matchScore + $mainMatchTypesCount > 0 ? (count($mainMatchedTypes) / $mainMatchTypesCount) * 30 : 0;
 
             // 0~100点内に収める
-            $formattedPlaces[$key]['match_score'] = max(0, min(100, $match_score));
+            $formattedPlaces[$key]['match_score'] = max(0, min(100, $matchScore));
+
+            // メインタイプが目的に含まれていたらマッチ度を上げる
+            $bonus_score = 0;
+            if ($primaryType && in_array($primaryType, $mainRequiredTypes)) {
+                $bonus_score = 40;
+            }
+
+            // 基本スコアボーナススコア
+            $total_score = $matchScore + $bonus_score;
+
+            // 0~100点内に収める
+            $formattedPlaces[$key]['match_score'] = max(0, min(100, $total_score));
         }
 
         // スコアで降順に並び変える
