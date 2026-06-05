@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\QueryItem;
+use App\Http\Controllers\PlaceSearchController;
 use App\Models\Question;
 use App\Http\Controllers\GoogleAuthController;
 use App\Models\User;
@@ -35,5 +35,7 @@ Route::get('/v1/questions', [QuestionController::class, 'index']);
 
 
 
+// Google Places Api を使用した場所検索APi
+Route::post('/v1/placeSearch', [PlaceSearchController::class, 'placeSearch']);
 // Googleアクセストークンを使ったログインAPIです。
 Route::post('/v1/auth/google', [GoogleAuthController::class, 'googleLogin']);
