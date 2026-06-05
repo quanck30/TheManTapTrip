@@ -90,7 +90,7 @@ class PlaceCategoryMapper
      * @param string|null $choice 選択肢（例: 'eat' などの文字列、または未選択の null）
      * @return array Googleのカテゴリ配列
      */
-    public function getGoogleTypes(string $questionKey, ?string $choice, ?string $typeKey): array
+    public function getGoogleTypes(string $questionKey, ?string $choice, ?string $typeKey = null): array
     {
         // 指定された質問（1階層目）がマスタになければ空配列を返す
         if (!isset($this->mapping[$questionKey])) {
@@ -117,7 +117,7 @@ class PlaceCategoryMapper
         }
 
         // 普通の3階層データであれば、そのまま配列を返す
-        return is_array($targetData) ? $targetData : [];
+        return $targetData ?? [];
     }
 }
 
