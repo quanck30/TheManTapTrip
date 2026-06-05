@@ -24,15 +24,24 @@ class PlaceSearchController extends Controller
     public function placeSearch(PlaceSearchRequest $request)
     {
         try {
-            // 検索処理に条件を渡し、場所検索
-            $result = $this->placeSearchService->search(
-                $request->only(['latitude', 'longitude', 'radius']),
-                $request->input('answers')
-            );
+            // フロント（Postman）からの入力データを取得
+            $location = $request->input('location'); // latitude, longitude, radius
+            $answers = $request->input('answers');   // with_children, purpose など
+
+            // サービスを呼び出して検索・マッチ度計算を実行
+            $places = $this->placeSearchService->search($location, $answers);
+
+            // 結果が空だった場合
+            if (empty($places)) {
+                return $this->apiResponse->success(
+                    [],
+                    "指定された条件にマッチする場所が周辺で見つかりませんでした。条件を変えて再度お試しください。"
+                );
+            }
 
             // 検索結果を返す
             return $this->apiResponse->success(
-                $result,
+                $places,
                 "データ取得に成功しました。"
             );
 
