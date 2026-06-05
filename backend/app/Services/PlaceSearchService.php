@@ -21,7 +21,7 @@ class PlaceSearchService
         $url = 'https://places.googleapis.com/v1/places:searchNearby';
 
         // API検索時に使用するキーワードを設定
-        $purposeTypes = $this->categoryMapper->getGoogleTypes('purpose', 'api_search_type', $answers['purpose'] ?? null);
+        $purposeTypes = $this->categoryMapper->getGoogleTypes('purpose', $answers['purpose'] ?? null, 'api_search_type');
         $searchType = !empty($purposeTypes) ? [$purposeTypes[0]] : [];
 
         // APIに送るリクエストBody
