@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PlaceSearchRequest;
 use App\Http\Responses\ApiResponse;
+use App\Services\PlaceMatchCalculator;
 use App\Services\PlaceSearchService;
 use Exception;
 use Illuminate\Support\Facades\Log;
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Log;
 class PlaceSearchController extends Controller
 {
 
-    public function __construct(private PlaceSearchService $placeSearchService, private ApiResponse $apiResponse) {}
+    public function __construct(private PlaceSearchService $placeSearchService, private ApiResponse $apiResponse, private PlaceMatchCalculator $placeMatchCalculator) {}
 
     /**
      * 現在位置(緯度・経度)、半径、質問の回答を受け取り、条件に合致する場所を検索する
@@ -24,11 +25,17 @@ class PlaceSearchController extends Controller
     public function placeSearch(PlaceSearchRequest $request)
     {
         try {
+            // フロント（Postman）からの入力データを取得
+            $location = $request->only(['latitude', 'longitude', 'radius']); // latitude, longitude, radius
+            $answers = $request->input('answers');   // with_children, purpose など
+
             // 検索処理に条件を渡し、場所検索
             $result = $this->placeSearchService->search(
-                $request->only(['latitude', 'longitude', 'radius']),
-                $request->input('answers')
+                $location,
+                $answers
             );
+
+            $result = $this->placeMatchCalculator->calculateMatches($result, $answers);
 
             // 結果が空だった場合
             if (empty($result)) {

@@ -22,7 +22,7 @@ class PlaceSearchService
 
         // API検索時に使用するキーワードを設定
         $purposeTypes = $this->categoryMapper->getGoogleTypes('purpose', $answers['purpose'] ?? null, 'api_search_type');
-        $searchType = !empty($purposeTypes) ? [$purposeTypes[0]] : [];
+        $searchType = !empty($purposeTypes) ? [$purposeTypes] : ['tourist_attraction'];
 
         // APIに送るリクエストBody
         $body = [
