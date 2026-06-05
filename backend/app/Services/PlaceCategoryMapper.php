@@ -116,8 +116,12 @@ class PlaceCategoryMapper
             return $targetData[$typeKey];
         }
 
+        if (is_array($targetData)) {
+            return $targetData;
+        }
+
         // 普通の3階層データであれば、そのまま配列を返す
-        return $targetData ?? [];
+        return is_array($targetData) ? $targetData : [];
     }
 }
 
