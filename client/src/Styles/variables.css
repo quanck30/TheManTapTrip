@@ -1,0 +1,35 @@
+/* variables.css - アプリ共通デザインシステム（変数）*/
+
+:root {
+  /* --- メインカラー ＆ ブランドカラー --- */
+  --primary-color: #25a7f5;               /* メインの爽やかなスカイブルー */
+  --primary-light: #e6f7ff;               /* 薄い青（タグや選択背景用） */
+  --primary-gradient: linear-gradient(135deg, #46cdff 0%, #25a7f5 100%); /* 主要ボタン等のグラデーション */
+  
+  /* --- アクセントカラー --- */
+  --accent-green: #00e676;                /* 予約・詳細決定用のグリーン */
+  --accent-green-light: #e8fced;          /* 薄い緑 */
+  --accent-heart: #ff4757;                /* お気に入り（いいね）用の赤・ピンク */
+
+  /* --- バックグラウンド色 --- */
+  --bg-color: #f5f0f0;                    /* 全体の背景（#F5F5F5） */
+  --card-bg: #f7f4f4;                     /* カードやコンテナの白色背景 */
+  --input-bg: #eef0f3;                    /* フォーム入力欄の背景色 */
+
+  /* --- タイポグラフィ ＆ テキストカラー --- */
+  --text-main: #2c3e50;                   /* 主要タイトル、濃いネイビーグレー */
+  --text-sub: #7f8c8d;                    /* 補足説明やプレースホルダー用のグレー */
+  --text-muted: #cbd5e1;                  /* さらに薄い、非アクティブ用のグレー */
+
+  /* --- コーナーの角丸 (Border Radius) --- */
+  --radius-xl: 24px;                      /* 詳細画面のせり上がり等の大きな角丸 */
+  --radius-lg: 16px;                      /* スポットカード等の標準的な角丸 */
+  --radius-md: 12px;                      /* フォーム入力欄やボタンの角丸 */
+  --radius-sm: 8px;                       /* 小さなバッジやタグ用の角丸 */
+  --radius-round: 50%;                    /* 円形アバター用 */
+
+  /* --- 共通の影 (Box Shadow) --- */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.06);   /* カード等に最適な薄く広がる影 */
+  --shadow-lg: 0 10px 24px rgba(0, 0, 0, 0.1);
+}
