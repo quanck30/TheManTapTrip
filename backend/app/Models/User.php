@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Socialite\Contracts\User as ContractsUser;
@@ -26,7 +27,22 @@ class User extends Authenticatable
      */
     public static function findOrCreateUserWithGoogle(ContractsUser $googleUser): self
     {
-        return DB::transaction(function () use ($googleUser) {
+        // Google IDを使って、Redis上でユーザーごとに異なるキーを作成します。
+        $cacheKey = 'google_user:' . $googleUser->getId();
+
+        // DBへ問い合わせる前に、まずRedisからユーザー情報を取得します。
+        $cachedUser = Cache::get($cacheKey);
+
+        if ($cachedUser) {
+            // キャッシュの配列データからEloquentモデルを復元し、Controller側でcreateToken()を使えるようにします。
+            return (new self())->newFromBuilder([
+                'id' => $cachedUser['id'],
+                'display_name' => $cachedUser['display_name'],
+            ]);
+        }
+
+        // Redisに存在しない場合だけ、DBから取得または新規作成します。
+        $user =  DB::transaction(function () use ($googleUser) {
             $userAuth = UserAuth::where('provider', 'google')
                 ->where('provider_key', $googleUser->getId())
                 ->first();
@@ -45,6 +61,13 @@ class User extends Authenticatable
             ]);
             return $user;
         });
+
+        // 必要なユーザー情報だけをRedisに1時間保存します。
+        Cache::put($cacheKey, [
+            'id' => $user->id,
+            'display_name' => $user->display_name,
+        ], now()->addHour());
+        return $user;
     }
     /**
      * キャストする属性を取得します。

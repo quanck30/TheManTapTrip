@@ -71,6 +71,8 @@ class GoogleAuthController extends Controller
             // 検証済みGoogleユーザーに対応するローカルユーザーを取得または作成します。
             $user = User::findOrCreateUserWithGoogle($googleUser);
 
+            // 前回のトークンを削除する。
+            $user->tokens()->delete();
             // API認証用のSanctumトークンを発行します。
             $token = $user->createToken('google-login')->plainTextToken;
 
