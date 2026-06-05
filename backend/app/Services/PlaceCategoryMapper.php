@@ -39,32 +39,47 @@ class PlaceCategoryMapper
         // 質問4:目的地で何をしたいですか？(食事・遊び・観光・買い物・リラックス)
         'purpose' => [
             // 食事：カフェ、パン屋、各種レストランから居酒屋（bar）まで網羅
-            'eat'      => [
-                'restaurant', 'cafe', 'bakery', 'food', 'bar', 'meal_delivery',
-                'meal_takeaway', 'coffee_shop', 'fast_food_restaurant', 'ice_cream_shop'
+            'eat' => [
+                'api_search_type' => 'restaurant',
+                'match_types'     => [
+                    'restaurant', 'cafe', 'bakery', 'food', 'bar', 'meal_delivery',
+                    'meal_takeaway', 'coffee_shop', 'fast_food_restaurant', 'ice_cream_shop'
+                ]
             ],
             // 遊び：遊園地や水族館に加え、ボウリングやゲームセンター、劇場、イベント会場など
-            'play'     => [
-                'amusement_park', 'zoo', 'aquarium', 'bowling_alley', 'movie_theater',
-                'video_arcade', 'planetarium', 'indoor_playground', 'childrens_camp',
-                'casino', 'comedy_club', 'night_club', 'theater', 'performing_arts_theater'
+            'play' => [
+                'api_search_type' => 'tourist_attraction',
+                'match_types'     => [
+                    'amusement_park', 'zoo', 'aquarium', 'bowling_alley', 'movie_theater',
+                    'video_arcade', 'planetarium', 'indoor_playground', 'childrens_camp',
+                    'casino', 'comedy_club', 'night_club', 'theater', 'performing_arts_theater'
+                ]
             ],
             // 観光：観光名所、歴史的建造物、美術館、博物館、寺社仏閣、展望台など
             'sightsee' => [
-                'tourist_attraction', 'museum', 'art_gallery', 'historical_landmark',
-                'visitor_center', 'cultural_center', 'church', 'hindu_temple',
-                'mosque', 'synagogue', 'viewpoint'
+                'api_search_type' => 'tourist_attraction',
+                'match_types'     => [
+                    'tourist_attraction', 'museum', 'art_gallery', 'historical_landmark',
+                    'visitor_center', 'cultural_center', 'church', 'hindu_temple',
+                    'mosque', 'synagogue', 'viewpoint'
+                ]
             ],
             // 買い物：大型モール、デパートから、スーパー、アパレル、書店、おもちゃ屋など
-            'shop'     => [
-                'shopping_mall', 'department_store', 'store', 'clothing_store',
-                'supermarket', 'book_store', 'electronics_store', 'home_goods_store',
-                'gift_shop', 'toy_store', 'candy_store', 'jewelry_store'
+            'shop' => [
+                'api_search_type' => 'store',
+                'match_types'     => [
+                    'shopping_mall', 'department_store', 'store', 'clothing_store',
+                    'supermarket', 'book_store', 'electronics_store', 'home_goods_store',
+                    'gift_shop', 'toy_store', 'candy_store', 'jewelry_store'
+                ]
             ],
             // リラックス：公園、庭園、温泉・スパ、自然豊かな場所（ビーチやハイキングなど）
-            'relax'    => [
-                'park', 'campground', 'spa', 'garden', 'beach', 'hiking_area',
-                'national_park', 'lodging', 'public_bath'
+            'relax' => [
+                'api_search_type' => 'park',
+                'match_types'     => [
+                    'park', 'campground', 'spa', 'garden', 'beach', 'hiking_area',
+                    'national_park', 'lodging', 'public_bath'
+                ]
             ]
         ]
     ];
@@ -75,27 +90,34 @@ class PlaceCategoryMapper
      * @param string|null $choice 選択肢（例: 'eat' などの文字列、または未選択の null）
      * @return array Googleのカテゴリ配列
      */
-    public function getGoogleTypes(string $questionKey, ?string $choice): array
+    public function getGoogleTypes(string $questionKey, string $typeKey, ?string $choice): array
     {
-        // 指定された質問が配列の1次元に存在しなければ、空配列を返す
+        // 指定された質問（1階層目）がマスタになければ空配列を返す
         if (!isset($this->mapping[$questionKey])) {
             return [];
         }
 
         $firstLayer = $this->mapping[$questionKey];
 
-        // 中身が「連想配列」ではなく、「普通の配列」なら、1次元を返す
+        // 中身が連想配列（キー名付き）ではなく、ただの文字列リストならそのまま返す
         if (array_is_list($firstLayer)) {
             return $firstLayer;
         }
 
-        // choiceが指定されていなければ空配列を返す
-        if (empty($choice)) {
+        // 3階層以上のデータで選択肢が空なら終了
+        if (empty($choice) || !isset($firstLayer[$choice])) {
             return [];
         }
 
-        // 目的のデータを返す
-        return $firstLayer[$choice] ?? [];
+        $targetData = $firstLayer[$choice];
+
+        // 行き着いたデータの中に 'match_types' というキーがあれば、その中身（配列）を返す
+        if (is_array($targetData) && isset($targetData[$typeKey])) {
+            return $targetData['match_types'];
+        }
+
+        // 普通の3階層データであれば、そのまま配列を返す
+        return is_array($targetData) ? $targetData : [];
     }
 }
 
