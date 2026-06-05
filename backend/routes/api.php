@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SpotController;
 
+
 // Sanctumで認証済みのユーザー情報を返します。
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -23,10 +24,10 @@ Route::get('/v1/getUser', function () {
     ]);
 });
 //questionをpostmanでテスト
-Route::get('/test', function(){
+Route::get('/test', function () {
     $question = Question::all();
     return response()->json([
-        'data'=>$question
+        'data' => $question
     ]);
 });
 
@@ -35,7 +36,9 @@ Route::get('/test', function(){
 Route::get('/v1/questions', [QuestionController::class, 'index']);
 
 //お気に入り場所を保存
-Route::post('/v1/spots',[SpotController::class, 'store']);
+Route::post('/v1/spots', [SpotController::class, 'store']);
+
+// Route::get('/v1/spots',[SpotController::class,'index']);
 
 
 

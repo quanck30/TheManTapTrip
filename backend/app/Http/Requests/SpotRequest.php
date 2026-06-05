@@ -20,21 +20,27 @@ class SpotRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
+
+    //バリデーションルール
     public function rules(): array
     {
         return [
             //
-            'spot_id' => ['required'],//入力必須
-            'address' => ['required'],//入力必須
+            'spot_id' => ['required'], //スポットID必須
+            'address' => ['required'], //住所必須
         ];
     }
-    //エラーメッセージ
+    //バリデーションエラーメッセージ
     public function messages()
     {
 
-    return[
-        'spot_id.required' => 'スポットがありません',
-        'address.required' => '住所がありません'
-    ];
+        return [
+            //post_idが未入力の場合
+            'spot_id.required' => 'スポットがありません',
+
+            //addressが未入力の場合
+            'address.required' => '住所がありません'
+        ];
     }
+
 }
