@@ -16,10 +16,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
         $this->call([
             QuestionsTableSeeder::class,
-            QueryItemsTableSeeder::class
+            QueryItemsTableSeeder::class,
+            User::factory()->create([
+            'display_name' => 'Test User',
+        ])
         ]);
     }
 }
