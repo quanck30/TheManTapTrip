@@ -18,10 +18,10 @@ class PlaceMatchCalculator
         $requiredTypes = [];
         foreach ($answers as $questionKey => $choice) {
             // カプセル化したマッパー関数を呼び出す
-            $types = $this->categoryMapper->getGoogleTypes($questionKey, 'match_types', $choice);
+            $types = $this->categoryMapper->getGoogleTypes($questionKey, $choice, 'match_types');
 
             // 配列が上書きされないように、結合していく
-            $requiredTypes = array_merge($types);
+            $requiredTypes = array_merge($requiredTypes, $types);
         }
 
         // 重複したカテゴリを一つにする

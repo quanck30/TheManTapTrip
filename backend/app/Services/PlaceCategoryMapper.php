@@ -113,7 +113,7 @@ class PlaceCategoryMapper
 
         // 行き着いたデータの中に 'match_types' というキーがあれば、その中身（配列）を返す
         if (is_array($targetData) && isset($targetData[$typeKey])) {
-            return $targetData['match_types'];
+            return $targetData[$typeKey];
         }
 
         // 普通の3階層データであれば、そのまま配列を返す
