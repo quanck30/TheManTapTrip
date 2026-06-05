@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Http;
 
 class PlaceSearchService
 {
+    public function __construct(private PlaceCategoryMapper $categoryMapper) {}
+
     /**
      * 回答をもとにGoogle Places Apiから場所を検索して返す
      * @param array $location 連想配列（latitude, longitude, radius）
@@ -18,10 +20,14 @@ class PlaceSearchService
         $apikey = config('services.google.places_api_key');
         $url = 'https://places.googleapis.com/v1/places:searchNearby';
 
+        // API検索時に使用するキーワードを設定
+        $purposeTypes = $this->categoryMapper->getGoogleTypes('purpose', 'api_search_type', $answers['purpose'] ?? null);
+        $searchType = !empty($purposeTypes) ? [$purposeTypes[0]] : [];
+
         // APIに送るリクエストBody
         $body = [
-            'includedTypes' => $answers,
-            'maxResultCount' => 1,
+            'includedTypes' => $searchType,
+            'maxResultCount' => 20,
             'locationRestriction' => [
                 'circle' => [
                     'center' => [
@@ -44,7 +50,10 @@ class PlaceSearchService
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
             'X-Goog-Api-Key' => $apikey,
-            'X-Goog-FieldMask' => 'places.id,places.displayName,places.editorialSummary,places.photos,places.formattedAddress,places.rating,places.types,places.location,places.priceLevel,places.parkingOptions,routingSummaries',       // 取得する内容
+            // 'X-Goog-FieldMask' => 'places.id,places.displayName,places.editorialSummary,places.photos,places.formattedAddress,places.rating,places.types,places.location,places.priceLevel,places.parkingOptions,routingSummaries',       // 取得する内容
+
+            'X-Goog-FieldMask' => 'places.id,places.displayName,places.editorialSummary,places.photos,places.formattedAddress,places.rating,places.types,places.location,places.priceLevel,places.parkingOptions',       // 取得する内容
+
             'Accept-Language' => 'ja',             // 言語
         ])->post($url, $body);
 
