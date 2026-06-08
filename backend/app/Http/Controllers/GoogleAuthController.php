@@ -45,7 +45,7 @@ class GoogleAuthController extends Controller
                 'Googleトークンを確認できませんでした',
                 502
             );
-        } catch (DriverMissingConfigurationException|BindingResolutionException $e) {
+        } catch (DriverMissingConfigurationException | BindingResolutionException $e) {
             // SocialiteやGoogle OAuth設定の不足はサーバー設定エラーとして記録します。
             Log::error('Google Socialite設定エラー', [
                 'message' => $e->getMessage(),

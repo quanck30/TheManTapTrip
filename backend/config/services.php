@@ -36,6 +36,7 @@ return [
     ],
 
     'google' => [
+        'places_api_key' => env('GOOGLE_PLACES_API_KEY'),     // Google Places Api key
         'client_id' => env('GOOGLE_CLIENT_ID'),        // Google Client ID
         'client_secret' => env('GOOGLE_CLIENT_SECRET'), // Google Client Secret
         'redirect' => env('GOOGLE_REDIRECT_URL'),   // Google Redirect URL
