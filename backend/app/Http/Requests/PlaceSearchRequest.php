@@ -28,11 +28,11 @@ class PlaceSearchRequest extends FormRequest
             'radius' => ['required', 'numeric'],        // 半径（値・数値確認）
 
             'answers' => ['required', 'array'],                      // 解答（値・配列確認）
-            'answers.with_children' => ['required', 'boolean'],      // 子供と一緒に行くか
-            'answers.travel_mode' => ['required', 'string'],         // 移動手段
-            'answers.location_type' => ['required', 'string'],       // 屋内か屋外か
+            'answers.withChildren' => ['required', 'boolean'],      // 子供と一緒に行くか
+            'answers.travelMode' => ['required', 'string'],         // 移動手段
+            'answers.locationType' => ['required', 'string'],       // 屋内か屋外か
             'answers.purpose' => ['required', 'string'],             // 目的地で何がしたいか
-            'answers.price_level' => ['required', 'string'],         // 価格帯
+            'answers.priceLevel' => ['required', 'string'],         // 価格帯
         ];
     }
 
@@ -55,20 +55,20 @@ class PlaceSearchRequest extends FormRequest
             'answers.required' => '質問の回答を選択してください。',
             'answers.array'    => '質問の回答は配列形式で送信してください。',
 
-            'answers.with_children.required' => '子供と一緒に行くのかという情報が必要です。',
-            'answers.with_children.boolean'  => '子供と一緒に行くのかは論理値で送信してください。',
+            'answers.withChildren.required' => '子供と一緒に行くのかという情報が必要です。',
+            'answers.withChildren.boolean'  => '子供と一緒に行くのかは論理値で送信してください。',
 
-            'answers.travel_mode.required' => '移動手段の情報が必要です。',
-            'answers.travel_mode.string'   => '移動手段の情報は文字列で送信してください。',
+            'answers.travelMode.required' => '移動手段の情報が必要です。',
+            'answers.travelMode.string'   => '移動手段の情報は文字列で送信してください。',
 
-            'answers.location_type.required' => '屋内か屋外かの情報が必要です。',
-            'answers.location_type.string'   => '屋内か屋外かの情報は文字列で送信してください。',
+            'answers.locationType.required' => '屋内か屋外かの情報が必要です。',
+            'answers.locationType.string'   => '屋内か屋外かの情報は文字列で送信してください。',
 
             'answers.purpose.required' => '目的地でしたいことの情報が必要です。',
             'answers.purpose.string'   => '目的地でしたいことの情報は文字列で送信してください。',
 
-            'answers.price_level.required' => '価格帯の情報が必要です。',
-            'answers.price_level.string'   => '価格帯の情報は文字列で送信してください。',
+            'answers.priceLevel.required' => '価格帯の情報が必要です。',
+            'answers.priceLevel.string'   => '価格帯の情報は文字列で送信してください。',
         ];
     }
 }

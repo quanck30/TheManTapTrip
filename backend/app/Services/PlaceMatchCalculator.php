@@ -21,9 +21,9 @@ class PlaceMatchCalculator
 
             // カプセル化したマッパー関数を呼び出す、メイン目的purposeのカテゴリーだけ別配列に分ける
             if ($questionKey === "purpose") {
-                $mainRequiredTypes = $this->categoryMapper->getGoogleTypes($questionKey, $choice, 'match_types');
+                $mainRequiredTypes = $this->categoryMapper->getGoogleTypes($questionKey, $choice, 'matchTypes');
             } else {
-                $types = $this->categoryMapper->getGoogleTypes($questionKey, $choice, 'match_types');
+                $types = $this->categoryMapper->getGoogleTypes($questionKey, $choice, 'matchTypes');
                 // 配列が上書きされないように、結合していく
                 $requiredTypes = array_merge($requiredTypes, $types);
             }
@@ -39,17 +39,23 @@ class PlaceMatchCalculator
             // 共通した要素を抽出
             $matchedTypes = array_intersect($placeTypes, $requiredTypes);
             $mainMatchedTypes = array_intersect($placeTypes, $mainRequiredTypes);
-            $primaryType = $place['primary_type'] ?? ($placeTypes[0] ?? null);          // その場所の「本業ジャンル」を取得（なければ配列の先頭を代用）
+            $primaryType = $place['primaryType'] ?? ($placeTypes[0] ?? null);          // その場所の「本業ジャンル」を取得（なければ配列の先頭を代用）
+
+            // その場所が持っている全タグの数
+            $totalPlaceTagsCount = count($placeTypes);
 
             // 場所のマッチ度を計算
-            $matchTypesCount = count($matchedTypes);
-            $matchScore = $matchTypesCount > 0 ? (count($matchedTypes) / $matchTypesCount) * 10 : 0;
+            $matchScore = 0;
 
-            $mainMatchTypesCount = count($matchedTypes);
-            $matchScore = $matchScore + $mainMatchTypesCount > 0 ? (count($mainMatchedTypes) / $mainMatchTypesCount) * 30 : 0;
+            if ($totalPlaceTagsCount > 0) {
+                // 1. サブ質問の比率スコア（最大10点）
+                $subRatioScore = (count($matchedTypes) / $totalPlaceTagsCount) * 10;
 
-            // 0~100点内に収める
-            $formattedPlaces[$key]['match_score'] = max(0, min(100, $matchScore));
+                // 2. メイン目的の比率スコア（最大50点に強化するとより正確になります）
+                $mainRatioScore = (count($mainMatchedTypes) / $totalPlaceTagsCount) * 50;
+
+                $matchScore = $subRatioScore + $mainRatioScore;
+            }
 
             // メインタイプが目的に含まれていたらマッチ度を上げる
             $bonus_score = 0;
@@ -58,15 +64,15 @@ class PlaceMatchCalculator
             }
 
             // 基本スコアボーナススコア
-            $total_score = $matchScore + $bonus_score;
+            $totalScore = $matchScore + $bonus_score;
 
             // 0~100点内に収める
-            $formattedPlaces[$key]['match_score'] = max(0, min(100, $total_score));
+            $formattedPlaces[$key]['matchScore'] = max(0, min(100, $totalScore));
         }
 
         // スコアで降順に並び変える
         usort($formattedPlaces, function ($a, $b) {
-            return $b['match_score'] <=> $a['match_score'];
+            return $b['matchScore'] <=> $a['matchScore'];
         });
 
         return $formattedPlaces;

@@ -21,7 +21,7 @@ class PlaceSearchService
         $url = 'https://places.googleapis.com/v1/places:searchNearby';
 
         // API検索時に使用するキーワードを設定
-        $purposeTypes = $this->categoryMapper->getGoogleTypes('purpose', $answers['purpose'] ?? null, 'api_search_type');
+        $purposeTypes = $this->categoryMapper->getGoogleTypes('purpose', $answers['purpose'] ?? null, 'apiSearchType');
         $searchType = !empty($purposeTypes) ? [$purposeTypes] : ['tourist_attraction'];
 
         // APIに送るリクエストBody
@@ -99,7 +99,7 @@ class PlaceSearchService
             }
 
             $formattedPlaces[] = [
-                    'google_place_id' => $place['id'] ?? null,                  // 場所の識別番号
+                    'googlePlaceId' => $place['id'] ?? null,                  // 場所の識別番号
                     'name' => $place['displayName']['text'] ?? '名称未設定',     // 表示名
                     'address' => $place['formattedAddress'] ?? null,            // 住所
                     'latitude' => $lat,                                         // 緯度
@@ -107,19 +107,20 @@ class PlaceSearchService
                     'rating' => $place['rating'] ?? null,                       // 評価
                     'primaryType' => $place['primaryType'] ?? null,             // メインタイプ
                     'types' => $place['types'] ?? [],                           // カテゴリー
-                    'price_level' => $place['priceLevel'] ?? null,              // 価格帯
+                    'priceLevel' => $place['priceLevel'] ?? null,              // 価格帯
 
                     // 駐車場:データがない（null）の時は一律 false になるように
-                    'has_parking' => isset($place['parkingOptions']['freeParkingLot']) ? (bool)$place['parkingOptions']['freeParkingLot'] : false,
+                    'hasParking' => isset($place['parkingOptions']['freeParkingLot']) ? (bool)$place['parkingOptions']['freeParkingLot'] : false,
 
                     // 説明文:入っていないスポットも多いため、ない場合の初期文字を設定
                     'summary' => $place['editorialSummary']['text'] ?? '説明はありません。',
 
                     // 写真:大量の配列から「1枚目の写真の名前（ID）」だけを代表でもらう
-                    'photo_reference' => $place['photos'][0]['name'] ?? null,
+                    'photoReference' => $place['photos'][0]['name'] ?? null,
 
                     // ルート:
-                    'direction_url' => $directionUrl,
+                    'directionU
+                    rl' => $directionUrl,
             ];
         }
 
