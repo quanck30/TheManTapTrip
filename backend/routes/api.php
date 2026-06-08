@@ -17,7 +17,7 @@ Route::get('/v1/getUser', function () {
         'message' => "ok",
         'data' => $user
     ]);
-})->middleware('auth:sanctum');
+});
 
 // Googleアクセストークンを使ったログインAPIです。
 Route::post('/v1/auth/google', [GoogleAuthController::class, 'googleLogin']);
