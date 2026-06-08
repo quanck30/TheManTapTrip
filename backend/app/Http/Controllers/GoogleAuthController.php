@@ -27,7 +27,7 @@ class GoogleAuthController extends Controller
         try {
             // フロントエンドから受け取ったGoogleアクセストークンをSocialiteで検証します。
             /** @var AbstractProvider $provider */
-            $provider = Socialite::driver('google');
+            $provider = Socialite::driver('google')->setHttpClient(new \GuzzleHttp\Client(['verify' => false]));
             $googleUser = $provider->stateless()->userFromToken($request->access_token);
         } catch (ClientException $e) {
             // Google側でトークンが無効と判断された場合は認証エラーを返します。
@@ -45,7 +45,7 @@ class GoogleAuthController extends Controller
                 'Googleトークンを確認できませんでした',
                 502
             );
-        } catch (DriverMissingConfigurationException|BindingResolutionException $e) {
+        } catch (DriverMissingConfigurationException | BindingResolutionException $e) {
             // SocialiteやGoogle OAuth設定の不足はサーバー設定エラーとして記録します。
             Log::error('Google Socialite設定エラー', [
                 'message' => $e->getMessage(),

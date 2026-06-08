@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 import TempButton from '../components/buttons/TempButton';
 import '../Styles/Register.css';
+import GoogleLoginButton from "../components/buttons/GoogleLoginButton";
 
 function Register({ onRegisterSuccess, onNavigateToLogin, onBackToWelcome }) {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setError('');
-    setIsLoading(true);
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setError("");
+        setIsLoading(true);
 
     setTimeout(() => {
       if (!name || !email || !password) {
@@ -61,7 +62,6 @@ function Register({ onRegisterSuccess, onNavigateToLogin, onBackToWelcome }) {
               <span className="reg-icon">👤</span>
               <input type="text" placeholder="山田 太郎" value={name} onChange={(e) => setName(e.target.value)} required />
             </div>
-          </div>
 
           <div className="reg-field">
             <label className="reg-label">メールアドレス</label>

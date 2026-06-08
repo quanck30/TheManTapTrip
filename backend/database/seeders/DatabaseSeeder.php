@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Question;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,11 +16,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
+        $this->call([
+            QuestionsTableSeeder::class,
+            QueryItemsTableSeeder::class,
+            User::factory()->create([
             'display_name' => 'Test User',
-
+        ])
         ]);
     }
 }
