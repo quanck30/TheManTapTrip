@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('query_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('questionId')->constrained();
-            $table->string('title')->unique();
+            $table->foreignId('questionId')->constrained('questions');
+            $table->string('title');
             $table->string('searchType');
             $table->timestamps();
         });

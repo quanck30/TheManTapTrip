@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('user_auths', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('userId')->constrained()->cascadeOnDelete();
+            $table->foreignId('userId')->constrained('users')->cascadeOnDelete();
             // 認証プロバイダー名と外部アカウントの識別子を保存します。
             $table->string('provider', 20);
             $table->string('providerKey', 255);

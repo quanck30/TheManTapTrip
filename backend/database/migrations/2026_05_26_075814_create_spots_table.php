@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('spots', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('userId')->constrained()->cascadeOnDelete();
+            $table->foreignId('userId')->constrained('users')->cascadeOnDelete();
             $table->string('spotId', 255);
             $table->string('address', 255);
             $table->boolean('isVisited')->default(false);

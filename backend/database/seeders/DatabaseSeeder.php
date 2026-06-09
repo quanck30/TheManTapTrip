@@ -18,10 +18,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             QuestionsTableSeeder::class,
-            QueryItemsTableSeeder::class,
-            User::factory()->create([
-            'display_name' => 'Test User',
-        ])
+            QueryItemsTableSeeder::class
         ]);
     }
 }

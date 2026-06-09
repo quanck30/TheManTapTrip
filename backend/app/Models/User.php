@@ -87,7 +87,7 @@ class User extends Authenticatable
      */
     public function categories(): HasMany
     {
-        return $this->hasMany(Category::class);
+        return $this->hasMany(Category::class, 'userId');
     }
 
     /**
@@ -95,7 +95,7 @@ class User extends Authenticatable
      */
     public function userAuths(): HasMany
     {
-        return $this->hasMany(UserAuth::class);
+        return $this->hasMany(UserAuth::class, 'userId');
     }
 
     /**
@@ -103,7 +103,7 @@ class User extends Authenticatable
      */
     public function spots(): HasMany
     {
-        return $this->hasMany(Spot::class);
+        return $this->hasMany(Spot::class, 'userId');
     }
 
     /**
@@ -111,6 +111,6 @@ class User extends Authenticatable
      */
     public function choices(): HasMany
     {
-        return $this->hasMany(Choice::class);
+        return $this->hasMany(Choice::class, 'userId');
     }
 }
