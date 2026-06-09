@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('spots', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('spot_id', 255);
+            $table->foreignId('userId')->constrained()->cascadeOnDelete();
+            $table->string('spotId', 255);
             $table->string('address', 255);
-            $table->boolean('is_visited')->default(false);
+            $table->boolean('isVisited')->default(false);
             $table->timestamps();
             $table->unique([
-                'user_id',
-                'spot_id'
+                'userId',
+                'spotId'
             ]);
         });
     }

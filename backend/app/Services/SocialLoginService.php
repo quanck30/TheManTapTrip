@@ -40,5 +40,6 @@ class SocialLoginService
         }
 
         // return User::findOrCreateUserWithGoogle($socialUser);
+        return User::find();
     }
 }

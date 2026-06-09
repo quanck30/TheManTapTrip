@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class QueryItem extends Model
 {
     protected $fillable = [
-        'question_id',
+        'questionId',
         'title',
-        'search_type',
+        'searchType',
     ];
 
     /**

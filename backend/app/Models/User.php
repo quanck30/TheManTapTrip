@@ -28,7 +28,7 @@ class User extends Authenticatable
     public static function findOrCreateUserWithGoogle(ContractsUser $googleUser): self
     {
         // Google IDを使って、Redis上でユーザーごとに異なるキーを作成します。
-        $cacheKey = 'google_user:' . $googleUser->getId();
+        $cacheKey = 'googleUser:' . $googleUser->getId();
 
         // DBへ問い合わせる前に、まずRedisからユーザー情報を取得します。
         $cachedUser = Cache::get($cacheKey);
@@ -37,14 +37,14 @@ class User extends Authenticatable
             // キャッシュの配列データからEloquentモデルを復元し、Controller側でcreateToken()を使えるようにします。
             return (new self())->newFromBuilder([
                 'id' => $cachedUser['id'],
-                'display_name' => $cachedUser['display_name'],
+                'displayName' => $cachedUser['displayName'],
             ]);
         }
 
         // Redisに存在しない場合だけ、DBから取得または新規作成します。
         $user =  DB::transaction(function () use ($googleUser) {
             $userAuth = UserAuth::where('provider', 'google')
-                ->where('provider_key', $googleUser->getId())
+                ->where('providerKey', $googleUser->getId())
                 ->first();
 
             // 既にGoogle認証情報がある場合は、紐づくユーザーを返します。
@@ -52,12 +52,12 @@ class User extends Authenticatable
 
             // 初回ログイン時はユーザー本体とGoogle認証情報を同時に作成します。
             $user = self::create([
-                'display_name' => $googleUser->getName() ?? $googleUser->getEmail() ?? $googleUser->getNickname() ?? 'Google User',
+                'displayName' => $googleUser->getName() ?? $googleUser->getEmail() ?? $googleUser->getNickname() ?? 'Google User',
             ]);
             $user->userAuths()->create([
                 'provider' => 'google',
-                'provider_key' => $googleUser->getId(),
-                'pass_hash' => null,
+                'providerKey' => $googleUser->getId(),
+                'passHash' => null,
             ]);
             return $user;
         });
@@ -65,7 +65,7 @@ class User extends Authenticatable
         // 必要なユーザー情報だけをRedisに1時間保存します。
         Cache::put($cacheKey, [
             'id' => $user->id,
-            'display_name' => $user->display_name,
+            'displayName' => $user->displayName,
         ], now()->addHour());
         return $user;
     }

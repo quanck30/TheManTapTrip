@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class UserAuth extends Model
 {
     protected $fillable = [
-        'user_id',
+        'userId',
         'provider',
-        'provider_key',
-        'pass_hash',
+        'providerKey',
+        'passHash',
     ];
 
     /**

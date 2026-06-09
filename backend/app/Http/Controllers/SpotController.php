@@ -19,7 +19,7 @@ class SpotController extends Controller
             //お気に入りスポットを保存
             $spot = Spot::create([
                 //登録したユーザーID
-                'user_id' => $request->user_id,
+                'user_id' => $request->userd,
 
                 //スポットID
                 'spot_id' => $request->spot_id,
