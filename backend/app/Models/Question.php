@@ -24,6 +24,6 @@ class Question extends Model
      */
     public function queryItems(): HasMany
     {
-        return $this->hasMany(QueryItem::class);
+        return $this->hasMany(QueryItem::class, 'questionId');
     }
 }
