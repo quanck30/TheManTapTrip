@@ -11,9 +11,11 @@ import { useGoogleAuth } from "../hooks/useGoogleAuth.js";
 /**
  * Googleログイン用のボタンコンポーネント
  */
-export const GoogleLoginButton = () => {
+export const GoogleLoginButton = ({ onSuccess }) => {
     // Google hookから必要な機能と状態を受け取る
-    const { login, isLoading, error } = useGoogleAuth();
+    const { login, isLoading, error } = useGoogleAuth({
+        onSuccessCallback: onSuccess,
+    });
 
     return (
         <TempButton

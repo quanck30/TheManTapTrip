@@ -348,7 +348,7 @@ function Register({ onRegisterSuccess, onNavigateToLogin, onBackToWelcome }) {
                         gap: "12px",
                         marginBottom: "32px",
                     }}>
-                    <GoogleLoginButton />
+                    <GoogleLoginButton onSuccess={onRegisterSuccess} />
                 </div>
 
                 {/* 既存アカウントへのログイン誘導 */}

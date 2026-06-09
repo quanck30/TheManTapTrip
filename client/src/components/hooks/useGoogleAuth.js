@@ -16,7 +16,7 @@ import { authService } from "../../Services/authService";
  * @return {boolean} isLoading - ログイン処理が進行中かどうかの状態
  * @return {string|null} error - ログイン処理中に発生したエラーのメッセージ、エラーがない場合はnull
  */
-export const useGoogleAuth = () => {
+export const useGoogleAuth = ({ onSuccessCallback } = {}) => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -34,7 +34,15 @@ export const useGoogleAuth = () => {
                 const result = await authService.googleLogin(
                     tokenResponse.access_token,
                 );
+
                 const { token, user } = result;
+
+                localStorage.setItem("authToken", token);
+                localStorage.setItem("authUser", JSON.stringify(user));
+
+                if (onSuccessCallback) {
+                    onSuccessCallback({ user });
+                }
             } catch (err) {
                 setError(err.message);
             } finally {
