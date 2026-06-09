@@ -12,6 +12,14 @@ class Spot extends Model
         'spotId',
         'address',
         'isVisited',
+        'lat',
+        'long',
+        'rating',
+        'price',
+        'hasParking',
+        'summary',
+        'photoReference',
+        'directionUrl',
     ];
 
     /**

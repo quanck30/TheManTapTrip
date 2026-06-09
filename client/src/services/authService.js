@@ -16,18 +16,15 @@ export const authService = {
      * @throws {Error} - サーバーとの通信に失敗、またはLaravel側からエラーレスポンス（401や500など）が返ってきた場合
      */
     googleLogin: async (accessToken) => {
-        const response = await fetch(
-            `/api/v1/auth/google`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                },
-                // Laravel側の$request->accessTokenで持ってるキーと合わせる
-                body: JSON.stringify({ accessToken: accessToken }),
+        const response = await fetch(`api/v1/auth/google`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
             },
-        );
+            // Laravel側の$request->accessTokenで持ってるキーと合わせる
+            body: JSON.stringify({ accessToken: accessToken }),
+        });
 
         const data = await response.json().catch(() => ({}));
 
