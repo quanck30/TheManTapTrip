@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Choice extends Model
 {
     protected $fillable = [
-        'user_id',
-        'question_id',
-        'query_item_id',
+        'userId',
+        'questionId',
+        'queryItemId',
     ];
 
     /**

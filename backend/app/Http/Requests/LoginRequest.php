@@ -28,7 +28,7 @@ class LoginRequest extends FormRequest
     {
         return [
             // フロントエンドから受け取ったOAuthアクセストークンを必須にします。
-            'access_token' => ['required', 'string'],
+            'accessToken' => ['required', 'string'],
         ];
     }
 

@@ -1,34 +1,31 @@
 <?php
 
-namespace App\Http\Controllers;
+/**
+ * @author DINH BINH QUAN
+ * 2026/06/05
+ */
 
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Responses\ApiResponse;
-use App\Models\User;
+use App\Providers\GoogleProvider;
+use App\Services\SocialLoginService;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Exceptions\DriverMissingConfigurationException;
-use Laravel\Socialite\Facades\Socialite;
-use Laravel\Socialite\Two\AbstractProvider;
 use Throwable;
 
-/**
- * Google OAuthログインを処理するコントローラーです。
- */
-class GoogleAuthController extends Controller
+class SocialLoginController extends Controller
 {
-    /**
-     * Googleアクセストークンを検証し、ローカルユーザーとしてログインします。
-     */
-    public function googleLogin(LoginRequest $request)
+    //
+    public function google(LoginRequest $request, SocialLoginService $socialLoginService)
     {
         try {
-            // フロントエンドから受け取ったGoogleアクセストークンをSocialiteで検証します。
-            /** @var AbstractProvider $provider */
-            $provider = Socialite::driver('google');
-            $googleUser = $provider->stateless()->userFromToken($request->accessToken);
+            $user = $socialLoginService->login(new GoogleProvider, $request->accessToken);
         } catch (ClientException $e) {
             // Google側でトークンが無効と判断された場合は認証エラーを返します。
             return ApiResponse::error(
@@ -66,34 +63,16 @@ class GoogleAuthController extends Controller
                 401
             );
         }
+        // API認証用のSanctumトークンを発行します。
+        $token = $user->createToken('google-login')->plainTextToken;
 
-        try {
-            // 検証済みGoogleユーザーに対応するローカルユーザーを取得または作成します。
-            $user = User::findOrCreateUserWithGoogle($googleUser);
-
-            // 前回のトークンを削除する。
-            $user->tokens()->delete();
-            // API認証用のSanctumトークンを発行します。
-            $token = $user->createToken('google-login')->plainTextToken;
-
-            return ApiResponse::success([
-                'user' => [
-                    'id' => $user->id,
-                    'displayName' => $user->displayName,
-                ],
-                'token' => $token,
-                'tokenType' => 'Bearer',
-            ], 'Googleログインに成功しました');
-        } catch (Throwable $e) {
-            // Google認証後のユーザー作成やトークン発行に失敗した場合の処理です。
-            Log::error('Google認証後のローカルユーザーログイン処理に失敗しました', [
-                'message' => $e->getMessage(),
-            ]);
-
-            return ApiResponse::error(
-                'ログイン処理を完了できませんでした',
-                500
-            );
-        }
+        return ApiResponse::success([
+            'user' => [
+                'id' => $user->id,
+                'displayName' => $user->displayName,
+            ],
+            'token' => $token,
+            'tokenType' => 'Bearer',
+        ], 'Googleログインに成功しました');
     }
 }

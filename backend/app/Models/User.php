@@ -10,11 +10,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Socialite\Contracts\User as ContractsUser;
 
-#[Fillable(['display_name'])]
+#[Fillable(['displayName'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -26,9 +27,24 @@ class User extends Authenticatable
      */
     public static function findOrCreateUserWithGoogle(ContractsUser $googleUser): self
     {
-        return DB::transaction(function () use ($googleUser) {
+        // Google IDを使って、Redis上でユーザーごとに異なるキーを作成します。
+        $cacheKey = 'googleUser:' . $googleUser->getId();
+
+        // DBへ問い合わせる前に、まずRedisからユーザー情報を取得します。
+        $cachedUser = Cache::get($cacheKey);
+
+        if ($cachedUser) {
+            // キャッシュの配列データからEloquentモデルを復元し、Controller側でcreateToken()を使えるようにします。
+            return (new self())->newFromBuilder([
+                'id' => $cachedUser['id'],
+                'displayName' => $cachedUser['displayName'],
+            ]);
+        }
+
+        // Redisに存在しない場合だけ、DBから取得または新規作成します。
+        $user =  DB::transaction(function () use ($googleUser) {
             $userAuth = UserAuth::where('provider', 'google')
-                ->where('provider_key', $googleUser->getId())
+                ->where('providerKey', $googleUser->getId())
                 ->first();
 
             // 既にGoogle認証情報がある場合は、紐づくユーザーを返します。
@@ -36,15 +52,22 @@ class User extends Authenticatable
 
             // 初回ログイン時はユーザー本体とGoogle認証情報を同時に作成します。
             $user = self::create([
-                'display_name' => $googleUser->getName() ?? $googleUser->getEmail() ?? $googleUser->getNickname() ?? 'Google User',
+                'displayName' => $googleUser->getName() ?? $googleUser->getEmail() ?? $googleUser->getNickname() ?? 'Google User',
             ]);
             $user->userAuths()->create([
                 'provider' => 'google',
-                'provider_key' => $googleUser->getId(),
-                'pass_hash' => null,
+                'providerKey' => $googleUser->getId(),
+                'passHash' => null,
             ]);
             return $user;
         });
+
+        // 必要なユーザー情報だけをRedisに1時間保存します。
+        Cache::put($cacheKey, [
+            'id' => $user->id,
+            'displayName' => $user->displayName,
+        ], now()->addHour());
+        return $user;
     }
     /**
      * キャストする属性を取得します。
@@ -64,7 +87,7 @@ class User extends Authenticatable
      */
     public function categories(): HasMany
     {
-        return $this->hasMany(Category::class);
+        return $this->hasMany(Category::class, 'userId');
     }
 
     /**
@@ -72,7 +95,7 @@ class User extends Authenticatable
      */
     public function userAuths(): HasMany
     {
-        return $this->hasMany(UserAuth::class);
+        return $this->hasMany(UserAuth::class, 'userId');
     }
 
     /**
@@ -80,7 +103,7 @@ class User extends Authenticatable
      */
     public function spots(): HasMany
     {
-        return $this->hasMany(Spot::class);
+        return $this->hasMany(Spot::class, 'userId');
     }
 
     /**
@@ -88,6 +111,6 @@ class User extends Authenticatable
      */
     public function choices(): HasMany
     {
-        return $this->hasMany(Choice::class);
+        return $this->hasMany(Choice::class, 'userId');
     }
 }

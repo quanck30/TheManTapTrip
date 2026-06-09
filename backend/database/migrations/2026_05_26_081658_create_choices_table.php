@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('choices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->constrained();
-            $table->foreignId('question_id')->constrained();
-            $table->foreignId('query_item_id')->nullable()->constrained();
+            $table->foreignId('userId')->nullable()->constrained('users');
+            $table->foreignId('questionId')->constrained('questions');
+            $table->foreignId('queryItemId')->nullable()->constrained('query_items');
             $table->timestamps();
         });
     }

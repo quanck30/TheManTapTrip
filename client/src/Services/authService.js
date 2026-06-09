@@ -24,8 +24,8 @@ export const authService = {
                     "Content-Type": "application/json",
                     Accept: "application/json",
                 },
-                // Laravel側の$request->access_tokenで持ってるキーと合わせる
-                body: JSON.stringify({ access_token: accessToken }),
+                // Laravel側の$request->accessTokenで持ってるキーと合わせる
+                body: JSON.stringify({ accessToken: accessToken }),
             },
         );
 

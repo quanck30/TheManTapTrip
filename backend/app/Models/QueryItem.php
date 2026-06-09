@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class QueryItem extends Model
 {
     protected $fillable = [
-        'question_id',
+        'questionId',
         'title',
-        'search_type',
+        'searchType',
     ];
 
     /**
@@ -27,6 +27,6 @@ class QueryItem extends Model
      */
     public function choices(): HasMany
     {
-        return $this->hasMany(Choice::class);
+        return $this->hasMany(Choice::class, 'queryItemId');
     }
 }
