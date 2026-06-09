@@ -8,10 +8,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Spot extends Model
 {
     protected $fillable = [
-        'user_id',
-        'spot_id',
+        'userId',
+        'spotId',
         'address',
-        'is_visited',
+        'isVisited',
+        'lat',
+        'long',
+        'rating',
+        'price',
+        'hasParking',
+        'summary',
+        'photoReference',
+        'directionUrl',
     ];
 
     /**

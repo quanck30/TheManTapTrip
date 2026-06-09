@@ -7,31 +7,51 @@ use App\Http\Responses\ApiResponse;
 use App\Models\Spot;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SpotController extends Controller
 {
-    //
-    //お気に入り場所を登録する
+    /**
+     * ログインユーザーのお気に入り一覧取得
+     */
+    public function index()
+    {
+        try {
+            $spots = Spot::where('userId', Auth::id())
+    ->get();
 
+            return ApiResponse::success(
+                [
+                    'spots' => $spots,
+                ],
+                'お気に入り一覧取得成功',
+                200
+            );
+        } catch (Exception $e) {
+            return ApiResponse::error(
+                'お気に入り一覧取得失敗',
+                500
+            );
+        }
+    }
+
+    /**
+     * お気に入り登録
+     */
     public function store(SpotRequest $request)
     {
         try {
-            //お気に入りスポットを保存
             $spot = Spot::create([
-                //登録したユーザーID
-                'user_id' => $request->user_id,
+                // ログインユーザーのIDを保存
+                'userId' => Auth::id(),
 
-                //スポットID
-                'spot_id' => $request->spot_id,
-
-                //スポットの住所
+                'spotId' => $request->spot_id,
                 'address' => $request->address,
 
-                //初回登録時は未訪問
-                'is_visited' => false,
+                // 初回登録時は未訪問
+                'isVisited' => false,
             ]);
 
-            //保存成功
             return ApiResponse::success(
                 [
                     'spot' => $spot,
@@ -40,15 +60,20 @@ class SpotController extends Controller
                 200
             );
         } catch (Exception $e) {
-
-            //保存失敗
             return ApiResponse::error(
-                'お気に入り登録失敗しました',
-                500
+                $e->getMessage(),
+                500,
+
             );
         }
     }
 
+    /**
+     * お気に入り詳細取得
+     */
 
 
+    /**
+     * お気に入り削除
+     */
 }

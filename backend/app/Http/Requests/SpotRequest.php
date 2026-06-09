@@ -26,7 +26,7 @@ class SpotRequest extends FormRequest
     {
         return [
             //
-            'spot_id' => ['required'], //スポットID必須
+            'spotId' => ['required'], //スポットID必須
             'address' => ['required'], //住所必須
         ];
     }
@@ -36,7 +36,7 @@ class SpotRequest extends FormRequest
 
         return [
             //post_idが未入力の場合
-            'spot_id.required' => 'スポットがありません',
+            'spotId.required' => 'スポットがありません',
 
             //addressが未入力の場合
             'address.required' => '住所がありません'
