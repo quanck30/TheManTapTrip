@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Socialite\Contracts\User as ContractsUser;
 
-#[Fillable(['display_name'])]
+#[Fillable(['displayName'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {

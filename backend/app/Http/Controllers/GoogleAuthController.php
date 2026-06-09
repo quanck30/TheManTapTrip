@@ -79,7 +79,7 @@ class GoogleAuthController extends Controller
             return ApiResponse::success([
                 'user' => [
                     'id' => $user->id,
-                    'displayName' => $user->display_name,
+                    'displayName' => $user->displayName,
                 ],
                 'token' => $token,
                 'tokenType' => 'Bearer',

@@ -26,7 +26,7 @@ class SocialLoginService
     {
         $socialUser = $provider->getUser($accessToken);
         // Google IDを使って、Redis上でユーザーごとに異なるキーを作成します。
-        $cacheKey = $provider->name() . '_user:' . $socialUser->providerId;
+        $cacheKey = $provider->name() . 'User:' . $socialUser->providerId;
 
         // DBへ問い合わせる前に、まずRedisからユーザー情報を取得します。
         $cachedUser = Cache::get($cacheKey);
@@ -35,7 +35,7 @@ class SocialLoginService
             // キャッシュの配列データからEloquentモデルを復元し、Controller側でcreateToken()を使えるようにします。
             return (new User())->newFromBuilder([
                 'id' => $cachedUser['id'],
-                'display_name' => $cachedUser['display_name'],
+                'displayName' => $cachedUser['displayName'],
             ]);
         }
 

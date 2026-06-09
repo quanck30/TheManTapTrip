@@ -18,89 +18,89 @@ class QueryItemsTableSeeder extends Seeder
                 DB::transaction(function () {
             QueryItem::insert([
                 [
-                    'question_id'=> 1,
+                    'questionId'=> 1,
                     'title'=>'はい',
-                    'search_type'=>''
+                    'searchType'=>''
                 ],
                 [
-                    'question_id'=> 1,
+                    'questionId'=> 1,
                     'title'=>'いいえ',
-                    'search_type'=>''
+                    'searchType'=>''
                 ],
                 [
-                    'question_id'=> 2,
+                    'questionId'=> 2,
                     'title'=>'徒歩',
-                    'search_type'=>''
+                    'searchType'=>''
                 ],
                  [
-                    'question_id'=> 2,
+                    'questionId'=> 2,
                     'title'=>'自転車',
-                    'search_type'=>''
+                    'searchType'=>''
                 ],
                  [
-                    'question_id'=> 2,
+                    'questionId'=> 2,
                     'title'=>'車',
-                    'search_type'=>''
+                    'searchType'=>''
                 ],
                  [
-                    'question_id'=> 2,
+                    'questionId'=> 2,
                     'title'=>'公共交通機関',
-                    'search_type'=>''
+                    'searchType'=>''
                 ],
                  [
-                    'question_id'=> 3,
+                    'questionId'=> 3,
                     'title'=>'屋内',
-                    'search_type'=>''
+                    'searchType'=>''
                 ],
                  [
-                    'question_id'=> 3,
+                    'questionId'=> 3,
                     'title'=>'屋外',
-                    'search_type'=>''
+                    'searchType'=>''
                 ],
                  [
-                    'question_id'=> 3,
+                    'questionId'=> 3,
                     'title'=>'どちらでも',
-                    'search_type'=>''
+                    'searchType'=>''
                 ],
                  [
-                    'question_id'=> 4,
+                    'questionId'=> 4,
                     'title'=>'食事',
-                    'search_type'=>''
+                    'searchType'=>''
                 ],
                   [
-                    'question_id'=> 4,
+                    'questionId'=> 4,
                     'title'=>'博物館',
-                    'search_type'=>''
+                    'searchType'=>''
                 ],
                   [
-                    'question_id'=> 4,
+                    'questionId'=> 4,
                     'title'=>'レジャー',
-                    'search_type'=>''
+                    'searchType'=>''
                 ],
                   [
-                    'question_id'=> 4,
+                    'questionId'=> 4,
                     'title'=>'観光',
-                    'search_type'=>''
+                    'searchType'=>''
                 ],
                   [
-                    'question_id'=> 5,
+                    'questionId'=> 5,
                     'title'=>'無料',
-                    'search_type'=>''
+                    'searchType'=>''
                 ],
                   [
-                    'question_id'=> 5,
+                    'questionId'=> 5,
                     'title'=>'松（円）',
-                    'search_type'=>''
+                    'searchType'=>''
                 ],
                    [
-                    'question_id'=> 5,
+                    'questionId'=> 5,
                     'title'=>'竹（円）',
-                    'search_type'=>''
+                    'searchType'=>''
                 ],
                    [
-                    'question_id'=> 5,
+                    'questionId'=> 5,
                     'title'=>'梅（円）',
-                    'search_type'=>''
+                    'searchType'=>''
                 ],
 
             ]);
