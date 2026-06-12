@@ -20,13 +20,42 @@ class PlaceSearchService
         $apikey = config('services.google.places_api_key');
         $url = 'https://places.googleapis.com/v1/places:searchNearby';
 
+        $purpose = $answers['purpose'] ?? null;             // 目的
+        $locationType = $answers['locationType'] ?? null;   // 屋内・屋外
+
         // API検索時に使用するキーワードを設定
-        $purposeTypes = $this->categoryMapper->getGoogleTypes('purpose', $answers['purpose'] ?? null, 'api_search_type');
-        $searchType = !empty($purposeTypes) ? [$purposeTypes] : ['tourist_attraction'];
+        $apiSearchKey = 'apiSearchTypes';
+        if ($purpose === 'play') {
+            // ユーザーの「屋内・屋外」の選択によって、Googleにリクエストするタイプを動的に切り替える
+            if ($locationType === 'outdoor') {
+                $apiSearchKey = 'apiSearchTypeOutdoor';
+            } else {
+                $apiSearchKey = 'apiSearchTypeIndoor';
+            }
+        }
+
+        // マスタから取得（必ず配列または空配列が返る）
+        $searchTypes = $this->categoryMapper->getGoogleTypes('purpose', $purpose, $apiSearchKey);
+
+        // 万が一マスタとキーがズレて連想配列が丸ごと返ってきた場合の対策
+        if (is_array($searchTypes) && !array_is_list($searchTypes)) {
+            // 連想配列の中から、目的のキーの中身だけを抽出を試みる
+            $searchTypes = $searchTypes[$apiSearchKey] ?? ['tourist_attraction'];
+        }
+
+        // 文字列で一文字だけ返ってきた場合も配列で包む
+        if (is_string($searchTypes)) {
+            $searchTypes = [$searchTypes];
+        }
+
+        // 万が一空っぽだった場合の処理
+        if (empty($searchTypes)) {
+            $searchTypes = ['tourist_attraction'];
+        }
 
         // APIに送るリクエストBody
         $body = [
-            'includedTypes' => $searchType,
+            'includedTypes' => $searchTypes,
             'maxResultCount' => 20,
             'locationRestriction' => [
                 'circle' => [
@@ -50,10 +79,7 @@ class PlaceSearchService
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
             'X-Goog-Api-Key' => $apikey,
-            // 'X-Goog-FieldMask' => 'places.id,places.displayName,places.editorialSummary,places.photos,places.formattedAddress,places.rating,places.primary_type,places.types,places.location,places.priceLevel,places.parkingOptions,routingSummaries',       // 取得する内容
-
-            'X-Goog-FieldMask' => 'places.id,places.displayName,places.editorialSummary,places.photos,places.formattedAddress,places.rating,places.primaryType,places.types,places.location,places.priceLevel,places.parkingOptions',       // 取得する内容
-
+            'X-Goog-FieldMask' => 'places.id,places.displayName,places.editorialSummary,places.photos,places.formattedAddress,places.rating,places.primary_type,places.types,places.location,places.priceLevel,places.parkingOptions,routingSummaries,places.goodForChildren,places.menuForChildren',
             'Accept-Language' => 'ja',             // 言語
         ])->post($url, $body);
 
@@ -99,27 +125,29 @@ class PlaceSearchService
             }
 
             $formattedPlaces[] = [
-                    'google_place_id' => $place['id'] ?? null,                  // 場所の識別番号
-                    'name' => $place['displayName']['text'] ?? '名称未設定',     // 表示名
+                    'spotId' => $place['id'] ?? null,                           // 場所の識別番号
+                    'sName' => $place['displayName']['text'] ?? '名称未設定',    // 表示名
                     'address' => $place['formattedAddress'] ?? null,            // 住所
-                    'latitude' => $lat,                                         // 緯度
-                    'longitude' => $lng,                                        // 経度
+                    'lat' => $lat,                                              // 緯度
+                    'long' => $lng,                                             // 経度
                     'rating' => $place['rating'] ?? null,                       // 評価
                     'primaryType' => $place['primaryType'] ?? null,             // メインタイプ
                     'types' => $place['types'] ?? [],                           // カテゴリー
-                    'price_level' => $place['priceLevel'] ?? null,              // 価格帯
+                    'priceLevel' => $place['priceLevel'] ?? null,               // 価格帯
+                    'goodForChildren' => $place['goodForChildren'] ?? null,     // 子供向けか
+                    'menuForChildren' => $place['menuForChildren'] ?? null,     // 子供メニューがあるか
 
                     // 駐車場:データがない（null）の時は一律 false になるように
-                    'has_parking' => isset($place['parkingOptions']['freeParkingLot']) ? (bool)$place['parkingOptions']['freeParkingLot'] : false,
+                    'hasParking' => isset($place['parkingOptions']['freeParkingLot']) ? (bool)$place['parkingOptions']['freeParkingLot'] : false,
 
                     // 説明文:入っていないスポットも多いため、ない場合の初期文字を設定
                     'summary' => $place['editorialSummary']['text'] ?? '説明はありません。',
 
                     // 写真:大量の配列から「1枚目の写真の名前（ID）」だけを代表でもらう
-                    'photo_reference' => $place['photos'][0]['name'] ?? null,
+                    'photoReference' => $place['photos'][0]['name'] ?? null,
 
                     // ルート:
-                    'direction_url' => $directionUrl,
+                    'directionUrl' => $directionUrl,
             ];
         }
 

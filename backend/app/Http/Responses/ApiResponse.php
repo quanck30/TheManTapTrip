@@ -19,7 +19,7 @@ class ApiResponse
             'success' => true,
             'message' => $message,
             'data' => $data,
-        ], $status);
+        ], $status, [], JSON_UNESCAPED_UNICODE);
     }
 
     /**
