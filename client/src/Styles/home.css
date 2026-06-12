@@ -1,116 +1,42 @@
+html, body { overflow: hidden; height: 100%; }
 .home-container {
-  padding: 20px;
-  min-height: 100vh;
-  background-color: #f7fafc;
-  display: flex;
-  justify-content: center;
+  padding: 20px; min-height: 100vh; background-color: #f7fafc;
+  display: flex; justify-content: center; overflow-y: scroll;
+  scrollbar-width: none; -ms-overflow-style: none;
 }
+.home-container::-webkit-scrollbar { display: none !important; }
 
 .diagnostic-card {
-  width: 100%;
-  max-width: 500px;
-  background: #ffffff;
-  padding: 30px;
-  border-radius: 20px;
+  max-height: fit-content; width: 100%; max-width: 500px;
+  background: #ffffff; padding: 30px; border-radius: 20px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  display: flex; flex-direction: column; gap: 24px;
 }
 
-/* 戻るボタン */
-.back-button-container {
-  margin-bottom: 24px;
-  display: flex;
-  justify-content: flex-start;
-}
+.back-button { background: none; border: none; color: #718096; font-size: 14px; cursor: pointer; padding: 8px 4px; }
+.progress-container { width: 100%; height: 6px; display: flex; gap: 4px; }
+.progress-segment { flex: 1; height: 100%; background: #e2e8f0; border: none; border-radius: 3px; cursor: pointer; }
+.progress-segment.active { background: #3b82f6; }
+.progress-segment.completed { background: #2b6cb0; }
 
-.back-button {
-  background: none;
-  border: none;
-  color: #718096;
-  font-size: 14px;
-  cursor: pointer;
-  padding: 8px 4px;
-  display: flex;
-  align-items: center;
-  transition: color 0.2s;
-}
+.question-meta { font-size: 12px; color: #718096; }
+.question-title { font-size: 20px; color: #2d3748; }
 
-.back-button:hover {
-  color: #2d3748;
-}
-
-/* プログレスバー（クリック可能） */
-.progress-container {
-  width: 100%;
-  height: 6px;
-  display: flex;
-  gap: 4px;
-  margin-bottom: 20px;
-}
-
-.progress-segment {
-  flex: 1;
-  height: 100%;
-  background: #e2e8f0;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  padding: 0;
-}
-
-.progress-segment.active {
-  background: #3b82f6;
-}
-
-/* 質問エリア */
-.question-meta {
-  font-size: 12px;
-  color: #718096;
-  margin-bottom: 8px;
-}
-
-.question-title {
-  font-size: 20px;
-  color: #2d3748;
-  margin-bottom: 24px;
-}
-
-.options-group {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
+.options-group { display: flex; flex-direction: column; gap: 12px; }
 .option-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 16px 20px;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  background: #ffffff;
-  cursor: pointer;
-  transition: all 0.2s;
-  text-align: left;
+  display: flex; justify-content: space-between; align-items: center;
+  width: 100%; padding: 16px 20px; border: 1px solid #e2e8f0;
+  border-radius: 12px; background: #ffffff; cursor: pointer;
 }
+/* 選択中または回答済みの色 */
 
+.option-item.selected { background: #ebf8ff; border: 2px solid #3b82f6; }
+.option-text { color: #2d3748 !important; font-size: 14px; font-weight: 500; }
 
-.option-text {
-  color: #2d3748 !important;
-  font-size: 14px;
-  font-weight: 500;
-  pointer-events: none;
-}
+.summary-container { display: flex; flex-direction: column; gap: 20px; }
+.summary-item { border-bottom: 1px solid #edf2f7; padding-bottom: 16px; }
+.summary-question { font-size: 13px; color: #718096; }
+.summary-answer { font-size: 16px; color: #2d3748; font-weight: 700; }
 
-.option-item:hover {
-  background: #f8fafc;
-  border-color: #3b82f6;
-}
-
-.option-arrow {
-  margin-left: 10px;
-  color: #3b82f6;
-  font-weight: bold;
-  pointer-events: none;
-}
+.confirm-btn { justify-content: center; background: #edf2f7; color: #a0aec0; pointer-events: none; }
+.confirm-btn.active { background: #3b82f6; color: #ffffff; pointer-events: auto; }

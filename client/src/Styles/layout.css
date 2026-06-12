@@ -89,3 +89,29 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   overflow: hidden;
 }
+
+/* --- スクロールバー完全非表示設定 --- */
+
+/* Chrome, Safari, Edge, Opera */
+::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: none !important;
+}
+
+/* IE, Edge */
+* {
+  -ms-overflow-style: none !important;
+}
+
+/* 念のため：アプリの主要コンテナに対しても明示的に適用 */
+.app-body, .app-wrapper, .app-content-area, .home-container {
+  overflow-y: auto; /* コンテンツが長い場合はスクロール可能にする */
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
