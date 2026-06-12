@@ -17,10 +17,10 @@ class SpotController extends Controller
     public function index()
     {
         try {
-            $spots = Spot::where('userId', Auth::id())
-    ->get();
+            $spots = Auth::user()->spots;
 
             return ApiResponse::success(
+                //テストでspotsを出している
                 [
                     'spots' => $spots,
                 ],
@@ -45,7 +45,7 @@ class SpotController extends Controller
                 // ログインユーザーのIDを保存
                 'userId' => Auth::id(),
 
-                'spotId' => $request->spot_id,
+                'spotId' => $request->spotId    ,
                 'address' => $request->address,
 
                 // 初回登録時は未訪問
@@ -53,6 +53,7 @@ class SpotController extends Controller
             ]);
 
             return ApiResponse::success(
+                //テストでspotsを出している
                 [
                     'spot' => $spot,
                 ],
@@ -71,9 +72,51 @@ class SpotController extends Controller
     /**
      * お気に入り詳細取得
      */
+public function show($id)
+    {
+        try {
+            $spot = Spot::where('id', $id)
+                ->where('userId', Auth::id())
+                ->firstOrFail();
 
+            return ApiResponse::success(
+                [
+                    'spot' => $spot,
+                ],
+                'お気に入り詳細取得成功',
+                200
+            );
+        } catch (Exception $e) {
+            return ApiResponse::error(
+                'お気に入りが見つかりません',
+                404
+            );
+        }
+    }
 
     /**
      * お気に入り削除
      */
+    public function destroy($id)
+    {
+        try {
+            $spot = Spot::where('id', $id)
+                ->where('userId', Auth::id())
+                ->firstOrFail();
+
+            $spot->delete();
+
+            return ApiResponse::success(
+                [],
+                'お気に入り削除成功',
+                200
+            );
+        } catch (Exception $e) {
+            return ApiResponse::error(
+                'お気に入り削除失敗',
+                500
+            );
+        }
+    }
+
 }

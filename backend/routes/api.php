@@ -46,6 +46,12 @@ Route::middleware('auth:sanctum')->group(function () {
     // 登録
     Route::post('/v1/spots', [SpotController::class, 'store']);
 
+    // 詳細画面
+    Route::get('/v1/spots/{id}', [SpotController::class, 'show']);
+
+    //削除
+    Route::delete('/v1/spots/{id}', [SpotController::class, 'destroy']);
+
 });
 
 
