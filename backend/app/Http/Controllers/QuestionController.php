@@ -14,7 +14,7 @@ use App\Models\Choice;
 class QuestionController extends Controller
 {
     //
-    public function loginindex()
+    public function loginedIndex()
     {
         //質問内容と選択肢を取得する
         $questions = Question::with('queryItems')->get();
