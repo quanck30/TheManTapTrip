@@ -1,123 +1,42 @@
-/* Home & Diagnosis Screen Styles */
-
-/* ホーム全体のコンテナ */
+html, body { overflow: hidden; height: 100%; }
 .home-container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+  padding: 20px; min-height: 100vh; background-color: #f7fafc;
+  display: flex; justify-content: center; overflow-y: scroll;
+  scrollbar-width: none; -ms-overflow-style: none;
 }
+.home-container::-webkit-scrollbar { display: none !important; }
 
-/* 診断・質問カードのメインエリア */
 .diagnostic-card {
-  background: #ffffff;
-  border-radius: 20px;
-  padding: 24px;
-  box-shadow: 0 8px 24px rgba(149, 157, 165, 0.1);
-  border: 1px solid #f1f5f9;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  max-height: fit-content; width: 100%; max-width: 500px;
+  background: #ffffff; padding: 30px; border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  display: flex; flex-direction: column; gap: 24px;
 }
 
-/* 質問タイトルのスタイル */
-.question-title {
-  font-size: 18px;
-  font-weight: 700;
-  color: #2c3e50;
-  margin-bottom: 8px;
-  line-height: 1.4;
-}
+.back-button { background: none; border: none; color: #718096; font-size: 14px; cursor: pointer; padding: 8px 4px; }
+.progress-container { width: 100%; height: 6px; display: flex; gap: 4px; }
+.progress-segment { flex: 1; height: 100%; background: #e2e8f0; border: none; border-radius: 3px; cursor: pointer; }
+.progress-segment.active { background: #3b82f6; }
+.progress-segment.completed { background: #2b6cb0; }
 
-/* 質問の補足説明（ステップ数など） */
-.question-meta {
-  font-size: 12px;
-  color: #3b82f6;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 16px;
-}
+.question-meta { font-size: 12px; color: #718096; }
+.question-title { font-size: 20px; color: #2d3748; }
 
-/* 選択肢（ボタン・カード）のグループ */
-.options-group {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 20px;
-}
-
-/* 各選択肢のボタンスタイル */
+.options-group { display: flex; flex-direction: column; gap: 12px; }
 .option-item {
-  width: 100%;
-  padding: 14px 16px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #475569;
-  text-align: left;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: flex; justify-content: space-between; align-items: center;
+  width: 100%; padding: 16px 20px; border: 1px solid #e2e8f0;
+  border-radius: 12px; background: #ffffff; cursor: pointer;
 }
+/* 選択中または回答済みの色 */
 
-/* 選択肢のホバー・アクティブ状態 */
-.option-item:hover {
-  background: #edf5ff;
-  border-color: #3b82f6;
-  color: #1d4ed8;
-  transform: translateY(-1px);
-}
+.option-item.selected { background: #ebf8ff; border: 2px solid #3b82f6; }
+.option-text { color: #2d3748 !important; font-size: 14px; font-weight: 500; }
 
-.option-item:active {
-  transform: translateY(1px);
-}
+.summary-container { display: flex; flex-direction: column; gap: 20px; }
+.summary-item { border-bottom: 1px solid #edf2f7; padding-bottom: 16px; }
+.summary-question { font-size: 13px; color: #718096; }
+.summary-answer { font-size: 16px; color: #2d3748; font-weight: 700; }
 
-/* 選択済みの状態スタイル */
-.option-item.selected {
-  background: #3b82f6;
-  border-color: #3b82f6;
-  color: #ffffff;
-}
-
-/* 進捗バー（プログレスバー） */
-.progress-container {
-  width: 100%;
-  height: 6px;
-  background: #e2e8f0;
-  border-radius: 3px;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
-
-.progress-bar {
-  height: 100%;
-  background: linear-gradient(90deg, #3b82f6, #60a5fa);
-  transition: width 0.3s ease;
-}
-
-/* スキップ・戻るなどの補助ボタンエリア */
-.action-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 24px;
-}
-
-.btn-secondary {
-  background: none;
-  border: none;
-  color: #94a3b8;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  padding: 8px 12px;
-  transition: color 0.2s;
-}
-
-.btn-secondary:hover {
-  color: #64748b;
-}
+.confirm-btn { justify-content: center; background: #edf2f7; color: #a0aec0; pointer-events: none; }
+.confirm-btn.active { background: #3b82f6; color: #ffffff; pointer-events: auto; }
