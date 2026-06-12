@@ -2,13 +2,15 @@ import React from 'react';
 import TempButton from '../components/buttons/TempButton';
 import '../Styles/Welcome.css'; // 通常のCSSファイルをインポート
 
+import logoImage from '../assets/Taptrip.png';
+
 function Welcome({ onStartExplore, onNavigateToLogin, onNavigateToRegister }) {
   return (
     <div className="welcome-container">
       {/* ロゴとキャッチコピー */}
       <div className="welcome-header">
         <div className="welcome-logo-wrapper">
-          <span className="welcome-logo-icon">🧭</span>
+         <img src={logoImage} alt="TapTrip Logo" className="welcome-logo-image" />
           <h1 className="welcome-title">TapTrip</h1>
         </div>
         <h2 className="welcome-subtitle">今日はどこへ行く？</h2>

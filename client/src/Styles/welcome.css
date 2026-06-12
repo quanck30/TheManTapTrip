@@ -107,3 +107,21 @@
   text-decoration: underline;
   margin-top: 6px;
 }
+
+/* ロゴ画像用のスタイルを追加 */
+
+.welcome-logo-image {
+  /* ここでサイズを小さく調整します */
+  max-width: 80px; 
+  width: 80%;
+  height: auto;
+  margin-bottom: 16px;
+}
+
+.welcome-logo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* 画像の周りに余白を持たせるとバランスが良くなります */
+  padding-top: 15px;
+}

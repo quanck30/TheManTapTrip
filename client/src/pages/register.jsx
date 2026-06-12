@@ -55,6 +55,7 @@ function Register({ onRegisterSuccess, onNavigateToLogin, onBackToWelcome }) {
           <TempButton text={isLoading ? "登録中..." : "登録する"} type="submit" disabled={isLoading} />
         </form>
         <div className="reg-divider"><span>または</span></div>
+
         <GoogleLoginButton />
         <div className="reg-footer">
           アカウントをお持ちですか？ <span onClick={onNavigateToLogin}>ログイン</span>
