@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SpotController;
+use App\Http\Controllers\UserController;
 
 
 // Sanctumで認証済みのユーザー情報を返します。
@@ -46,3 +47,9 @@ Route::post('/v1/spots', [SpotController::class, 'store']);
 Route::post('/v1/placeSearch', [PlaceSearchController::class, 'placeSearch']);
 // Googleアクセストークンを使ったログインAPIです。
 Route::post('/v1/auth/google', [GoogleAuthController::class, 'googleLogin']);
+
+// アカウント情報の取得API(ログイン必須)
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/v1/user/', [UserController::class, 'show']);
+    Route::put('/v1/user/', [UserController::class, 'update']);
+});
