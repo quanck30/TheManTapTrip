@@ -31,14 +31,19 @@ Route::get('/test', function () {
     ]);
 });
 
+Route::middleware('auth:sanctum')->group(function () {
+    // 質問一覧と選択肢をJSONで返します。
+    Route::get('/v1/login/questions', [QuestionController::class, 'loginindex']);
+});
+    Route::get('/v1/questions', [QuestionController::class, 'index']);
 
-// 質問一覧と選択肢をJSONで返します。
-Route::get('/v1/questions', [QuestionController::class, 'index']);
 
 //お気に入り場所を保存
-Route::post('/v1/spots', [SpotController::class, 'store']);
+// Route::post('/v1/spots', [SpotController::class, 'store']);
 
-// Route::get('/v1/spots',[SpotController::class,'index']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('/v1/spots', SpotController::class);
+});
 
 
 
