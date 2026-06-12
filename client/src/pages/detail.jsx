@@ -1,8 +1,8 @@
 import React from 'react';
-import IconButton from '../components/buttons/IconButton';
 import TempButton from '../components/buttons/TempButton';
 import '../Styles/detail.css';
 import noImage from '../assets/no_image.jpg';
+import backArrow from '../assets/back_root.jpg'; // 追加
 
 function Detail({ spot, onBack }) {
   if (!spot) return null;
@@ -12,8 +12,6 @@ function Detail({ spot, onBack }) {
   const rating = spot.rating || "N/A";
   const priceLevel = spot.priceLevel || "未設定";
   const description = spot.editorialSummary?.text || "説明はありません。";
-  
-  // ここで画像の存在チェックを行い、なければインポートしたnoImageを使う
   const imageUrl = spot.photos?.[0]?.flagUrl || noImage;
 
   return (
@@ -23,30 +21,32 @@ function Detail({ spot, onBack }) {
           src={imageUrl} 
           className="detail-hero-img" 
           alt={title} 
-          onError={(e) => e.target.src = noImage} // 万が一のリンク切れ対策
+          onError={(e) => e.target.src = noImage}
         />
-        <div className="detail-hero-overlay"></div>
-        <IconButton icon="←" variant="back" onClick={onBack} />
+        {/* 新しい戻るボタンの構成 */}
+        <div className="back-button-wrapper">
+          <button onClick={onBack} className="back-button-arrow">
+            <img src={backArrow} alt="戻る" />
+          </button>
+        </div>
       </div>
 
       <div className="detail-body">
         <h2 className="detail-main-title">{title}</h2>
         
-        <div className="detail-info-grid">
-          <p className="detail-address">📍 {address}</p>
+        <div className="detail-info-box">
           <div className="detail-meta">
-            <span>⭐ 評価: {rating}</span>
-            <span>💰 価格帯: {priceLevel}</span>
+            <div className="detail-meta-item"><span>評価⭐</span> {rating}</div>
+            <div className="detail-meta-item"><span>価格💰</span> {priceLevel}</div>
           </div>
+          <p className="detail-address">📍 {address}</p>
         </div>
 
         <p className="detail-description">{description}</p>
 
         <div className="map-section">
           <h3 className="map-section-title">周辺の地図</h3>
-          <div className="map-placeholder">
-            🗺️ Google Maps エリア
-          </div>
+          <div className="map-placeholder">Google Maps エリア</div>
         </div>
       </div>
 

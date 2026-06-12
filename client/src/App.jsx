@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-// CSSインポート（既存ファイルのみ）
+// CSSインポート
 import './Styles/reset.css';
 import './Styles/variables.css';
 import './Styles/global.css';
@@ -39,6 +39,7 @@ function App() {
     setCurrentTab('home');
   };
 
+  // 認証・ゲスト選択画面
   if (!user && !isGuestMode) {
     return (
       <div className="app-body">
@@ -69,6 +70,7 @@ function App() {
     );
   }
 
+  // メインアプリ画面
   return (
     <div className="app-body">
       <div className="app-wrapper">
@@ -87,10 +89,17 @@ function App() {
                 </div>
               )}
               {currentTab === 'saved' && (
-                user ? <div className="saved-list-container">{mockSpots.map(spot => <ListItem key={spot.id} spot={spot} onClick={() => setSelectedSpot(spot)} />)}</div> 
-                     : <LoginPrompt onNavigateToLogin={() => setAuthScreen('login')} />
+                user ? (
+                  <div className="saved-list-container">
+                    {mockSpots.map(spot => <ListItem key={spot.id} spot={spot} onClick={() => setSelectedSpot(spot)} />)}
+                  </div>
+                ) : (
+                  <LoginPrompt onNavigateToLogin={() => { setIsGuestMode(false); setAuthScreen('login'); }} />
+                )
               )}
-              {currentTab === 'profile' && (user ? <Profile /> : <LoginPrompt onNavigateToLogin={() => setAuthScreen('login')} />)}
+              {currentTab === 'profile' && (
+                user ? <Profile /> : <LoginPrompt onNavigateToLogin={() => { setIsGuestMode(false); setAuthScreen('login'); }} />
+              )}
             </>
           )}
         </div>

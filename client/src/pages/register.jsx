@@ -13,14 +13,12 @@ function Register({ onRegisterSuccess, onNavigateToLogin, onBackToWelcome }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setError("");
+    if (!name || !email || !password) {
+      setError('すべての項目を入力してください。');
+      return;
+    }
     setIsLoading(true);
     setTimeout(() => {
-      if (!name || !email || !password) {
-        setError('すべての項目を入力してください。');
-        setIsLoading(false);
-        return;
-      }
       onRegisterSuccess({ uid: "user-" + Date.now(), displayName: name, email: email });
       setIsLoading(false);
     }, 800);
@@ -37,20 +35,26 @@ function Register({ onRegisterSuccess, onNavigateToLogin, onBackToWelcome }) {
         {error && <div className="reg-error">⚠️ {error}</div>}
         <form onSubmit={handleSubmit} className="reg-form">
           <div className="reg-field">
-            <label>氏名</label>
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+            <label className="reg-label">氏名</label>
+            <div className="reg-input-wrapper">
+              <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+            </div>
           </div>
           <div className="reg-field">
-            <label>メールアドレス</label>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            <label className="reg-label">メールアドレス</label>
+            <div className="reg-input-wrapper">
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            </div>
           </div>
           <div className="reg-field">
-            <label>パスワード</label>
-            <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} required />
+            <label className="reg-label">パスワード</label>
+            <div className="reg-input-wrapper">
+              <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} required />
+            </div>
           </div>
           <TempButton text={isLoading ? "登録中..." : "登録する"} type="submit" disabled={isLoading} />
         </form>
-        <div className="reg-divider">または</div>
+        <div className="reg-divider"><span>または</span></div>
         <GoogleLoginButton />
         <div className="reg-footer">
           アカウントをお持ちですか？ <span onClick={onNavigateToLogin}>ログイン</span>
