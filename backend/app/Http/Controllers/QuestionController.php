@@ -25,7 +25,7 @@ class QuestionController extends Controller
         }
 
             // このユーザーの回答を取得
-            $choices = Choice::where('userId', 1)->get();
+            $choices = Choice::where('userId', Auth::id())->get();
 
             foreach ($questions as $question) {
 
@@ -53,7 +53,6 @@ class QuestionController extends Controller
         }
 
          return ApiResponse::success([
-            'userId' => Auth::id(),
             'questions' => $questions,
         ]);
 
