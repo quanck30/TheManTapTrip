@@ -35,24 +35,31 @@ Route::get('/test', function () {
 // 質問一覧と選択肢をJSONで返します。
 Route::get('/v1/questions', [QuestionController::class, 'index']);
 
-//お気に入り場所を保存
-// Route::post('/v1/spots', [SpotController::class, 'store']);
+
 
 Route::middleware('auth:sanctum')->group(function () {
 
-    // 一覧取得
-    Route::get('/v1/spots', [SpotController::class, 'index']);
+Route::resource('v1/spots',SpotController::class)->only([
+    'index','store','show','destroy'
 
-    // 登録
-    Route::post('/v1/spots', [SpotController::class, 'store']);
-
-    // 詳細画面
-    Route::get('/v1/spots/{id}', [SpotController::class, 'show']);
-
-    //削除
-    Route::delete('/v1/spots/{id}', [SpotController::class, 'destroy']);
-
+]);
 });
+
+
+
+    // 一覧取得
+    // Route::get('/v1/spots', [SpotController::class, 'index']);
+
+    // // お気に入り場所登録
+    // Route::post('/v1/spots', [SpotController::class, 'store']);
+
+    // // 詳細画面
+    // Route::get('/v1/spots/{id}', [SpotController::class, 'show']);
+
+    // //削除
+    // Route::delete('/v1/spots/{id}', [SpotController::class, 'destroy']);
+
+// });
 
 
 
