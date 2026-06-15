@@ -9,7 +9,7 @@
 const BASE_URL = "api/v1";
 
 export const saveAnswers = async (userId, answers) => {
-    const response = await fetch(`${BASE_URL}/dummy`, {
+    const response = await fetch(`${BASE_URL}/choices`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

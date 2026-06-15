@@ -11,17 +11,22 @@ const BASE_URL = "api/v1/questions";
 // 未ログイン：/questions/guest
 // ログイン済：/questions/login
 
-export const fetchQuestions = async () => {
-    // ログインの判定ロジックを後で追加
-    if (true) {
-        const response = await fetch(`${BASE_URL}/guest? : ;`, {
-            method: "GET",
-            headers: { Accept: "application/json" },
-        });
-        if (!response.ok) throw new Error("質問の取得に失敗しました");
-        return response.json();
-    } else {
-        // ログイン済みユーザは自分のDBを見に行く
-        const response = await fetch(`${BASE_URL}/login`, {});
+export const fetchQuestions = async (userId) => {
+    const endpoint = userId ? `${BASE_URL}/login` : `${BASE_URL}/guest`;
+    const options = {
+        method: "GET",
+        headers: { Accept: "application/json" },
+    };
+
+    const response = await fetch(endpoint, options);
+    if (!response.ok) throw new Error("質問の取得に失敗しました");
+
+    const data = await response.json();
+
+    // ログイン済みユーザ用の処理
+    if (userId) {
+        // ユーザの過去の回答があれば取得する
     }
+
+    return data;
 };
