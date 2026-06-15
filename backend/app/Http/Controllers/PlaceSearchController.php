@@ -35,6 +35,7 @@ class PlaceSearchController extends Controller
                 $answers
             );
 
+            // マッチ度検索
             $result = $this->placeMatchCalculator->calculateMatches($result, $answers);
 
             // 結果が空だった場合

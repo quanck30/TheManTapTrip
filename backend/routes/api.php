@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChoiceController;
 use App\Http\Controllers\PlaceSearchController;
 use App\Models\Question;
 use App\Http\Controllers\GoogleAuthController;
@@ -40,7 +41,8 @@ Route::post('/v1/spots', [SpotController::class, 'store']);
 
 // Route::get('/v1/spots',[SpotController::class,'index']);
 
-
+// 回答保存API
+Route::apiResource('/v1/choices', ChoiceController::class)->middleware('auth:sanctum');
 
 // Google Places Api を使用した場所検索APi
 Route::post('/v1/placeSearch', [PlaceSearchController::class, 'placeSearch']);
