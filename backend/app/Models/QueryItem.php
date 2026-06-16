@@ -10,8 +10,10 @@ class QueryItem extends Model
 {
     protected $fillable = [
         'questionId',
+        'itemId',
         'title',
         'searchType',
+
     ];
 
     /**
