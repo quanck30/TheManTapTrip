@@ -6,14 +6,15 @@
  */
 
 import React from 'react';
+import '../../Styles/IconButton.css';
 
 function IconButton({ icon, onClick, variant }) {
-  // variant: 'bookmark'（カード内右上）か 'back'（詳細画面左上）を指定
-  const className = variant === 'back' ? 'back-btn' : 'bookmark-btn';
+  // variant: 'bookmark' か 'back' をクラス名に変換
+  const className = variant === 'back' ? 'icon-btn-back' : 'icon-btn-bookmark';
   
   return (
-    <button className={className} onClick={onClick}>
-      <span style={{ fontSize: '18px' }}>{icon}</span>
+    <button className={`icon-btn ${className}`} onClick={onClick}>
+      <span className="icon-content">{icon}</span>
     </button>
   );
 }
