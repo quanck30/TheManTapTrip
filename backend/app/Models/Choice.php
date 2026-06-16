@@ -18,7 +18,7 @@ class Choice extends Model
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'userId');
     }
 
     /**
@@ -26,7 +26,7 @@ class Choice extends Model
      */
     public function question(): BelongsTo
     {
-        return $this->belongsTo(Question::class);
+        return $this->belongsTo(Question::class, 'questionId');
     }
 
     /**
@@ -34,6 +34,6 @@ class Choice extends Model
      */
     public function queryItem(): BelongsTo
     {
-        return $this->belongsTo(QueryItem::class);
+        return $this->belongsTo(QueryItem::class, 'queryItemId');
     }
 }

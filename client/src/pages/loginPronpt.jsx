@@ -1,6 +1,5 @@
-import React from 'react';
 import TempButton from '../components/buttons/TempButton';
-import '../Styles/LoginPrompt.css';
+import '../Styles/loginPrompt.css';
 
 function LoginPrompt({ onNavigateToLogin }) {
   return (

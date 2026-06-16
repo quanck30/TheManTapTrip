@@ -16,7 +16,7 @@ class Question extends Model
      */
     public function choices(): HasMany
     {
-        return $this->hasMany(Choice::class);
+        return $this->hasMany(Choice::class, 'questionId');
     }
 
     /**

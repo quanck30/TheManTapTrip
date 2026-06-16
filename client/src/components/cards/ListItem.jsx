@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import '../../Styles/ListItem.css';
+import '../../Styles/listItem.css';
 
 /**
  * リストアイテムを表示するコンポーネント
