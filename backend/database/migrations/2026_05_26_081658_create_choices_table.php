@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('questionId')->nullable(false)->constrained('questions');
             $table->foreignId('queryItemId')->nullable(false)->constrained('query_items');
             $table->timestamps();
+            $table->unique(['userId', 'questionId']);
         });
     }
 
