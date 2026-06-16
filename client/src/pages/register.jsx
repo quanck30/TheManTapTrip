@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, React } from 'react';
 import TempButton from '../components/buttons/TempButton';
-import '../Styles/Register.css';
+import '../Styles/register.css';
 import { GoogleLoginButton } from "../components/buttons/GoogleLoginButton";
 
 function Register({ onRegisterSuccess, onNavigateToLogin, onBackToWelcome }) {
