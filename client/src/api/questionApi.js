@@ -6,27 +6,59 @@
  * @Update 26/06/12
  */
 
-const BASE_URL = "api/v1/questions";
+/**
+ * src/api/questionApi.js
+ */
+const BASE_URL = "/api/v1";
 
-// 未ログイン：/questions/guest
-// ログイン済：/questions/login
+export const fetchQuestions = async () => {
+    const token = localStorage.getItem("authToken");
 
-export const fetchQuestions = async (userId) => {
-    const endpoint = userId ? `${BASE_URL}/login` : `${BASE_URL}/guest`;
-    const options = {
+    // トークンがあれば login 用、なければ guest 用のURLを設定
+    const endpoint = token
+        ? `${BASE_URL}/questions/login`
+        : `${BASE_URL}/questions/guest`;
+
+    let response = await fetch(endpoint, {
         method: "GET",
-        headers: { Accept: "application/json" },
-    };
+        headers: {
+            Accept: "application/json",
+            // トークンがある場合のみAuthorizationヘッダーを付与
+            ...(token && { Authorization: `Bearer ${token}` }),
+        },
+    });
 
-    const response = await fetch(endpoint, options);
-    if (!response.ok) throw new Error("質問の取得に失敗しました");
+    if (response.status === 401) {
+        localStorage.removeItem("authToken");
 
-    const data = await response.json();
-
-    // ログイン済みユーザ用の処理
-    if (userId) {
-        // ユーザの過去の回答があれば取得する
+        response = await fetch(`${BASE_URL}/questions/guest`, {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+            },
+        });
     }
 
-    return data;
+    if (!response.ok) {
+        throw new Error("質問の取得に失敗しました");
+    }
+
+    return await response.json();
+};
+
+export const saveAnswers = async (choices) => {
+    const token = localStorage.getItem("authToken");
+
+    const response = await fetch(`${BASE_URL}/choices`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            ...(token && { Authorization: `Bearer ${token}` }),
+        },
+        body: JSON.stringify({ choices }),
+    });
+
+    if (!response.ok) throw new Error("回答の保存に失敗しました");
+    return await response.json();
 };

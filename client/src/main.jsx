@@ -4,13 +4,14 @@ import "./index.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { TestPage } from "./pages/test.jsx";
 import App from "./App.jsx";
+import Que from "./components/search/QuestionForm.jsx";
 
 const GoogleClientID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 createRoot(document.getElementById("root")).render(
     <StrictMode>
         <GoogleOAuthProvider clientId={GoogleClientID}>
-            <App />
+            <Que />
         </GoogleOAuthProvider>
     </StrictMode>,
 );

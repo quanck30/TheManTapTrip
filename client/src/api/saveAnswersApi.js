@@ -6,7 +6,7 @@
  * @Update 26/06/12
  */
 
-const BASE_URL = "api/v1";
+const BASE_URL = "/api/v1";
 
 export const saveAnswers = async (userId, answers) => {
     const response = await fetch(`${BASE_URL}/choices`, {
