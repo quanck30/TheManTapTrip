@@ -35,6 +35,12 @@ class UserController extends Controller
         } catch (Exception $e) {
             // DB保存でエラーが起きた場合ログに記録
             Log::error('ユーザー名更新エラー: ' . $e->getMessage());
+
+            // エラー返す
+            return $this->apiResponse->error(
+                "ユーザー情報の取得に失敗しました。",
+                500,
+            );
         }
     }
 
