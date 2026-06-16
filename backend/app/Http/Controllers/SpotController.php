@@ -8,6 +8,7 @@ use App\Models\Spot;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class SpotController extends Controller
 {
@@ -112,6 +113,7 @@ public function show($id)
                 200
             );
         } catch (Exception $e) {
+            Log::error($e->getMessage());
             return ApiResponse::error(
                 'お気に入り削除失敗',
                 500

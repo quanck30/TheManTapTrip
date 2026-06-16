@@ -36,31 +36,11 @@ Route::get('/test', function () {
 Route::get('/v1/questions', [QuestionController::class, 'index']);
 
 
-
+//一覧・お気に入り登録・詳細・削除
 Route::middleware('auth:sanctum')->group(function () {
 
-Route::resource('v1/spots',SpotController::class)->only([
-    'index','store','show','destroy'
-
-]);
+    Route::apiResource('v1/spots', SpotController::class);
 });
-
-
-
-    // 一覧取得
-    // Route::get('/v1/spots', [SpotController::class, 'index']);
-
-    // // お気に入り場所登録
-    // Route::post('/v1/spots', [SpotController::class, 'store']);
-
-    // // 詳細画面
-    // Route::get('/v1/spots/{id}', [SpotController::class, 'show']);
-
-    // //削除
-    // Route::delete('/v1/spots/{id}', [SpotController::class, 'destroy']);
-
-// });
-
 
 
 // Google Places Api を使用した場所検索APi
