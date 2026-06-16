@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import TempButton from '../components/buttons/TempButton';
 import '../Styles/Register.css';
 import { GoogleLoginButton } from "../components/buttons/GoogleLoginButton";
@@ -7,7 +7,7 @@ function Register({ onRegisterSuccess, onNavigateToLogin, onBackToWelcome }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -55,7 +55,7 @@ function Register({ onRegisterSuccess, onNavigateToLogin, onBackToWelcome }) {
           <TempButton text={isLoading ? "登録中..." : "登録する"} type="submit" disabled={isLoading} />
         </form>
         <div className="reg-divider"><span>または</span></div>
-        <GoogleLoginButton />
+        <GoogleLoginButton onLoginSuccess={onRegisterSuccess} />
         <div className="reg-footer">
           アカウントをお持ちですか？ <span onClick={onNavigateToLogin}>ログイン</span>
         </div>

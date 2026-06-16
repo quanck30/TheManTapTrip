@@ -1,4 +1,3 @@
-import React from 'react';
 import TempButton from '../components/buttons/TempButton';
 import '../Styles/LoginPrompt.css';
 

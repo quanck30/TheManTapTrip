@@ -12,6 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Socialite\Contracts\User as ContractsUser;
 
@@ -32,7 +33,6 @@ class User extends Authenticatable
 
         // DBへ問い合わせる前に、まずRedisからユーザー情報を取得します。
         $cachedUser = Cache::get($cacheKey);
-
         if ($cachedUser) {
             // キャッシュの配列データからEloquentモデルを復元し、Controller側でcreateToken()を使えるようにします。
             return (new self())->newFromBuilder([
