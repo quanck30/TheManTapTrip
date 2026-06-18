@@ -29,8 +29,6 @@ export const fetchQuestions = async () => {
     });
 
     if (response.status === 401) {
-        localStorage.removeItem("authToken");
-
         response = await fetch(`${BASE_URL}/questions/guest`, {
             method: "GET",
             headers: {
@@ -46,7 +44,7 @@ export const fetchQuestions = async () => {
     return await response.json();
 };
 
-export const saveAnswers = async (choices) => {
+export const saveAnswers = async (questionId, queryItemId) => {
     const token = localStorage.getItem("authToken");
 
     const response = await fetch(`${BASE_URL}/choices`, {
@@ -56,7 +54,7 @@ export const saveAnswers = async (choices) => {
             Accept: "application/json",
             ...(token && { Authorization: `Bearer ${token}` }),
         },
-        body: JSON.stringify({ choices }),
+        body: JSON.stringify({ questionId, queryItemId }),
     });
 
     if (!response.ok) throw new Error("回答の保存に失敗しました");

@@ -1,5 +1,5 @@
 /**
- * @brief QuestionForm用のカスタムフック
+ * @brief 質問と回答を表示するカスタムフック
  * @Author J.Naka
  * @Date 26/06/15
  * @Update 26/06/15
@@ -18,6 +18,10 @@ export const useQuestionForm = (onSearchComplete) => {
     const [radius, setRadius] = useState(1000);
 
     const { location, getLocation, isLoading: isGeoLoading } = useGeolocation();
+
+    useEffect(() => {
+        getLocation();
+    }, []);
 
     useEffect(() => {
         const loadQuestions = async () => {
@@ -50,12 +54,15 @@ export const useQuestionForm = (onSearchComplete) => {
             const token = localStorage.getItem("authToken");
 
             if (token) {
-                const choices = Object.entries(answers).map(([qId, iId]) => ({
-                    questionId: Number(qId),
-                    queryItemId: Number(iId),
-                }));
-                await saveAnswers(choices);
+                const savePromises = Object.entries(answers).map(([qId, iId]) =>
+                    saveAnswers(Number(qId), Number(iId)),
+                );
+                await Promise.all(savePromises);
             }
+
+            const formattedAnswers = {};
+
+            const finalRadius = "";
 
             const searchData = {
                 radius: Number(radius),
@@ -63,9 +70,11 @@ export const useQuestionForm = (onSearchComplete) => {
                     ? { address: directAddress }
                     : { latitude: location?.lat, longitude: location?.lng }),
             };
+            console.log(searchData);
 
             const results = await searchPlaces(searchData);
-            onSearchComplete(results);
+
+            if (onSearchComplete) onSearchComplete(results);
         } catch (err) {
             console.error(err);
             alert("処理中にエラーが発生しました");

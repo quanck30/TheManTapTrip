@@ -1,42 +1,71 @@
 import React, { useState, useEffect } from "react";
-import { useQuestionForm } from "../hooks/useQuestionForm.jsx";
+import { useQuestionForm } from "../components/hooks/useQuestionForm";
 import "../Styles/home.css";
 
 function Home({ onDiagnoseComplete }) {
+    const { questions, answers, handleSelect, handleSubmit, isLoading } =
+        useQuestionForm(onDiagnoseComplete);
+
+    // ユーザー識別用のキー（authToken依存）
+    const token = localStorage.getItem("authToken") || "guest";
+    const userKey = btoa(token.slice(0, 10));
+    const stepKey = `diag_step_${userKey}`;
+    const confirmKey = `diag_isConfirming_${userKey}`;
+    const answersKey = `diag_answers_${userKey}`;
+
+    // ステップと確認状態をローカルストレージから復元
     const [currentStep, setCurrentStep] = useState(() =>
-        parseInt(localStorage.getItem("diag_step") || "0", 10),
-    );
-    const [answers, setAnswers] = useState(() =>
-        JSON.parse(localStorage.getItem("diag_answers") || "{}"),
+        parseInt(localStorage.getItem(stepKey) || "0", 10),
     );
     const [isConfirming, setIsConfirming] = useState(
-        () => localStorage.getItem("diag_isConfirming") === "true",
+        () => localStorage.getItem(confirmKey) === "true",
     );
+    const [isWarning, setIsWarning] = useState(false);
 
     useEffect(() => {
-        localStorage.setItem("diag_step", currentStep);
-        localStorage.setItem("diag_answers", JSON.stringify(answers));
-        localStorage.setItem("diag_isConfirming", isConfirming);
-    }, [currentStep, answers, isConfirming]);
+        localStorage.setItem(stepKey, currentStep);
+        localStorage.setItem(confirmKey, isConfirming);
+        localStorage.setItem(answersKey, JSON.stringify(answers));
+    }, [currentStep, isConfirming, answers, stepKey, confirmKey, answersKey]);
 
-    const currentQuestion = useQuestionForm().questions[currentStep];
-    const isAllAnswered = useQuestionForm().questions.every(
-        (q) => answers[q.id],
-    );
+    if (questions.length === 0)
+        return <div className="home-container">読み込み中...</div>;
 
-    const handleOptionSelect = (option) => {
-        const updatedAnswers = { ...answers, [currentQuestion.id]: option };
-        setAnswers(updatedAnswers);
-        if (currentStep < useQuestionForm().questions.length - 1) {
-            setCurrentStep((prev) => prev + 1);
-        } else {
-            setIsConfirming(true);
-        }
+    const currentQuestion = questions[currentStep];
+    const isAllAnswered = questions.every((q) => answers[q.id]);
+
+    const handleOptionClick = (qId, itemId) => {
+        handleSelect(qId, itemId);
+        setTimeout(() => {
+            if (currentStep < questions.length - 1) {
+                setCurrentStep((prev) => prev + 1);
+            } else {
+                setIsConfirming(true);
+            }
+        }, 300);
+    };
+
+    const handleComplete = async () => {
+        await handleSubmit();
+        // 完了時にそのユーザーのデータのみ消去
+        localStorage.removeItem(stepKey);
+        localStorage.removeItem(confirmKey);
+        localStorage.removeItem(answersKey);
+        setCurrentStep(0);
+        setIsConfirming(false);
+        setIsWarning(false);
     };
 
     const handleBack = () => {
-        if (isConfirming) setIsConfirming(false);
-        else if (currentStep > 0) setCurrentStep((prev) => prev - 1);
+        if (isConfirming) {
+            // 確認画面から戻る場合は「最初の質問」へ戻す
+            setIsConfirming(false);
+            setCurrentStep(0);
+            setIsWarning(false);
+        } else if (currentStep > 0) {
+            // 通常の戻る動作
+            setCurrentStep((prev) => prev - 1);
+        }
     };
 
     return (
@@ -46,23 +75,33 @@ function Home({ onDiagnoseComplete }) {
                     <>
                         <h2 className="question-title">回答内容の確認</h2>
                         <div className="summary-container">
-                            {diagnosticQuestions.map((q) => (
+                            {questions.map((q) => (
                                 <div key={q.id} className="summary-item">
                                     <p className="summary-question">
-                                        {q.question}
+                                        {q.title}
                                     </p>
                                     <p className="summary-answer">
-                                        {answers[q.id]}
+                                        {(q.query_items || q.queryItems).find(
+                                            (i) => i.id === answers[q.id],
+                                        )?.title || "未回答"}
                                     </p>
                                 </div>
                             ))}
                         </div>
                         <button
-                            className={`option-item confirm-btn ${isAllAnswered ? "active" : ""}`}
+                            className={`option-item confirm-btn active ${isWarning ? "warning" : ""}`}
                             onClick={() =>
-                                isAllAnswered && onDiagnoseComplete(answers)
+                                isWarning
+                                    ? handleComplete()
+                                    : setIsWarning(true)
                             }>
-                            <span className="option-text">診断結果を見る</span>
+                            <span className="option-text">
+                                {isWarning
+                                    ? "本当に診断を実行しますか？"
+                                    : isLoading
+                                      ? "検索中..."
+                                      : "診断結果を見る"}
+                            </span>
                         </button>
                         <button className="back-button" onClick={handleBack}>
                             ← 修正する
@@ -70,15 +109,8 @@ function Home({ onDiagnoseComplete }) {
                     </>
                 ) : (
                     <>
-                        {currentStep > 0 && (
-                            <button
-                                className="back-button"
-                                onClick={handleBack}>
-                                ← 戻る
-                            </button>
-                        )}
                         <div className="progress-container">
-                            {diagnosticQuestions.map((q, index) => (
+                            {questions.map((q, index) => (
                                 <button
                                     key={q.id}
                                     className={`progress-segment ${index === currentStep ? "active" : ""} ${answers[q.id] ? "completed" : ""}`}
@@ -87,24 +119,38 @@ function Home({ onDiagnoseComplete }) {
                             ))}
                         </div>
                         <div className="question-meta">
-                            質問 {currentStep + 1} /{" "}
-                            {diagnosticQuestions.length}
+                            質問 {currentStep + 1} / {questions.length}
                         </div>
                         <h2 className="question-title">
-                            {currentQuestion.question}
+                            {currentQuestion.title}
                         </h2>
                         <div className="options-group">
-                            {currentQuestion.options.map((option, index) => (
+                            {(
+                                currentQuestion.query_items ||
+                                currentQuestion.queryItems
+                            ).map((item) => (
                                 <button
-                                    key={index}
-                                    className={`option-item ${answers[currentQuestion.id] === option ? "selected" : ""}`}
-                                    onClick={() => handleOptionSelect(option)}>
+                                    key={item.id}
+                                    className={`option-item ${answers[currentQuestion.id] === item.id ? "selected" : ""}`}
+                                    onClick={() =>
+                                        handleOptionClick(
+                                            currentQuestion.id,
+                                            item.id,
+                                        )
+                                    }>
                                     <span className="option-text">
-                                        {option}
+                                        {item.title}
                                     </span>
                                 </button>
                             ))}
                         </div>
+                        {currentStep > 0 && (
+                            <button
+                                className="back-button-bottom"
+                                onClick={handleBack}>
+                                ← 前に戻る
+                            </button>
+                        )}
                     </>
                 )}
             </div>
