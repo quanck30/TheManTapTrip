@@ -37,7 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // 質問一覧と選択肢をJSONで返します。
     Route::get('/v1/questions/login', [QuestionController::class, 'loginedIndex']);
 });
-    Route::get('/v1/questions/guest', [QuestionController::class, 'index']);
+Route::get('/v1/questions/guest', [QuestionController::class, 'index']);
 
 
 //お気に入り場所を保存
