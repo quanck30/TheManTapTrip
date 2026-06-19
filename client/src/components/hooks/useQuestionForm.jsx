@@ -74,8 +74,8 @@ export const useQuestionForm = (onSearchComplete) => {
             const token = localStorage.getItem("authToken");
 
             if (token) {
-                const savePromises = Object.entries(answers).map(([qId, iId]) =>
-                    saveAnswers(Number(qId), Number(iId)),
+                const savePromises = Object.entries(answers).map(
+                    ([qId, itemId]) => saveAnswers(Number(qId), Number(itemId)),
                 );
                 await Promise.all(savePromises);
             }
@@ -87,11 +87,10 @@ export const useQuestionForm = (onSearchComplete) => {
                 const userAnswerId = answers[qId];
                 const targetQuestion = questions.find((q) => q.id === qId);
 
-                const items =
-                    targetQuestion?.query_items ||
-                    targetQuestion?.queryItems ||
-                    [];
-                const selectedItem = items.find((i) => i.id === userAnswerId);
+                const items = targetQuestion?.queryItems || [];
+                const selectedItem = items.find(
+                    (i) => i.itemId === userAnswerId,
+                );
                 const mappedItemId = selectedItem
                     ? Number(selectedItem.itemId)
                     : null;

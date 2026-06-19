@@ -130,12 +130,12 @@ function Home({ onDiagnoseComplete }) {
                                 currentQuestion.queryItems
                             ).map((item) => (
                                 <button
-                                    key={item.id}
-                                    className={`option-item ${answers[currentQuestion.id] === item.id ? "selected" : ""}`}
+                                    key={item.itemId}
+                                    className={`option-item ${answers[currentQuestion.id] === item.itemId ? "selected" : ""}`}
                                     onClick={() =>
                                         handleOptionClick(
                                             currentQuestion.id,
-                                            item.id,
+                                            item.itemId,
                                         )
                                     }>
                                     <span className="option-text">
