@@ -1,59 +1,54 @@
-/**
- * @brief
- * @Author
- * @Date 26/05/26
- * @Update
- */
-
-/**
- * スポット情報をカード形式で表示するコンポーネント
- * @param {Object} spot - 表示対象のスポットデータ
- * @param {Function} onCardClick - カード全体がクリックされた時の遷移処理
- */
 import React from "react";
-// import { Toaster, toast } from "react-hot-toast";
-import IconButton from "../buttons/IconButton";
-import "../../Styles/card.css";
+import noImage from "../../assets/no_image.jpg";
 
-function CardDisplay({ spot, onCardClick }) {
-    if (!spot) return null;
-
-    const title = spot.displayName?.text || "名称不明";
-    const description = spot.editorialSummary?.text || "説明はありません。";
-    const rating = spot.rating ? `⭐️ ${spot.rating}` : "評価なし";
-    const primaryTag = spot.types && spot.types[0] ? spot.types[0] : "スポット";
-    const imageUrl =
-        spot.photos && spot.photos[0]?.flagUrl
-            ? spot.photos[0].flagUrl
-            : "https://via.placeholder.com/150";
-
-    const handleBookmark = (e) => {
-        e.stopPropagation();
-        toast.success(`${title}をお気に入りに保存しました！`, {
-            style: { borderRadius: "10px", background: "#333", color: "#fff" },
-        });
-    };
+// ※コンポーネントのPropsとして places（検索結果の配列）を受け取るようにします
+const CardDisplay = ({ places = [] }) => {
+    // 検索結果が空だった場合の表示
+    if (!places || places.length === 0) {
+        return (
+            <div style={{ textAlign: "center", marginTop: "50px" }}>
+                条件に合う場所が見つかりませんでした。
+            </div>
+        );
+    }
 
     return (
-        <div className="card-display" onClick={onCardClick}>
-            <div className="card-image-wrapper">
-                <img src={imageUrl} className="card-image" alt={title} />
-                <IconButton
-                    icon="❤️"
-                    variant="bookmark"
-                    onClick={handleBookmark}
-                />
-            </div>
-            <div className="card-content">
-                <h3 className="card-title">{title}</h3>
-                <p className="card-description">{description}</p>
-                <div className="card-tags">
-                    <span className="card-tag">{rating}</span>
-                    <span className="card-tag">{primaryTag}</span>
+        <div className="card-display-container">
+            {places.map((place, index) => (
+                <div key={place.spotId || index} className="spot-card">
+                    {/* 画像がない場合は noImage を表示する */}
+                    <img
+                        src={
+                            place.photoReference
+                                ? `https://places.googleapis.com/v1/${place.photoReference}/media?key=あなたのAPIキー&maxHeightPx=400&maxWidthPx=400`
+                                : noImage
+                        }
+                        alt={place.sName}
+                        className="spot-image"
+                    />
+                    <div className="spot-info">
+                        <h3>{place.sName}</h3>
+                        <p className="rating">
+                            評価:{" "}
+                            {place.rating ? `⭐ ${place.rating}` : "評価なし"}
+                        </p>
+                        <p className="summary">{place.summary}</p>
+                        <p className="address">{place.address}</p>
+                        {/* ルート案内ボタン */}
+                        {place.directionUrl && (
+                            <a
+                                href={place.directionUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="route-btn">
+                                ルートを見る
+                            </a>
+                        )}
+                    </div>
                 </div>
-            </div>
+            ))}
         </div>
     );
-}
+};
 
 export default CardDisplay;

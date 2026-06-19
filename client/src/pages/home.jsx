@@ -32,6 +32,8 @@ function Home({ onDiagnoseComplete }) {
         return <div className="home-container">読み込み中...</div>;
 
     const currentQuestion = questions[currentStep];
+    console.log(currentQuestion);
+
     const isAllAnswered = questions.every((q) => answers[q.id]);
 
     const handleOptionClick = (qId, itemId) => {
@@ -81,8 +83,8 @@ function Home({ onDiagnoseComplete }) {
                                         {q.title}
                                     </p>
                                     <p className="summary-answer">
-                                        {(q.query_items || q.queryItems).find(
-                                            (i) => i.id === answers[q.id],
+                                        {q.queryItems.find(
+                                            (i) => i.itemId === answers[q.id],
                                         )?.title || "未回答"}
                                     </p>
                                 </div>
@@ -125,17 +127,15 @@ function Home({ onDiagnoseComplete }) {
                             {currentQuestion.title}
                         </h2>
                         <div className="options-group">
-                            {(
-                                currentQuestion.query_items ||
-                                currentQuestion.queryItems
-                            ).map((item) => (
+                            {currentQuestion.queryItems.map((item) => (
                                 <button
-                                    key={item.id}
-                                    className={`option-item ${answers[currentQuestion.id] === item.id ? "selected" : ""}`}
+                                    id={item.itemId}
+                                    key={item.itemId}
+                                    className={`option-item ${answers[currentQuestion.id] === item.itemId ? "selected" : ""}`}
                                     onClick={() =>
                                         handleOptionClick(
                                             currentQuestion.id,
-                                            item.id,
+                                            item.itemId,
                                         )
                                     }>
                                     <span className="option-text">

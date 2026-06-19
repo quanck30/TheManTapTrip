@@ -85,21 +85,27 @@ export const useQuestionForm = (onSearchComplete) => {
             for (const [qIdStr, config] of Object.entries(queConf)) {
                 const qId = Number(qIdStr);
                 const userAnswerId = answers[qId];
-                const targetQuestion = questions.find((q) => q.id === qId);
+                const targetQuestion = questions.find(
+                    (q) => String(q.id) === String(qId),
+                );
 
-                const items =
-                    targetQuestion?.query_items ||
-                    targetQuestion?.queryItems ||
-                    [];
-                const selectedItem = items.find((i) => i.id === userAnswerId);
+                const items = targetQuestion?.queryItems || [];
+                const selectedItem = items.find(
+                    (i) => String(i.itemId) === String(userAnswerId),
+                );
                 const mappedItemId = selectedItem
                     ? Number(selectedItem.itemId)
                     : null;
+
+                console.log(
+                    `Q${qId} | 主キー:${userAnswerId} | 変換用ID:${mappedItemId} | 変換後:${config.values[mappedItemId]}`,
+                );
 
                 formattedAnswers[config.apiKey] =
                     config.values[mappedItemId] ?? config.default;
             }
 
+            console.log("2. 変換後の formattedAnswers:", formattedAnswers);
             const finalRadius = radius
                 ? Number(radius)
                 : defaultRadMap[formattedAnswers.travelMode] || 1000;
@@ -112,6 +118,8 @@ export const useQuestionForm = (onSearchComplete) => {
                     : { latitude: location?.lat, longitude: location?.lng }),
             };
             console.log(searchData);
+
+            console.log("🚀 APIへ送信する検索データ:", searchData);
 
             const results = await searchPlaces(searchData);
 
