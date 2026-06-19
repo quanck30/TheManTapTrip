@@ -85,9 +85,19 @@ export const useQuestionForm = (onSearchComplete) => {
             for (const [qIdStr, config] of Object.entries(queConf)) {
                 const qId = Number(qIdStr);
                 const userAnswerId = answers[qId];
+                const targetQuestion = questions.find((q) => q.id === qId);
+
+                const items =
+                    targetQuestion?.query_items ||
+                    targetQuestion?.queryItems ||
+                    [];
+                const selectedItem = items.find((i) => i.id === userAnswerId);
+                const mappedItemId = selectedItem
+                    ? Number(selectedItem.itemId)
+                    : null;
 
                 formattedAnswers[config.apiKey] =
-                    config.values[userAnswerId] ?? config.default;
+                    config.values[mappedItemId] ?? config.default;
             }
 
             const finalRadius = radius
