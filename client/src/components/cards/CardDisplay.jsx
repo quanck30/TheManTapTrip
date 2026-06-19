@@ -1,9 +1,23 @@
-import React from 'react';
-import { toast } from "react-hot-toast";
-import IconButton from '../buttons/IconButton'
-import '../../Styles/card.css'
+/**
+ * @brief
+ * @Author
+ * @Date 26/05/26
+ * @Update
+ */
 
-function CardDisplay({ spot, onCardClick, matchScore }) {
+/**
+ * スポット情報をカード形式で表示するコンポーネント
+ * @param {Object} spot - 表示対象のスポットデータ
+ * @param {Function} onCardClick - カード全体がクリックされた時の遷移処理
+ */
+import React from "react";
+import IconButton from "../buttons/IconButton";
+import "../../Styles/card.css";
+import { useAuth } from "../../context/AuthContext";
+
+function CardDisplay({ spot, onCardClick }) {
+  const { isAuthenticated } = useAuth();
+
   if (!spot) return null;
 
   const title = spot.displayName?.text || "名称不明";
@@ -24,7 +38,8 @@ function CardDisplay({ spot, onCardClick, matchScore }) {
       <div className="card-image-wrapper">
         <img src={imageUrl} className="card-image" alt={title} />
         {matchScore && <div className="match-badge">マッチ度: {matchScore}%</div>}
-        <IconButton icon="❤️" variant="bookmark" onClick={handleBookmark} />
+     
+        {isAuthenticated && <IconButton icon="❤️" variant="bookmark" onClick={handleBookmark} />}
       </div>
       
       <div className="card-content">
@@ -40,8 +55,3 @@ function CardDisplay({ spot, onCardClick, matchScore }) {
 }
 
 export default CardDisplay;
-
-
-
-
-'../../Styles/card.css'

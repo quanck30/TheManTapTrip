@@ -1,10 +1,21 @@
-html, body { overflow: hidden; height: 100%; }
-.home-container {
-  padding: 20px; min-height: 100vh; background-color: #f7fafc;
-  display: flex; justify-content: center; overflow-y: scroll;
-  scrollbar-width: none; -ms-overflow-style: none;
+html,
+body {
+    overflow: hidden;
+    height: 100%;
 }
-.home-container::-webkit-scrollbar { display: none !important; }
+.home-container {
+    padding: 20px;
+    min-height: 100vh;
+    background-color: #f7fafc;
+    display: flex;
+    justify-content: center;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.home-container::-webkit-scrollbar {
+    display: none !important;
+}
 
 .diagnostic-card {
   width: 100%; max-width: 500px;
@@ -24,11 +35,51 @@ html, body { overflow: hidden; height: 100%; }
 .question-meta { font-size: 12px; color: #718096; }
 .question-title { font-size: 20px; color: #2d3748; margin: 0; }
 
-.options-group { display: flex; flex-direction: column; gap: 12px; }
+.progress-container {
+    width: 100%;
+    height: 6px;
+    display: flex;
+    gap: 4px;
+}
+.progress-segment {
+    flex: 1;
+    height: 100%;
+    background: #e2e8f0;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.progress-segment.active {
+    background: #3b82f6;
+}
+.progress-segment.completed {
+    background: #2b6cb0;
+}
+
+.question-meta {
+    font-size: 12px;
+    color: #718096;
+}
+.question-title {
+    font-size: 20px;
+    color: #2d3748;
+}
+
+.options-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
 .option-item {
-  display: flex; justify-content: space-between; align-items: center;
-  width: 100%; padding: 16px 20px; border: 1px solid #e2e8f0;
-  border-radius: 12px; background: #ffffff; cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 16px 20px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #ffffff;
+    cursor: pointer;
 }
 .option-item.selected { background: #ebf8ff; border: 2px solid #3b82f6; }
 .option-text { color: #2d3748 !important; font-size: 14px; font-weight: 500; }
