@@ -1,6 +1,6 @@
 import React from 'react';
 import TempButton from '../components/buttons/TempButton';
-import '../Styles/Welcome.css'; // 通常のCSSファイルをインポート
+import '../Styles/welcome.css'; // 通常のCSSファイルをインポート
 
 import logoImage from '../assets/Taptrip.png';
 

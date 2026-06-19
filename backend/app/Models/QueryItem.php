@@ -10,8 +10,10 @@ class QueryItem extends Model
 {
     protected $fillable = [
         'questionId',
+        'itemId',
         'title',
         'searchType',
+
     ];
 
     /**
@@ -19,7 +21,7 @@ class QueryItem extends Model
      */
     public function question(): BelongsTo
     {
-        return $this->belongsTo(Question::class);
+        return $this->belongsTo(Question::class, 'questionId');
     }
 
     /**

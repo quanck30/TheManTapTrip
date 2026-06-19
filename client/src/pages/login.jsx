@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import '../Styles/login.css'; 
 import TempButton from '../components/buttons/TempButton';
 import GoogleLoginButton from '../components/buttons/GoogleLoginButton';
@@ -76,7 +76,7 @@ function Login({ onLoginSuccess, onBackToWelcome, onNavigateToRegister }) {
       </form>
 
       <div className="google-btn-wrapper" style={{ marginTop: '20px' }}>
-        <GoogleLoginButton />
+        <GoogleLoginButton onLoginSuccess={onLoginSuccess} />
       </div>
 
       <div className="login-footer">

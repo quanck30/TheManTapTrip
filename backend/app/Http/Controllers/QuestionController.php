@@ -24,37 +24,65 @@ class QuestionController extends Controller
             $question->choice = null;
         }
 
-            // このユーザーの回答を取得
-            $choices = Choice::where('userId', Auth::id())->get();
+        // このユーザーの回答を取得
+        $choices = Choice::where('userId', Auth::id())->get();
 
-            foreach ($questions as $question) {
+        foreach ($questions as $question) {
 
-                // この質問に対する回答を探す
-                $choice = $choices->where('questionId', $question->id)->first();
+            // この質問に対する回答を探す
+            $choice = $choices->where('questionId', $question->id)->first();
 
-                // 回答済みなら queryItemId、未回答なら null　にする
-                $question->choice = $choice ? $choice->queryItemId : null;
-            }
-
+            // 回答済みなら queryItemId、未回答なら null　にする
+            $question->choice = $choice ? $choice->queryItemId : null;
+        }
+        $questionResult = [];
+        foreach ($questions as $question) {
+            $questionResult[] = [
+                'id' => $question->id,
+                'title' => $question->title,
+                'queryItems' => $question->queryItems->map(function ($queryItem) {
+                    return [
+                        'itemId' => $queryItem->itemId,
+                        'title' => $queryItem->title,
+                        'searchType' => $queryItem->searchType,
+                    ];
+                }),
+                'choice' => $question->choice, // 回答済みなら queryItemId、未回答なら null
+            ];
+        }
 
         return ApiResponse::success([
             'userId' => Auth::id(),
-            'questions' => $questions,
+            'questions' => $questionResult,
         ]);
     }
-    public function index(){
+    public function index()
+    {
 
-            //質問内容と選択肢を取得する
+        //質問内容と選択肢を取得する
         $questions = Question::with('queryItems')->get();
 
-        // // 全て null にする　
+        // 全て null にする　
         foreach ($questions as $question) {
             $question->choice = null;
         }
-
-         return ApiResponse::success([
-            'questions' => $questions,
+        $questionResult = [];
+        foreach ($questions as $question) {
+            $questionResult[] = [
+                'id' => $question->id,
+                'title' => $question->title,
+                'queryItems' => $question->queryItems->map(function ($queryItem) {
+                    return [
+                        'itemId' => $queryItem->itemId,
+                        'title' => $queryItem->title,
+                        'searchType' => $queryItem->searchType,
+                    ];
+                }),
+                'choice' => null, // ゲストユーザーは全て null
+            ];
+        }
+        return ApiResponse::success([
+            'questions' => $questionResult,
         ]);
-
     }
 }
