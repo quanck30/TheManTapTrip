@@ -157,5 +157,4 @@ function Home({ onDiagnoseComplete }) {
         </div>
     );
 }
-
 export default Home;

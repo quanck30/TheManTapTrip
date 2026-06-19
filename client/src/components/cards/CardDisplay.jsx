@@ -23,13 +23,13 @@ function CardDisplay({ spot, onCardClick }) {
   const title = spot.displayName?.text || "名称不明";
   const description = spot.editorialSummary?.text || "説明はありません。";
   const rating = spot.rating ? `⭐️ ${spot.rating}` : "評価なし";
-  const primaryTag = spot.types && spot.types[0] ? spot.types[0] : "スポット";
-  const imageUrl = spot.photos && spot.photos[0]?.flagUrl ? spot.photos[0].flagUrl : "https://via.placeholder.com/150";
+  const primaryTag = spot.types?.[0] || "スポット";
+  const imageUrl = spot.photos?.[0]?.flagUrl || "https://via.placeholder.com/150";
 
   const handleBookmark = (e) => {
     e.stopPropagation();
     toast.success(`${title}をお気に入りに保存しました！`, {
-      style: { borderRadius: "10px", background: "#333", color: "#fff" },
+      className: 'toast-bookmark'
     });
   };
 
@@ -37,8 +37,11 @@ function CardDisplay({ spot, onCardClick }) {
     <div className="card-display" onClick={onCardClick}>
       <div className="card-image-wrapper">
         <img src={imageUrl} className="card-image" alt={title} />
+        {matchScore && <div className="match-badge">マッチ度: {matchScore}%</div>}
+     
         {isAuthenticated && <IconButton icon="❤️" variant="bookmark" onClick={handleBookmark} />}
       </div>
+      
       <div className="card-content">
         <h3 className="card-title">{title}</h3>
         <p className="card-description">{description}</p>
