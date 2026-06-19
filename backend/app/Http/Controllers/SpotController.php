@@ -86,7 +86,7 @@ class SpotController extends Controller
             );
         } catch (Exception $e) {
             return ApiResponse::error(
-                $e->getMessage(),
+                'お気に入り登録失敗しました',
                 500,
 
             );
