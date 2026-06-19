@@ -43,14 +43,37 @@ class SpotController extends Controller
     {
         try {
             $spot = Spot::create([
-                // ログインユーザーのIDを保存
-                'userId' => Auth::id(),
+                 // ログインユーザーID
+            'userId' => Auth::id(),
 
-                'spotId' => $request->spotId    ,
-                'address' => $request->address,
+            // スポット情報
+            'sName' => $request->sName,
+            'spotId' => $request->spotId,
+            'address' => $request->address,
 
-                // 初回登録時は未訪問
-                'isVisited' => false,
+            // 緯度経度
+            'lat' => $request->lat,
+            'long' => $request->long,
+
+            // 評価
+            'rating' => $request->rating,
+
+            // 価格帯
+            'price' => $request->price,
+
+            // 駐車場有無
+            'hasParking' => $request->hasParking ?? false,
+
+            // 説明
+            'summary' => $request->summary,
+
+            // 写真リファレンス
+            'photoReference' => $request->photoReference,
+
+            // ルート案内URL
+            'directionUrl' => $request->directionUrl,
+
+
             ]);
 
             return ApiResponse::success(

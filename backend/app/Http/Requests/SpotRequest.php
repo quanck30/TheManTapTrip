@@ -28,28 +28,25 @@ class SpotRequest extends FormRequest
             //
 
             // PlacesAPIのスポットID
-            'spotId' => ['required', 'integer'],
+            'spotId' => ['required', 'string'],
 
             // 住所
             'address' => ['required', 'string', 'max:255'],
-
-            // 訪問済みフラグ
-            'isVisited' => ['required', 'boolean'],
 
             // スポット名
             'sName' => ['nullable', 'string'],
 
             // 緯度
-            'lat' => ['nullable', 'integer'],
+            'lat' => ['nullable', 'numeric'],
 
             // 経度
-            'long' => ['nullable', 'integer'],
+            'long' => ['nullable', 'numeric'],
 
             // 評価点
-            'rating' => ['nullable', 'integer'],
+            'rating' => ['nullable', 'numeric'],
 
             // 価格帯
-            'price' => ['nullable', 'integer'],
+            'price' => ['nullable', 'max:25'],
 
             // 駐車場有無
             'hasParking' => ['nullable', 'boolean'],
@@ -88,13 +85,13 @@ class SpotRequest extends FormRequest
             'sName.string' => 'スポット名は文字列で入力してください',
 
             // 緯度
-            'lat.integer' => '緯度は整数で入力してください',
+            'lat.decimal' => '緯度は整数で入力してください',
 
             // 経度
-            'long.integer' => '経度は整数で入力してください',
+            'long.decimal' => '経度は整数で入力してください',
 
             // 評価点
-            'rating.integer' => '評価点は整数で入力してください',
+            'rating.decimal' => '評価点は整数で入力してください',
 
             // 価格帯
             'price.integer' => '価格帯は整数で入力してください',
