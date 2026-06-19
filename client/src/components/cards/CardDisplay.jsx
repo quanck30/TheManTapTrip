@@ -20,7 +20,7 @@ const CardDisplay = ({ places = [] }) => {
                     <img
                         src={
                             place.photoReference
-                                ? `https://places.googleapis.com/v1/${place.photoReference}/media?key=あなたのAPIキー&maxHeightPx=400&maxWidthPx=400`
+                                ? `https://places.googleapis.com/v1/${place.photoReference}/media?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&maxHeightPx=400&maxWidthPx=400`
                                 : noImage
                         }
                         alt={place.sName}
