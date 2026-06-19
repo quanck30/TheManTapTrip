@@ -1,0 +1,35 @@
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.icon-btn:active {
+  transform: scale(0.95);
+}
+
+.icon-content {
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* 個別のバリエーション配置 */
+.icon-btn-back {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+}
+
+.icon-btn-bookmark {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}

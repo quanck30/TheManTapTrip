@@ -19,6 +19,6 @@ class UserAuth extends Model
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class,'userId');
+        return $this->belongsTo(User::class, 'userId');
     }
 }
