@@ -32,7 +32,6 @@ function Home({ onDiagnoseComplete }) {
         return <div className="home-container">読み込み中...</div>;
 
     const currentQuestion = questions[currentStep];
-    console.log(currentQuestion);
 
     const isAllAnswered = questions.every((q) => answers[q.id]);
 
@@ -131,7 +130,7 @@ function Home({ onDiagnoseComplete }) {
                                 <button
                                     id={item.itemId}
                                     key={item.itemId}
-                                    className={`option-item ${answers[currentQuestion.id] === item.itemId ? "selected" : ""}`}
+                                    className={`option-item ${String(answers[currentQuestion.id]) === String(item.itemId) ? "selected" : ""}`}
                                     onClick={() =>
                                         handleOptionClick(
                                             currentQuestion.id,

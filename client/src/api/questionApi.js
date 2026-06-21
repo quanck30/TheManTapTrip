@@ -57,6 +57,9 @@ export const saveAnswers = async (questionId, queryItemId) => {
         body: JSON.stringify({ questionId, queryItemId }),
     });
 
-    if (!response.ok) throw new Error("回答の保存に失敗しました");
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(`回答の保存に失敗しました: ${error.message}`);
+    }
     return await response.json();
 };

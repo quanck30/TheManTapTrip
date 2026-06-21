@@ -1,10 +1,13 @@
 import React from "react";
 import noImage from "../../assets/no_image.jpg";
 
-// ※コンポーネントのPropsとして places（検索結果の配列）を受け取るようにします
 const CardDisplay = ({ places = [] }) => {
+    const displayPlaces = Array.isArray(places)
+        ? places
+        : places?.data || places?.places || [];
+
     // 検索結果が空だった場合の表示
-    if (!places || places.length === 0) {
+    if (!displayPlaces || displayPlaces.length === 0) {
         return (
             <div style={{ textAlign: "center", marginTop: "50px" }}>
                 条件に合う場所が見つかりませんでした。
@@ -14,7 +17,7 @@ const CardDisplay = ({ places = [] }) => {
 
     return (
         <div className="card-display-container">
-            {places.map((place, index) => (
+            {displayPlaces.map((place, index) => (
                 <div key={place.spotId || index} className="spot-card">
                     {/* 画像がない場合は noImage を表示する */}
                     <img

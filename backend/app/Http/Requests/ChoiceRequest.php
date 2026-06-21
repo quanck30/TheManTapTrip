@@ -35,7 +35,7 @@ class ChoiceRequest extends FormRequest
             'questionId' => ['required', 'integer', 'exists:questions,id'],
             'queryItemId' => [
                 'required',
-                Rule::exists('query_items', 'itemIde')
+                Rule::exists('query_items', 'itemId')
                     ->where('questionId', $this->integer('questionId')),
             ],
         ];
