@@ -1,17 +1,27 @@
-import React from "react";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import CardDisplay from "../components/cards/CardDisplay";
 
 const RecommendRoute = () => {
     const location = useLocation();
+    const places =
+        location.state?.places ||
+        JSON.parse(sessionStorage.getItem("recommendPlaces") || "[]");
 
-    // 💡 HomeRouteから渡されたデータを受け取る（無ければ空配列）
-    const places = location.state?.places || [];
+    useEffect(() => {
+        if (location.state?.places) {
+            sessionStorage.setItem(
+                "recommendPlaces",
+                JSON.stringify(location.state.places),
+            );
+        }
+    }, [location.state]);
 
     return (
-        <div className="recommend-page">
-            <h2>あなたへのおすすめ</h2>
-            {/* CardDisplay に配列データを渡す！ */}
+        <div>
+            <h2 className="recommend-title" style={{ padding: "0 20px" }}>
+                おすすめスポット
+            </h2>
             <CardDisplay places={places} />
         </div>
     );
