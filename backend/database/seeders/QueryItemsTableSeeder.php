@@ -80,19 +80,25 @@ class QueryItemsTableSeeder extends Seeder
                 [
                     'questionId' => 4,
                     'itemId' => 2,
-                    'title' => '博物館',
+                    'title' => '遊び',
                     'searchType' => ''
                 ],
                 [
                     'questionId' => 4,
                     'itemId' => 3,
-                    'title' => 'レジャー',
+                    'title' => '観光',
                     'searchType' => ''
                 ],
                 [
                     'questionId' => 4,
                     'itemId' => 4,
-                    'title' => '観光',
+                    'title' => '買い物',
+                    'searchType' => ''
+                ],
+                [
+                    'questionId' => 4,
+                    'itemId' => 5,
+                    'title' => 'リラックス',
                     'searchType' => ''
                 ],
                 [
@@ -104,19 +110,19 @@ class QueryItemsTableSeeder extends Seeder
                 [
                     'questionId' => 5,
                     'itemId' => 2,
-                    'title' => '松（円）',
+                    'title' => '~ 1000（円）',
                     'searchType' => ''
                 ],
                 [
                     'questionId' => 5,
                     'itemId' => 3,
-                    'title' => '竹（円）',
+                    'title' => '1000 ~ 4000（円）',
                     'searchType' => ''
                 ],
                 [
                     'questionId' => 5,
                     'itemId' => 4,
-                    'title' => '梅（円）',
+                    'title' => '4000~（円）',
                     'searchType' => ''
                 ],
 
