@@ -72,12 +72,29 @@ export const useQuestionForm = (onSearchComplete) => {
         setIsLoading(true);
         try {
             const token = localStorage.getItem("authToken");
+            console.log(token && token !== "guest" && token !== "null");
 
-            if (token) {
-                const savePromises = Object.entries(answers).map(([qId, iId]) =>
-                    saveAnswers(Number(qId), Number(iId)),
-                );
-                await Promise.all(savePromises);
+            if (token && token !== "guest" && token !== "null") {
+                try {
+                    const savePromises = Object.entries(answers).map(
+                        ([qId, iId]) => saveAnswers(Number(qId), Number(iId)),
+                    );
+                    await Promise.all(savePromises);
+                } catch (saveErr) {
+                    // 保存に失敗しても、検索処理を止めないようにここでエラーを吸収する
+                    console.warn(
+                        "⚠️ 回答の保存に失敗しましたが、検索を続行します:",
+                        saveErr,
+                    );
+
+                    // 401エラー（認証切れ）だった場合は、古いトークンを消去してログアウト状態にする
+                    if (
+                        saveErr.message.includes("Unauthenticated") ||
+                        saveErr.message.includes("401")
+                    ) {
+                        localStorage.removeItem("authToken");
+                    }
+                }
             }
 
             const formattedAnswers = {};
@@ -85,13 +102,14 @@ export const useQuestionForm = (onSearchComplete) => {
             for (const [qIdStr, config] of Object.entries(queConf)) {
                 const qId = Number(qIdStr);
                 const userAnswerId = answers[qId];
-                const targetQuestion = questions.find((q) => q.id === qId);
+                const targetQuestion = questions.find(
+                    (q) => String(q.id) === String(qId),
+                );
 
-                const items =
-                    targetQuestion?.query_items ||
-                    targetQuestion?.queryItems ||
-                    [];
-                const selectedItem = items.find((i) => i.id === userAnswerId);
+                const items = targetQuestion?.queryItems || [];
+                const selectedItem = items.find(
+                    (i) => String(i.itemId) === String(userAnswerId),
+                );
                 const mappedItemId = selectedItem
                     ? Number(selectedItem.itemId)
                     : null;

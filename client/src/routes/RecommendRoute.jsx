@@ -1,26 +1,20 @@
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { useLocation } from "react-router-dom";
 import CardDisplay from "../components/cards/CardDisplay";
-import { mockSpots } from "../Data/questions";
 
-export default function RecommendRoute() {
-  const navigate = useNavigate();
+const RecommendRoute = () => {
+    const location = useLocation();
 
-  return (
-    <div>
-      <h2 className="recommend-title">おススメスポット</h2>
-      <div className="spot-list">
-        {mockSpots.map((spot) => (
-          <CardDisplay
-            key={spot.id}
-            spot={spot}
-            onCardClick={() => {
-              navigate(`/detail/${spot.id}`, {
-                state: { spot, from: "/recommend" },
-              });
-            }}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
+    // 💡 HomeRouteから渡されたデータを受け取る（無ければ空配列）
+    const places = location.state?.places || [];
+
+    return (
+        <div className="recommend-page">
+            <h2>あなたへのおすすめ</h2>
+            {/* CardDisplay に配列データを渡す！ */}
+            <CardDisplay places={places} />
+        </div>
+    );
+};
+
+export default RecommendRoute;
