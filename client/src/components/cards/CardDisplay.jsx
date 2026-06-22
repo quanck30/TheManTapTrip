@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import noImage from "../../assets/no_image.jpg";
 import IconButton from "../buttons/IconButton";
 import { useAuth } from "../../context/AuthContext";
+import "../../Styles/card.css";
 
 const CardDisplay = ({ places = [] }) => {
     const navigate = useNavigate();

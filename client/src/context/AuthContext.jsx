@@ -5,6 +5,11 @@ const USER_STORAGE_KEY = "authUser";
 
 const AuthContext = createContext(null);
 
+function removeDiagItems() {
+  localStorage.removeItem("diag_step");
+  localStorage.removeItem("diag_answers");
+  localStorage.removeItem("diag_isConfirming");
+}
 const getStoredUser = () => {
   const storedUser = localStorage.getItem(USER_STORAGE_KEY);
 
@@ -21,19 +26,14 @@ const getStoredUser = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(() =>
-    localStorage.getItem(TOKEN_STORAGE_KEY),
-  );
+  const [token, setToken] = useState(() => localStorage.getItem(TOKEN_STORAGE_KEY));
   const [user, setUser] = useState(getStoredUser);
 
   const setAuthenticatedUser = (authenticatedUser) => {
     setUser(authenticatedUser);
 
     if (authenticatedUser) {
-      localStorage.setItem(
-        USER_STORAGE_KEY,
-        JSON.stringify(authenticatedUser),
-      );
+      localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(authenticatedUser));
     } else {
       localStorage.removeItem(USER_STORAGE_KEY);
     }
@@ -58,6 +58,7 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     localStorage.removeItem(TOKEN_STORAGE_KEY);
     localStorage.removeItem(USER_STORAGE_KEY);
+    removeDiagItems();
   };
 
   return (

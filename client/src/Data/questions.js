@@ -1,64 +1,83 @@
-// Canvaの設計図に基づいた診断質問データ
+/**
+ * 診断質問データ
+ * 質問ID、質問文、および選択肢(queryItems)を定義
+ */
 export const diagnosticQuestions = [
   {
-    id: 1,
-    question: "子供と一緒に行きますか？",
-    options: ["はい、子連れです", "いいえ、大人だけです"]
+    id: "q1",
+    title: "子供と一緒に行きますか？",
+    queryItems: [
+      { id: "i1-1", title: "はい、子連れです" },
+      { id: "i1-2", title: "いいえ、大人だけです" }
+    ]
   },
   {
-    id: 2,
-    question: "移動手段は何にしますか？",
-    options: ["徒歩・自転車", "車・バイク", "公共交通機関"]
+    id: "q2",
+    title: "移動手段は何にしますか？",
+    queryItems: [
+      { id: "i2-1", title: "徒歩・自転車" },
+      { id: "i2-2", title: "車・バイク" },
+      { id: "i2-3", title: "公共交通機関" }
+    ]
   },
   {
-    id: 3,
-    question: "屋内と屋外はどちらがいいですか？",
-    options: ["屋内施設", "屋外・自然", "どっちでもいい"]
+    id: "q3",
+    title: "屋内と屋外はどちらがいいですか？",
+    queryItems: [
+      { id: "i3-1", title: "屋内施設" },
+      { id: "i3-2", title: "屋外・自然" },
+      { id: "i3-3", title: "どっちでもいい" }
+    ]
   },
   {
-    id: 4,
-    question: "目的地で何をしたいですか？",
-    options: ["食事・カフェ", "博物館・カルチャー", "レジャー・軽い散歩・観光"]
+    id: "q4",
+    title: "目的地で何をしたいですか？",
+    queryItems: [
+      { id: "i4-1", title: "食事・カフェ" },
+      { id: "i4-2", title: "博物館・カルチャー" },
+      { id: "i4-3", title: "レジャー・軽い散歩・観光" }
+    ]
   },
   {
-    id: 5,
-    question: "予算はいくらですか？",
-    options: ["無料・格安", "松（〜1,000円）", "竹（〜3,000円）", "梅（3,000円〜）"]
+    id: "q5",
+    title: "予算はいくらですか？",
+    queryItems: [
+      { id: "i5-1", title: "無料・格安" },
+      { id: "i5-2", title: "松（〜1,000円）" },
+      { id: "i5-3", title: "竹（〜3,000円）" },
+      { id: "i5-4", title: "梅（3,000円〜）" }
+    ]
   }
 ];
 
-// Figmaのデザインに基づいた最新のスポットデータ
+
+
+
+
+/**
+ * 検索結果・スポット表示用データ
+ */
 export const mockSpots = [
   {
     id: "spot-1",
     displayName: { text: "バックダン公園" },
-    formattedAddress: "ホーチミン市 1区 リバーサイド",
-    distance: "1.2 km",
-    priceLevel: "無料",
+    editorialSummary: { text: "リバーサイドの静かな公園。" },
     rating: 4.5,
-    editorialSummary: { text: "週末の散歩やリラックスに最適なリバーサイドの治安の良い公園です。" },
-    photos: [{ name: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600" }],
-    tags: ["徒歩", "リバーサイド", "静か", "フィットスポット"],
-    reasons: ["開放的な屋外スペース", "1〜2時間の滞在に最適", "ショッピングモールより静か"],
-    timeZones: {
-      cool: "夕方の涼しい時間",
-      night: "19:00 以降"
-    }
+    types: ["公園"],
+    photos: [
+      { flagUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600" }
+    ],
+    matchScore: 95
   },
   {
     id: "spot-2",
     displayName: { text: "サイゴン中央郵便局" },
-    formattedAddress: "ホーチミン市 1区",
-    distance: "2.5 km",
-    priceLevel: "観光無料",
+    editorialSummary: { text: "歴史的な建築物。" },
     rating: 4.6,
-    editorialSummary: { text: "フランス植民地時代の美しい建築が残る、歴史的な観光スポット。" },
-    photos: [{ name: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600" }],
-    tags: ["公共交通", "屋内施設", "歴史建築", "観光"],
-    reasons: ["雨の日でも安心な屋内", "写真映えするレトロな空間", "お土産ショップ併設"],
-    timeZones: {
-      cool: "午前中の比較的空いている時間",
-      night: "17:00まで営業"
-    }
+    types: ["歴史建築"],
+    photos: [
+      { flagUrl: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600" }
+    ],
+    matchScore: 82
   }
 ];
