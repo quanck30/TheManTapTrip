@@ -17,7 +17,7 @@ export const authService = {
      */
     googleLogin: async (accessToken) => {
         const response = await fetch(
-            `/api/v1/auth/google`,
+            `api/v1/auth/google`,
             {
                 method: "POST",
                 headers: {

@@ -40,11 +40,11 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/v1/questions/guest', [QuestionController::class, 'index']);
 
 
-//お気に入り場所を保存
-// Route::post('/v1/spots', [SpotController::class, 'store']);
 
+//一覧・お気に入り登録・詳細・削除
 Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('/v1/spots', SpotController::class);
+
+    Route::apiResource('v1/spots', SpotController::class);
 });
 
 // 回答保存API
