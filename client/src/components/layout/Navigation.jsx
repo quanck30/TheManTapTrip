@@ -6,13 +6,14 @@
  */
 
 import React from 'react';
+import { FaHome, FaMagic, FaRegBookmark, FaRegUser } from 'react-icons/fa';
 
 function Navigation({ currentTab, onTabChange }) {
   const tabs = [
-    { id: 'home', label: 'ホーム', icon: '🏠' },
-    { id: 'recommend', label: 'おすすめ', icon: '✨' },
-    { id: 'saved', label: '保存済み', icon: '🔖' },
-    { id: 'profile', label: 'アカウント', icon: '👤' }
+    { id: 'home', label: 'ホーム', Icon: FaHome },
+    { id: 'recommend', label: 'おすすめ', Icon: FaMagic },
+    { id: 'saved', label: '保存済み', Icon: FaRegBookmark },
+    { id: 'profile', label: 'アカウント', Icon: FaRegUser }
   ];
 
   return (
@@ -23,7 +24,7 @@ function Navigation({ currentTab, onTabChange }) {
           className={`nav-item ${currentTab === tab.id ? 'is-active' : ''}`}
           onClick={() => onTabChange(tab.id)}
         >
-          <span className="nav-icon">{tab.icon}</span>
+          <span className="nav-icon"><tab.Icon /></span>
           <span>{tab.label}</span>
         </div>
       ))}

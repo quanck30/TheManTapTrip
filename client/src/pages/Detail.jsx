@@ -1,8 +1,8 @@
 import React from "react";
+import { FaArrowLeft, FaStar, FaYenSign, FaMapMarkerAlt } from "react-icons/fa";
 import TempButton from "../components/buttons/TempButton";
-import "../Styles/detail.css";
+import "../styles/detail.css";
 import noImage from "../assets/no_image.jpg";
-import backArrow from "../assets/back_root.jpg"; // 追加
 
 function Detail({ spot, onBack }) {
     if (!spot) return null;
@@ -33,7 +33,7 @@ function Detail({ spot, onBack }) {
                 {/* 新しい戻るボタンの構成 */}
                 <div className="back-button-wrapper">
                     <button onClick={onBack} className="back-button-arrow">
-                        <img src={backArrow} alt="戻る" />
+                        <FaArrowLeft color="#2d3748" aria-label="戻る" />
                     </button>
                 </div>
             </div>
@@ -44,13 +44,16 @@ function Detail({ spot, onBack }) {
                 <div className="detail-info-box">
                     <div className="detail-meta">
                         <div className="detail-meta-item">
-                            <span>評価⭐</span> {rating}
+                            <span>評価<FaStar color="#f59e0b" style={{ verticalAlign: "middle" }} /></span> {rating}
                         </div>
                         <div className="detail-meta-item">
-                            <span>価格💰</span> {priceLevel}
+                            <span>価格<FaYenSign color="#38a169" style={{ verticalAlign: "middle" }} /></span> {priceLevel}
                         </div>
                     </div>
-                    <p className="detail-address">📍 {address}</p>
+                    <p className="detail-address">
+                        <FaMapMarkerAlt color="#e53e3e" style={{ verticalAlign: "middle", marginRight: 4 }} />
+                        {address}
+                    </p>
                 </div>
 
                 <p className="detail-description">{description}</p>

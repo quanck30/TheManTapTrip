@@ -1,6 +1,7 @@
 import React from 'react';
+import { FaArrowRight } from 'react-icons/fa';
 import TempButton from '../components/buttons/TempButton';
-import '../Styles/welcome.css'; // 通常のCSSファイルをインポート
+import '../styles/welcome.css'; // 通常のCSSファイルをインポート
 
 import logoImage from '../assets/Taptrip.png';
 
@@ -26,16 +27,18 @@ function Welcome({ onStartExplore, onNavigateToLogin, onNavigateToRegister }) {
 
       {/* アクションボタン */}
       <div className="welcome-actions">
-        <TempButton 
-          text="探索をはじめる ➔" 
-          variant="primary" 
-          onClick={onStartExplore} 
-          className="welcome-btn" 
+        <TempButton
+          text="探索をはじめる"
+          icon={<FaArrowRight />}
+          variant="primary"
+          onClick={onStartExplore}
+          className="welcome-btn"
         />
-        <TempButton 
-          text="新規登録 ➔" 
-          variant="secondary" 
-          onClick={onNavigateToRegister} 
+        <TempButton
+          text="新規登録"
+          icon={<FaArrowRight />}
+          variant="secondary"
+          onClick={onNavigateToRegister}
           className="welcome-btn welcome-btn-register"
         />
         <span onClick={onNavigateToLogin} className="welcome-login-link">

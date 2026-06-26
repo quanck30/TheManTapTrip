@@ -1,6 +1,6 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Navigation from "../components/layout/Navigation";
-
+import "../App.css";
 export default function MainLayout() {
   const navigate = useNavigate();
   const location = useLocation();

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TempButton from "../components/buttons/TempButton";
-import "../Styles/profile.css";
+import "../styles/profile.css";
 import { useAuth } from "../context/AuthContext";
 
 function Profile() {
