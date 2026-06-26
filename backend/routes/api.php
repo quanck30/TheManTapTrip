@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChoiceController;
 use App\Http\Controllers\PlaceSearchController;
 use App\Models\Question;
 use App\Http\Controllers\GoogleAuthController;
@@ -8,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SpotController;
+use App\Http\Controllers\UserController;
 
 
 // Sanctumで認証済みのユーザー情報を返します。
@@ -31,18 +33,30 @@ Route::get('/test', function () {
     ]);
 });
 
+Route::middleware('auth:sanctum')->group(function () {
+    // 質問一覧と選択肢をJSONで返します。
+    Route::get('/v1/questions/login', [QuestionController::class, 'loginedIndex']);
+});
+Route::get('/v1/questions/guest', [QuestionController::class, 'index']);
 
-// 質問一覧と選択肢をJSONで返します。
-Route::get('/v1/questions', [QuestionController::class, 'index']);
 
 //お気に入り場所を保存
-Route::post('/v1/spots', [SpotController::class, 'store']);
+// Route::post('/v1/spots', [SpotController::class, 'store']);
 
-// Route::get('/v1/spots',[SpotController::class,'index']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('/v1/spots', SpotController::class);
+});
 
-
+// 回答保存API
+Route::apiResource('/v1/choices', ChoiceController::class)->middleware('auth:sanctum');
 
 // Google Places Api を使用した場所検索APi
 Route::post('/v1/placeSearch', [PlaceSearchController::class, 'placeSearch']);
 // Googleアクセストークンを使ったログインAPIです。
 Route::post('/v1/auth/google', [GoogleAuthController::class, 'googleLogin']);
+
+// アカウント情報の取得API(ログイン必須)
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/v1/user/', [UserController::class, 'show']);
+    Route::put('/v1/user/', [UserController::class, 'update']);
+});

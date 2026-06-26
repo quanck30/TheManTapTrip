@@ -1,80 +1,79 @@
-/* カード全体のコンテナ */
-.spot-card {
-  background: var(--card-bg);
-  border-radius: var(--radius-lg);
+.card-display {
+  background-color: #ffffff;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
-  margin-bottom: 20px;
-  border: 1px solid rgba(0, 0, 0, 0.03);
-  transition: transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  margin-bottom: 16px;
+  transition: transform 0.2s;
 }
 
-.spot-card:active {
-  transform: scale(0.98);
+.card-display:hover {
+  transform: translateY(-2px);
 }
 
-/* 画像部分 */
-.spot-image-wrapper {
+.card-image-wrapper {
   position: relative;
   width: 100%;
-  height: 180px;
+  height: 160px;
 }
 
-.spot-image {
+.card-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* 保存（ブックマーク）アイコンボタン */
-.bookmark-btn {
+.match-badge {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 36px;
-  height: 36px;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  top: 10px;
+  left: 10px;
+  background: rgba(59, 130, 246, 0.9);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  z-index: 10;
 }
 
-/* テキストコンテンツエリア */
-.spot-content {
-  padding: 18px; 
+.card-content {
+  padding: 16px;
 }
 
-.spot-title {
-  font-size: 20px; 
-  font-weight: 700; 
-  margin-top: 0;
-  margin-bottom: 10px; 
-  color: var(--text-main);
+.card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0 0 8px 0;
 }
 
-.spot-description {
-  font-size: 14px;
-  color: var(--text-sub);
-  line-height: 1.5;
-  margin-bottom: 12px;
+.card-description {
+  font-size: 13px;
+  color: #7f8c8d;
+  margin: 0 0 12px 0;
+  display: -webkit-box;
+  -webkit-lineclamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-/* タグ（カテゴリなど） */
-.spot-tags {
+.card-tags {
   display: flex;
   gap: 8px;
-  flex-wrap: wrap;
 }
 
-.tag {
+.card-tag {
   font-size: 11px;
-  padding: 4px 10px;
-  background-color: #f0f4f8;
-  color: #557a95;
-  border-radius: var(--radius-sm);
-  font-weight: 500;
+  background: #f1f5f9;
+  color: #64748b;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+/* トースト通知のスタイル */
+.toast-bookmark {
+  border-radius: 10px !important;
+  background: #333 !important;
+  color: #fff !important;
 }

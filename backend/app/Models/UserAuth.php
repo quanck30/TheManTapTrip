@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class UserAuth extends Model
 {
     protected $fillable = [
-        'user_id',
+        'userId',
         'provider',
-        'provider_key',
-        'pass_hash',
+        'providerKey',
+        'passHash',
     ];
 
     /**
@@ -19,6 +19,6 @@ class UserAuth extends Model
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'userId');
     }
 }

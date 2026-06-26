@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Spot extends Model
 {
     protected $fillable = [
-        'user_id',
-        'spot_id',
+        'userId',
+        'spotId',
         'address',
-        'is_visited',
+        'isVisited',
     ];
 
     /**
@@ -19,6 +19,6 @@ class Spot extends Model
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'userId');
     }
 }

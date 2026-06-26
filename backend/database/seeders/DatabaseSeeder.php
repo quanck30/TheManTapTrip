@@ -18,8 +18,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             QuestionsTableSeeder::class,
-            QueryItemsTableSeeder::class,
-
+            QueryItemsTableSeeder::class
         ]);
     }
 }

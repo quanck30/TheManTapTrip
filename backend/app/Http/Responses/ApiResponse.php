@@ -27,8 +27,7 @@ class ApiResponse
      */
     public static function error(
         string $message = 'エラー発生しました',
-        int $status = 400,
-        mixed $errors = null
+        int $status = 400
     ) {
         return response()->json([
             'success' => false,

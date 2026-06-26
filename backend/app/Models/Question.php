@@ -16,7 +16,7 @@ class Question extends Model
      */
     public function choices(): HasMany
     {
-        return $this->hasMany(Choice::class);
+        return $this->hasMany(Choice::class, 'questionId');
     }
 
     /**
@@ -24,6 +24,6 @@ class Question extends Model
      */
     public function queryItems(): HasMany
     {
-        return $this->hasMany(QueryItem::class);
+        return $this->hasMany(QueryItem::class, 'questionId')->orderBy('itemId');
     }
 }

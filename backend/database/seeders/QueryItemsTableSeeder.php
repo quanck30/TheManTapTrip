@@ -15,92 +15,115 @@ class QueryItemsTableSeeder extends Seeder
     public function run(): void
     {
         //
-                DB::transaction(function () {
+        DB::transaction(function () {
             QueryItem::insert([
                 [
-                    'question_id'=> 1,
-                    'title'=>'はい',
-                    'search_type'=>''
+                    'questionId' => 1,
+                    'itemId' => 1,
+                    'title' => 'はい',
+                    'searchType' => ''
                 ],
                 [
-                    'question_id'=> 1,
-                    'title'=>'いいえ',
-                    'search_type'=>''
+                    'questionId' => 1,
+                    'itemId' => 2,
+                    'title' => 'いいえ',
+                    'searchType' => ''
                 ],
                 [
-                    'question_id'=> 2,
-                    'title'=>'徒歩',
-                    'search_type'=>''
+                    'questionId' => 2,
+                    'itemId' => 1,
+                    'title' => '徒歩',
+                    'searchType' => ''
                 ],
-                 [
-                    'question_id'=> 2,
-                    'title'=>'自転車',
-                    'search_type'=>''
+                [
+                    'questionId' => 2,
+                    'itemId' => 2,
+                    'title' => '自転車',
+                    'searchType' => ''
                 ],
-                 [
-                    'question_id'=> 2,
-                    'title'=>'車',
-                    'search_type'=>''
+                [
+                    'questionId' => 2,
+                    'itemId' => 3,
+                    'title' => '車',
+                    'searchType' => ''
                 ],
-                 [
-                    'question_id'=> 2,
-                    'title'=>'公共交通機関',
-                    'search_type'=>''
+                [
+                    'questionId' => 2,
+                    'itemId' => 4,
+                    'title' => '公共交通機関',
+                    'searchType' => ''
                 ],
-                 [
-                    'question_id'=> 3,
-                    'title'=>'屋内',
-                    'search_type'=>''
+                [
+                    'questionId' => 3,
+                    'itemId' => 1,
+                    'title' => '屋内',
+                    'searchType' => ''
                 ],
-                 [
-                    'question_id'=> 3,
-                    'title'=>'屋外',
-                    'search_type'=>''
+                [
+                    'questionId' => 3,
+                    'itemId' => 2,
+                    'title' => '屋外',
+                    'searchType' => ''
                 ],
-                 [
-                    'question_id'=> 3,
-                    'title'=>'どちらでも',
-                    'search_type'=>''
+                [
+                    'questionId' => 3,
+                    'itemId' => 3,
+                    'title' => 'どちらでも',
+                    'searchType' => ''
                 ],
-                 [
-                    'question_id'=> 4,
-                    'title'=>'食事',
-                    'search_type'=>''
+                [
+                    'questionId' => 4,
+                    'itemId' => 1,
+                    'title' => '食事',
+                    'searchType' => ''
                 ],
-                  [
-                    'question_id'=> 4,
-                    'title'=>'博物館',
-                    'search_type'=>''
+                [
+                    'questionId' => 4,
+                    'itemId' => 2,
+                    'title' => '遊び',
+                    'searchType' => ''
                 ],
-                  [
-                    'question_id'=> 4,
-                    'title'=>'レジャー',
-                    'search_type'=>''
+                [
+                    'questionId' => 4,
+                    'itemId' => 3,
+                    'title' => '観光',
+                    'searchType' => ''
                 ],
-                  [
-                    'question_id'=> 4,
-                    'title'=>'観光',
-                    'search_type'=>''
+                [
+                    'questionId' => 4,
+                    'itemId' => 4,
+                    'title' => '買い物',
+                    'searchType' => ''
                 ],
-                  [
-                    'question_id'=> 5,
-                    'title'=>'無料',
-                    'search_type'=>''
+                [
+                    'questionId' => 4,
+                    'itemId' => 5,
+                    'title' => 'リラックス',
+                    'searchType' => ''
                 ],
-                  [
-                    'question_id'=> 5,
-                    'title'=>'松（円）',
-                    'search_type'=>''
+                [
+                    'questionId' => 5,
+                    'itemId' => 1,
+                    'title' => '無料',
+                    'searchType' => ''
                 ],
-                   [
-                    'question_id'=> 5,
-                    'title'=>'竹（円）',
-                    'search_type'=>''
+                [
+                    'questionId' => 5,
+                    'itemId' => 2,
+                    'title' => '~ 1000（円）',
+                    'searchType' => ''
                 ],
-                   [
-                    'question_id'=> 5,
-                    'title'=>'梅（円）',
-                    'search_type'=>''
+                [
+                    'questionId' => 5,
+                    'itemId' => 3,
+                    'title' => '1000 ~ 4000（円）',
+                    'searchType' => ''
+                ],
+                [
+                    'questionId' => 5,
+                    'itemId' => 4,
+                    'title' => '4000~（円）',
+                    'searchType' => ''
                 ],
 
             ]);

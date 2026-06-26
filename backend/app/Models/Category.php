@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Category extends Model
 {
     protected $fillable = [
-        'user_id',
+        'userId',
         'title',
-        'category_type',
+        'categoryType',
     ];
 
     /**

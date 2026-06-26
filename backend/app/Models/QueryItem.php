@@ -9,9 +9,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class QueryItem extends Model
 {
     protected $fillable = [
-        'question_id',
+        'questionId',
+        'itemId',
         'title',
-        'search_type',
+        'searchType',
+
     ];
 
     /**
@@ -19,7 +21,7 @@ class QueryItem extends Model
      */
     public function question(): BelongsTo
     {
-        return $this->belongsTo(Question::class);
+        return $this->belongsTo(Question::class, 'questionId');
     }
 
     /**
@@ -27,6 +29,6 @@ class QueryItem extends Model
      */
     public function choices(): HasMany
     {
-        return $this->hasMany(Choice::class);
+        return $this->hasMany(Choice::class, 'queryItemId');
     }
 }
