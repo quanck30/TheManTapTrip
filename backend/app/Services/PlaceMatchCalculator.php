@@ -76,8 +76,6 @@ class PlaceMatchCalculator
             // ----------------------------------------------------
             // 価格帯（priceLevel）の採点 [最大 15点]
             // ----------------------------------------------------
-            // ※ Google API(New)の priceLevel は 'PRICE_LEVEL_INEXPENSIVE' などの文字列で返却されます
-            // フロントから届く値（例: "1", "2" や "low", "mid"）との突合が必要です
             if (isset($answers['priceLevel']) && isset($place['priceLevel'])) {
                 if ($this->isPriceLevelMatch($answers['priceLevel'], $place['priceLevel'])) {
                     $totalScore += 15;
