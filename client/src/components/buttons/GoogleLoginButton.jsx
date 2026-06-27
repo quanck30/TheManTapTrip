@@ -5,8 +5,9 @@
  * @Update
  */
 
+import { FaExclamationTriangle } from "react-icons/fa";
 import TempButton from "./TempButton.jsx";
-import { useGoogleAuth } from "../hooks/useGoogleAuth.js";
+import { useGoogleAuth } from "../../hooks/useGoogleAuth.js";
 
 /**
  * Googleログイン用のボタンコンポーネント
@@ -22,7 +23,12 @@ export const GoogleLoginButton = ({ onLoginSuccess }) => {
         onClick={login}
         disabled={isLoading}
       />
-      {error && <div className="login-error">⚠️ {error}</div>}
+      {error && (
+        <div className="login-error">
+          <FaExclamationTriangle color="#e53e3e" style={{ verticalAlign: "middle", marginRight: 4 }} />
+          {error}
+        </div>
+      )}
     </>
   );
 };

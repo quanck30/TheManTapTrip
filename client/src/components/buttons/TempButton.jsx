@@ -25,6 +25,7 @@ function TempButton({
   type = 'button',
   disabled = false,
   className = '',
+  icon = null,
 }) {
   // variant: 'primary' (青グラデ), 'secondary' (白背景・青枠), 'accent' (緑)
   return (
@@ -35,6 +36,7 @@ function TempButton({
       disabled={disabled}
     >
       {text}
+      {icon && <span style={{ marginLeft: 8, verticalAlign: 'middle' }}>{icon}</span>}
     </button>
   );
 }

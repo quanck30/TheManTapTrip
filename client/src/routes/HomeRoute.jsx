@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import Home from "../pages/home";
+import Home from "../pages/Home";
+import { usePlaces } from "../context/PlacesContext";
 
 const HomeRoute = () => {
     const navigate = useNavigate();
+    const { setPlaces } = usePlaces();
 
     const handleDiagnoseComplete = (results) => {
         // 💡 取得したデータ階層に合わせて、配列部分だけを抽出して渡します
@@ -10,8 +12,9 @@ const HomeRoute = () => {
         const placesData =
             results?.data?.places || results?.data || results || [];
 
-        // recommendページへ遷移し、裏側で placesData を渡す
-        navigate("/recommend", { state: { places: placesData } });
+        // 検索結果をコンテキストに保存してから recommend ページへ遷移
+        setPlaces(placesData);
+        navigate("/recommend");
     };
 
     return <Home onDiagnoseComplete={handleDiagnoseComplete} />;

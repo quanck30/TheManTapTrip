@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import LoginPrompt from "../pages/loginPronpt";
+import LoginPrompt from "../pages/LoginPrompt";
 
 export default function ProtectedRoute({ children }) {
   const navigate = useNavigate();

@@ -6,7 +6,8 @@
  */
 
 import React from 'react';
-import '../../Styles/listItem.css';
+import { FaTag, FaChevronRight } from 'react-icons/fa';
+import '../../styles/listItem.css';
 
 /**
  * リストアイテムを表示するコンポーネント
@@ -30,11 +31,14 @@ function ListItem({ spot, onClick }) {
       {/* テキストコンテンツ（タイトルとカテゴリー） */}
       <div className="list-item-content">
         <h4 className="list-item-title">{title}</h4>
-        <span className="list-item-category">🏷️ {category}</span>
+        <span className="list-item-category">
+          <FaTag color="#319795" style={{ verticalAlign: "middle", marginRight: 4 }} />
+          {category}
+        </span>
       </div>
-      
+
       {/* 詳細への遷移を示すインジケーター */}
-      <span className="list-item-arrow">＞</span>
+      <span className="list-item-arrow"><FaChevronRight color="#cbd5e0" /></span>
     </div>
   );
 }

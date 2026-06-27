@@ -77,3 +77,26 @@
   background: #333 !important;
   color: #fff !important;
 }
+
+.no-places {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.recommend-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 8px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: #fff;
+}
+
+.rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
