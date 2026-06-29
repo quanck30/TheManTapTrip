@@ -43,7 +43,7 @@ class PlaceResource extends JsonResource
             'lat'             => $this->resource['lat'] ?? null,
             'long'            => $this->resource['long'] ?? null,
             'rating'          => $this->resource['rating'] ?? null,
-            'priceLevel'      => $priceTextMap[$this->resource['priceLevel'] ?? null] ?? '予算情報なし',
+            'priceLevel'      => $priceTextMap[$this->resource['priceLevel'] ?? null] ?? null,
             'primaryType'     => $primaryType ?? null,
             'types'           => $types ?? null,
             'goodForChildren' => $this->resource['goodForChildren'] ?? false,
