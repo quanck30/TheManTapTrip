@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import Register from "../pages/register";
+import Register from "../pages/Register";
 
 export default function RegisterRoute() {
   const navigate = useNavigate();

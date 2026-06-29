@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import ListItem from "../components/cards/ListItem";
-import { mockSpots } from "../Data/questions";
+import { mockSpots } from "../data/mockSpots";
 
 export default function SavedRoute() {
   const navigate = useNavigate();

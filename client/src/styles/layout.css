@@ -29,12 +29,6 @@
 }
 
 
-.app-content-area {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px;
-  box-sizing: border-box;
-}
 
 /* --- 下部ナビゲーション --- */
 .bottom-nav-bar {

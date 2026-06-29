@@ -1,6 +1,6 @@
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import Welcome from "../pages/welcome";
+import Welcome from "../pages/Welcome";
 
 export default function WelcomeRoute() {
   const navigate = useNavigate();

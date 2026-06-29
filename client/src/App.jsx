@@ -1,22 +1,22 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 
-import "./Styles/reset.css";
-import "./Styles/variables.css";
-import "./Styles/global.css";
-import "./Styles/layout.css";
-import "./Styles/button.css";
-import "./Styles/card.css";
-import "./Styles/welcome.css";
-import "./Styles/login.css";
-import "./Styles/home.css";
-import "./Styles/profile.css";
-import "./Styles/detail.css";
+import "./styles/reset.css";
+import "./styles/variables.css";
+import "./styles/global.css";
+import "./styles/layout.css";
+import "./styles/button.css";
+import "./styles/card.css";
+import "./styles/welcome.css";
+import "./styles/login.css";
+import "./styles/home.css";
+import "./styles/profile.css";
+import "./styles/detail.css";
 
-import Profile from "./pages/profile";
+import Profile from "./pages/Profile";
 import { useAuth } from "./context/AuthContext";
 import MainLayout from "./routes/MainLayout";
 import ProtectedRoute from "./routes/ProtectedRoute";
-import WelcomeRoute from "./routes/WelcomRoute";
+import WelcomeRoute from "./routes/WelcomeRoute";
 import LoginRoute from "./routes/LoginRoute";
 import RegisterRoute from "./routes/RegisterRoute";
 import HomeRoute from "./routes/HomeRoute";

@@ -1,6 +1,7 @@
 import { useState, React } from 'react';
+import { FaChevronLeft, FaExclamationTriangle } from 'react-icons/fa';
 import TempButton from '../components/buttons/TempButton';
-import '../Styles/register.css';
+import '../styles/register.css';
 import { GoogleLoginButton } from "../components/buttons/GoogleLoginButton";
 
 function Register({ onRegisterSuccess, onNavigateToLogin, onBackToWelcome }) {
@@ -26,13 +27,18 @@ function Register({ onRegisterSuccess, onNavigateToLogin, onBackToWelcome }) {
 
   return (
     <div className="reg-container">
-      <button className="reg-back-button" onClick={onBackToWelcome}>＜</button>
+      <button className="reg-back-button" onClick={onBackToWelcome}><FaChevronLeft /></button>
       <div className="reg-header">
         <h1 className="reg-title">TapTrip</h1>
       </div>
       <div className="reg-main">
         <h2 className="reg-heading">新規登録</h2>
-        {error && <div className="reg-error">⚠️ {error}</div>}
+        {error && (
+          <div className="reg-error">
+            <FaExclamationTriangle color="#e53e3e" style={{ verticalAlign: "middle", marginRight: 4 }} />
+            {error}
+          </div>
+        )}
         <form onSubmit={handleSubmit} className="reg-form">
           <div className="reg-field">
             <label className="reg-label">氏名</label>

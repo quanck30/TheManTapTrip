@@ -1,30 +1,24 @@
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { FaChevronLeft } from "react-icons/fa";
 import CardDisplay from "../components/cards/CardDisplay";
+import { usePlaces } from "../context/PlacesContext";
+
+import "../styles/card.css";
 
 const RecommendRoute = () => {
-    const location = useLocation();
-    const places =
-        location.state?.places ||
-        JSON.parse(sessionStorage.getItem("recommendPlaces") || "[]");
+  const { places } = usePlaces();
 
-    useEffect(() => {
-        if (location.state?.places) {
-            sessionStorage.setItem(
-                "recommendPlaces",
-                JSON.stringify(location.state.places),
-            );
-        }
-    }, [location.state]);
-
-    return (
-        <div>
-            <h2 className="recommend-title" style={{ padding: "0 20px" }}>
-                おすすめスポット
-            </h2>
-            <CardDisplay places={places} />
-        </div>
-    );
+  return (
+    <div>
+      <div className="recommend-title">
+        <button>
+          <FaChevronLeft color="#2d3748" />
+        </button>
+        <h2> おすすめスポット</h2>
+        <button></button>
+      </div>
+      <CardDisplay places={places} />
+    </div>
+  );
 };
 
 export default RecommendRoute;
