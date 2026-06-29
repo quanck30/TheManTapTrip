@@ -1,0 +1,111 @@
+/* アプリ全体のレイアウトを中央に固定 */
+.app-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+}
+
+.app-wrapper {
+  width: 390px;
+  height: 844px;
+  background-color: #ffffff;
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+
+/* デスクトップ表示用レスポンシブ */
+@media (min-width: 480px) {
+  .app-wrapper {
+    border-radius: 20px;
+  }
+}
+
+
+
+/* --- 下部ナビゲーション --- */
+.bottom-nav-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 64px;
+  background-color: #ffffff;
+  border-top: 1px solid #edf2f7;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 100;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #a0aec0;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 25%;
+  height: 100%;
+  gap: 3px;
+}
+
+.nav-item.is-active {
+  color: #25a7f5;
+}
+
+/* --- その他共通コンポーネント --- */
+.recommend-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #2c3e50;
+}
+
+.spot-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.saved-list-container {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+
+/* --- スクロールバー完全非表示設定 --- */
+
+/* Chrome, Safari, Edge, Opera */
+::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: none !important;
+}
+
+/* IE, Edge */
+* {
+  -ms-overflow-style: none !important;
+}
+
+/* 念のため：アプリの主要コンテナに対しても明示的に適用 */
+.app-body, .app-wrapper, .app-content-area, .home-container {
+  overflow-y: auto; /* コンテンツが長い場合はスクロール可能にする */
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}

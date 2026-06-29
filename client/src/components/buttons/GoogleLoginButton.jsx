@@ -5,24 +5,32 @@
  * @Update
  */
 
+import { FaExclamationTriangle } from "react-icons/fa";
 import TempButton from "./TempButton.jsx";
-import { useGoogleAuth } from "../hooks/useGoogleAuth.js";
+import { useGoogleAuth } from "../../hooks/useGoogleAuth.js";
 
 /**
  * Googleログイン用のボタンコンポーネント
  */
-export const GoogleLoginButton = () => {
-    // Google hookから必要な機能と状態を受け取る
-    const { login, isLoading, error } = useGoogleAuth();
+export const GoogleLoginButton = ({ onLoginSuccess }) => {
+  // Google hookから必要な機能と状態を受け取る
+  const { login, isLoading, error } = useGoogleAuth(onLoginSuccess);
 
-    return (
-        <TempButton
-            text="Googleでログイン"
-            onClick={() => login()}
-            disabled={isLoading}
-            error={error}
-        />
-    );
+  return (
+    <>
+      <TempButton
+        text={isLoading ? "Googleログイン中..." : "Googleでログイン"}
+        onClick={login}
+        disabled={isLoading}
+      />
+      {error && (
+        <div className="login-error">
+          <FaExclamationTriangle color="#e53e3e" style={{ verticalAlign: "middle", marginRight: 4 }} />
+          {error}
+        </div>
+      )}
+    </>
+  );
 };
 
 export default GoogleLoginButton;

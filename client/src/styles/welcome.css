@@ -1,0 +1,127 @@
+.welcome-container {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, #e3f2fd 0%, #f7fafc 100%);
+  padding: 40px 24px 32px 24px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  font-family: sans-serif;
+}
+
+.welcome-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.welcome-logo-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.welcome-logo-icon {
+  font-size: 24px;
+  background: #2c3e50;
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.welcome-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1a202c;
+  margin: 0;
+}
+
+.welcome-subtitle {
+  font-size: 24px;
+  font-weight: 800;
+  color: #2b6cb0;
+  margin: 0 0 12px 0;
+  text-align: center;
+}
+
+.welcome-description {
+  font-size: 13px;
+  color: #4a5568;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.welcome-graphic {
+  width: 100%;
+  height: 240px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #a7f3d0 0%, #818cf8 100%);
+  position: relative;
+  box-shadow: 0 12px 32px rgba(43, 108, 176, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.welcome-graphic-text {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.welcome-actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+}
+
+.welcome-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+}
+
+.welcome-btn-register {
+  background-color: #90cdf4;
+  color: #1a202c;
+  border: none;
+}
+
+.welcome-login-link {
+  font-size: 13px;
+  color: #2b6cb0;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  margin-top: 6px;
+}
+
+/* ロゴ画像用のスタイルを追加 */
+
+.welcome-logo-image {
+  /* ここでサイズを小さく調整します */
+  max-width: 80px; 
+  width: 80%;
+  height: auto;
+  margin-bottom: 16px;
+}
+
+.welcome-logo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* 画像の周りに余白を持たせるとバランスが良くなります */
+  padding-top: 15px;
+}

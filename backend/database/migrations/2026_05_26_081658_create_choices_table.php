@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('choices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('userId')->nullable()->constrained('users');
-            $table->foreignId('questionId')->constrained('questions');
-            $table->foreignId('queryItemId')->nullable()->constrained('query_items');
+            $table->foreignId('userId')->nullable(false)->constrained('users');
+            $table->foreignId('questionId')->nullable(false)->constrained('questions');
+            $table->foreignId('queryItemId')->nullable(false)->constrained('query_items');
             $table->timestamps();
+            $table->unique(['userId', 'questionId']);
         });
     }
 
