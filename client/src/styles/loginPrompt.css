@@ -7,7 +7,7 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  background-color: #ffffff;
+  background-color: var(--card-bg);
 }
 
 .login-prompt-icon {
@@ -18,13 +18,13 @@
 .login-prompt-title {
   font-size: 20px;
   font-weight: 700;
-  color: #2c3e50;
+  color: var(--text-main);
   margin-bottom: 12px;
 }
 
 .login-prompt-description {
   font-size: 14px;
-  color: #7f8c8d;
+  color: var(--text-sub);
   line-height: 1.6;
   margin-bottom: 32px;
   padding: 0 20px;

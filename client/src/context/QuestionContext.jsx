@@ -23,11 +23,9 @@ export const QuestionProvider = ({ children }) => {
   }));
   const [currentStep, setCurrentStep] = useState(() => parseInt( "0", 10));
   const [isConfirming, setIsConfirming] = useState();
-  const [isLoading, setIsLoading] = useState(false);
   const [directAddress, setDirectAddress] = useState("");
-  const [radius, setRadius] = useState(1000);
 
-  const { location, getLocation, isLoading: isGeoLoading } = useGeolocation();
+  const { location, getLocation } = useGeolocation();
 
   /**
    * DBから質問を取得する（取得済みならスキップ）
@@ -66,7 +64,6 @@ export const QuestionProvider = ({ children }) => {
 
     const { questions, answers } = questionForm;
 
-    setIsLoading(true);
     try {
       if (isAuthenticated) {
         try {
@@ -97,7 +94,7 @@ export const QuestionProvider = ({ children }) => {
         formattedAnswers[config.apiKey] = config.values[mappedItemId] ?? config.default;
       }
 
-      const finalRadius = radius ? Number(radius) : defaultRadMap[formattedAnswers.travelMode] || 1000;
+      const finalRadius = defaultRadMap[formattedAnswers.travelMode] || 1000;
 
       const searchData = {
         radius: finalRadius,
@@ -110,8 +107,6 @@ export const QuestionProvider = ({ children }) => {
       console.error(err);
       alert("処理中にエラーが発生しました");
       return null;
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -132,12 +127,8 @@ export const QuestionProvider = ({ children }) => {
         setCurrentStep,
         isConfirming,
         setIsConfirming,
-        isLoading,
-        isGeoLoading,
         directAddress,
         setDirectAddress,
-        radius,
-        setRadius,
         getLocation,
         loadQuestions,
         handleSelect,

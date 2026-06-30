@@ -1,16 +1,5 @@
-/* アプリ全体の共通ベース設定 */
-:root {
-  --primary-color: #38b6ff;
-  --primary-gradient: linear-gradient(135deg, #46cdff 0%, #25a7f5 100%);
-  --accent-green: #00e676;
-  --bg-color: #f5f5f5;
-  --card-bg: #ffffff;
-  --text-main: #2c3e50;
-  --text-sub: #7f8c8d;
-  --radius-lg: 16px;
-  --radius-md: 12px;
-  --radius-sm: 8px;
-}
+/* アプリ全体の共通ベース設定
+   色トークンは variables.css に集約済み（このファイルでは :root を定義しない）。 */
 
 body {
   margin: 0;
