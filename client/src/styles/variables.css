@@ -1,35 +1,60 @@
-/* variables.css - アプリ共通デザインシステム（変数）*/
+/* variables.css - アプリ共通デザインシステム（変数）
+   全色トークンの唯一の定義元。色を変える時はここだけ編集する。 */
 
 :root {
-  /* --- メインカラー ＆ ブランドカラー --- */
-  --primary-color: #25a7f5;               /* メインの爽やかなスカイブルー */
-  --primary-light: #e6f7ff;               /* 薄い青（タグや選択背景用） */
-  --primary-gradient: linear-gradient(135deg, #46cdff 0%, #25a7f5 100%); /* 主要ボタン等のグラデーション */
-  
-  /* --- アクセントカラー --- */
-  --accent-green: #00e676;                /* 予約・詳細決定用のグリーン */
-  --accent-green-light: #e8fced;          /* 薄い緑 */
-  --accent-heart: #ff4757;                /* お気に入り（いいね）用の赤・ピンク */
+  /* --- Primary / Brand (青) --- */
+  --primary:          #25a7f5;  /* ボタン・ブランド・選択 (旧 #38b6ff, #3b82f6 を統合) */
+  --primary-dark:     #2b6cb0;  /* 濃い青アクセント: 選択タグ, ハイライト (旧 #1e88e5) */
+  --primary-link:     #2f80ed;  /* テキストリンク, フォームのラベル */
+  --primary-light:    #eff8fd;  /* 薄い青背景: タグ, 選択 (旧 #ebf8ff, #e3f2fd) */
+  --primary-gradient: linear-gradient(135deg, #46cdff 0%, #25a7f5 100%);
 
-  /* --- バックグラウンド色 --- */
-  --bg-color: #f5f0f0;                    /* 全体の背景（#F5F5F5） */
-  --card-bg: #f7f4f4;                     /* カードやコンテナの白色背景 */
-  --input-bg: #eef0f3;                    /* フォーム入力欄の背景色 */
+  /* 後方互換エイリアス（旧名 --primary-color を参照している箇所のため） */
+  --primary-color: var(--primary);
 
-  /* --- タイポグラフィ ＆ テキストカラー --- */
-  --text-main: #2c3e50;                   /* 主要タイトル、濃いネイビーグレー */
-  --text-sub: #7f8c8d;                    /* 補足説明やプレースホルダー用のグレー */
-  --text-muted: #cbd5e1;                  /* さらに薄い、非アクティブ用のグレー */
+  /* --- Success (緑) --- */
+  --accent-green:       #00e676; /* 予約・決定ボタン */
+  --accent-green-light: #d1fae5; /* 薄い緑背景 (旧 #e8fced) */
+  --accent-green-dark:  #065f46; /* 薄い緑背景上のテキスト */
+
+  /* --- Danger / Heart (赤) --- */
+  --danger:        #e53e3e;  /* エラー, ログアウト */
+  --danger-bg:     #fff5f5;  /* エラーボックス背景 */
+  --danger-border: #fed7d7;  /* エラーボックスの枠線 */
+  --heart:         #ff4757;  /* お気に入りボタン */
+
+  /* --- Rating --- */
+  --star: #f59e0b;
+
+  /* --- Text --- */
+  --text-heading: #1a202c;  /* 大見出し / ほぼ黒 */
+  --text-main:    #2c3e50;  /* 既定の濃いテキスト (旧 #2d3748 を統合) */
+  --text-body:    #4a5568;  /* 説明文, 補助ラベル (旧 #475569 を統合) */
+  --text-sub:     #7f8c8d;  /* サブタイトル, プレースホルダー (旧 #718096, #64748b を統合) */
+  --text-muted:   #a0aec0;  /* 非アクティブ / グレーアウト (旧 #cbd5e1 を統合) */
+
+  /* --- Surfaces --- */
+  --white:     #ffffff;
+  --card-bg:   #ffffff;     /* = white。カード/パネル用に意味づけした名前 */
+  --bg-color:  #f5f5f5;     /* アプリ全体の背景 (旧 #f5f0f0) */
+  --bg-subtle: #f8fafc;     /* 入力欄/ホバー/薄いパネル背景 (旧 #f7fafc) */
+
+  /* --- Borders --- */
+  --border:       #e2e8f0;  /* メインの枠線 */
+  --border-light: #edf2f7;  /* 薄いディバイダー (旧 #f1f5f9) */
+
+  /* --- Misc --- */
+  --tooltip-bg: #333;
 
   /* --- コーナーの角丸 (Border Radius) --- */
-  --radius-xl: 24px;                      /* 詳細画面のせり上がり等の大きな角丸 */
-  --radius-lg: 16px;                      /* スポットカード等の標準的な角丸 */
-  --radius-md: 12px;                      /* フォーム入力欄やボタンの角丸 */
-  --radius-sm: 8px;                       /* 小さなバッジやタグ用の角丸 */
-  --radius-round: 50%;                    /* 円形アバター用 */
+  --radius-xl: 24px;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --radius-round: 50%;
 
   /* --- 共通の影 (Box Shadow) --- */
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.06);   /* カード等に最適な薄く広がる影 */
+  --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 24px rgba(0, 0, 0, 0.1);
 }

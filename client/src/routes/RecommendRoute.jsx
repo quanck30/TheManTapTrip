@@ -8,7 +8,7 @@ const RecommendRoute = () => {
   const { places } = usePlaces();
 
   return (
-    <div>
+    <div className="recommend">
       <div className="recommend-title">
         <button>
           <FaChevronLeft color="#2d3748" />
