@@ -14,7 +14,7 @@ import "./styles/detail.css";
 
 import Profile from "./pages/Profile";
 import { useAuth } from "./context/AuthContext";
-import MainLayout from "./routes/MainLayout";
+import MainLayout from "./components/layout/MainLayout";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import WelcomeRoute from "./routes/WelcomeRoute";
 import LoginRoute from "./routes/LoginRoute";

@@ -22,22 +22,22 @@
 
 /* 1. プライマリーボタン（青色グラデーション） */
 .btn-primary {
-  background: linear-gradient(135deg, #46cdff 0%, #25a7f5 100%);
-  color: #ffffff;
+  background: var(--primary-gradient);
+  color: var(--white);
   box-shadow: 0 4px 14px rgba(37, 167, 245, 0.35);
 }
 
 /* 2. セカンダリーボタン（アウトライン・白背景） */
 .btn-secondary {
-  background-color: #ffffff;
-  color: #25a7f5;
-  border: 2px solid #25a7f5;
+  background-color: var(--white);
+  color: var(--primary);
+  border: 2px solid var(--primary);
   padding: 13px 22px; /* ボーダー分内側を小さく調整 */
 }
 
 /* 3. アクセントボタン（緑色：詳細画面・予約用） */
 .btn-accent {
-  background-color: #00e676;
-  color: #ffffff;
+  background-color: var(--accent-green);
+  color: var(--white);
   box-shadow: 0 4px 14px rgba(0, 230, 118, 0.35);
 }
