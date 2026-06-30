@@ -28,11 +28,11 @@ class PlaceSearchRequest extends FormRequest
             'radius' => ['required', 'numeric'],        // 半径（値・数値確認）
 
             'answers' => ['required', 'array'],                      // 解答（値・配列確認）
-            'answers.withChildren' => ['required', 'boolean'],      // 子供と一緒に行くか
-            'answers.travelMode' => ['required', 'string'],         // 移動手段
-            'answers.locationType' => ['required', 'string'],       // 屋内か屋外か
+            'answers.withChildren' => ['required', 'boolean'],       // 子供と一緒に行くか
+            'answers.travelMode' => ['required', 'string'],          // 移動手段
+            'answers.locationType' => ['required', 'string'],        // 屋内か屋外か
             'answers.purpose' => ['required', 'string'],             // 目的地で何がしたいか
-            'answers.priceLevel' => ['required', 'string'],         // 価格帯
+            'answers.priceLevel' => ['required', 'string'],          // 価格帯
         ];
     }
 

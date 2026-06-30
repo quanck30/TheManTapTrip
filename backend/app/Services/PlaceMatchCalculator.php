@@ -23,12 +23,12 @@ class PlaceMatchCalculator
             $totalScore = 0;
 
             // ----------------------------------------------------
-            // メイン目的（purpose）の採点 [最大 40点]
+            // メイン目的（purpose）の採点 [最大 50点]
             // ----------------------------------------------------
             if (!empty($mainPurposeTypes)) {
                 if ($primaryType && in_array($primaryType, $mainPurposeTypes)) {
                     // スポットの本業ジャンルが、ユーザーの目的にドンピシャなら満点
-                    $totalScore += 40;
+                    $totalScore += 50;
                 }
                 // 本業ではなくても、関連タグに1つでも含まれていれば部分点
                 $countPurposeTag = count(array_intersect($placeTypes, $mainPurposeTypes));
@@ -76,8 +76,6 @@ class PlaceMatchCalculator
             // ----------------------------------------------------
             // 価格帯（priceLevel）の採点 [最大 15点]
             // ----------------------------------------------------
-            // ※ Google API(New)の priceLevel は 'PRICE_LEVEL_INEXPENSIVE' などの文字列で返却されます
-            // フロントから届く値（例: "1", "2" や "low", "mid"）との突合が必要です
             if (isset($answers['priceLevel']) && isset($place['priceLevel'])) {
                 if ($this->isPriceLevelMatch($answers['priceLevel'], $place['priceLevel'])) {
                     $totalScore += 15;
