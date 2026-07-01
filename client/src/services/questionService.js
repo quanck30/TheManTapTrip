@@ -36,7 +36,8 @@ export const fetchQuestions = async () => {
             },
         });
     }
-
+    console.log(response);
+    
     if (!response.ok) {
         throw new Error("質問の取得に失敗しました");
     }
