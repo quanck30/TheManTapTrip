@@ -34,7 +34,7 @@ class UserRegisterRequest extends FormRequest
         return [
             'displayName.required' => 'ユーザー名を入力してください。',
             'displayName.string'   => 'ユーザー名は文字列で入力してください。',
-            'displayName.max:20'   => 'ユーザー名は20文字以内にしてください。',
+            'displayName.max'      => 'ユーザー名は20文字以内にしてください。',
 
             'email.required'              => 'メールアドレスを入力してください。',
             'email.email'                 => 'メールアドレスの形式で入力してください。',

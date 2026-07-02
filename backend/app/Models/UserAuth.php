@@ -12,6 +12,7 @@ class UserAuth extends Model
         'provider',
         'providerKey',
         'passHash',
+        'email'
     ];
 
     /**
