@@ -17,7 +17,7 @@ use Log;
 
 class AuthenticatedSessionController extends Controller
 {
-    protected function __construct(private ApiResponse $apiResponse) {}
+    public function __construct(private ApiResponse $apiResponse) {}
 
     /**
      * メールアドレスでアカウント登録

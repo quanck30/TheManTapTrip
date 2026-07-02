@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
+
 use App\Http\Controllers\ChoiceController;
 use App\Http\Controllers\PlaceSearchController;
 use App\Models\Question;
@@ -62,11 +62,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/v1/user/', [UserController::class, 'update']);
 });
 
-// アカウント作成API（未ログインのみ）
-Route::post('v1/auth/register', [AuthenticatedSessionController::class, 'register']);
 
-// ログインAPI（未ログインのみ）
-Route::post('v1/auth/email', [AuthenticatedSessionController::class, 'emailLogin'])->middleware('guest');
-
-// ログアウトAPI（ログイン済みのみ）
-Route::post('v1/auth/logout', [AuthenticatedSessionController::class, 'emailLogout'])->middleware('auth');

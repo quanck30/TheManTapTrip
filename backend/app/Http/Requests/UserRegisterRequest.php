@@ -24,7 +24,7 @@ class UserRegisterRequest extends FormRequest
     {
         return [
             'displayName' => ['required', 'string', 'max:20'],
-            'email' => ['required', 'email', 'max:255', 'unique:userauth,email'],
+            'email' => ['required', 'email', 'max:255', 'unique:user_auths,email'],
             'password' => ['required', 'string', 'min:8'],
         ];
     }
@@ -39,7 +39,7 @@ class UserRegisterRequest extends FormRequest
             'email.required'              => 'メールアドレスを入力してください。',
             'email.email'                 => 'メールアドレスの形式で入力してください。',
             'email.max'                   => 'ユーザー名は255文字以内にしてください。',
-            'email.unique:userauth,email' => 'そのメールアドレスは既に使用されています。',
+            'email.unique' => 'そのメールアドレスは既に使用されています。',
 
             'password.required' => 'パスワードを入力してください。',
             'password.string'   => 'パスワードは文字列で入力してください。',
