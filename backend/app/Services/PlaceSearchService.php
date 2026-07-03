@@ -125,29 +125,28 @@ class PlaceSearchService
             }
 
             $formattedPlaces[] = [
-                    'spotId' => $place['id'] ?? null,                           // 場所の識別番号
-                    'sName' => $place['displayName']['text'] ?? '名称未設定',    // 表示名
-                    'address' => $place['formattedAddress'] ?? null,            // 住所
-                    'lat' => $lat,                                              // 緯度
-                    'long' => $lng,                                             // 経度
-                    'rating' => $place['rating'] ?? null,                       // 評価
-                    'primaryType' => $place['primaryType'] ?? null,             // メインタイプ
-                    'types' => $place['types'] ?? [],                           // カテゴリー
-                    'priceLevel' => $place['priceLevel'] ?? null,               // 価格帯
-                    'goodForChildren' => $place['goodForChildren'] ?? null,     // 子供向けか
-                    'menuForChildren' => $place['menuForChildren'] ?? null,     // 子供メニューがあるか
+                'spotId' => $place['id'] ?? null,                           // 場所の識別番号
+                'sName' => $place['displayName']['text'] ?? '名称未設定',    // 表示名
+                'address' => $place['formattedAddress'] ?? null,            // 住所
+                'lat' => $lat,                                              // 緯度
+                'long' => $lng,                                             // 経度
+                'rating' => $place['rating'] ?? null,                       // 評価
+                'primaryType' => $place['primaryType'] ?? null,             // メインタイプ
+                'types' => $place['types'] ?? [],                           // カテゴリー
+                'priceLevel' => $place['priceLevel'] ?? null,               // 価格帯
+                'goodForChildren' => $place['goodForChildren'] ?? null,     // 子供向けか
+                'menuForChildren' => $place['menuForChildren'] ?? null,     // 子供メニューがあるか
 
-                    // 駐車場:データがない（null）の時は一律 false になるように
-                    'hasParking' => isset($place['parkingOptions']['freeParkingLot']) ? (bool)$place['parkingOptions']['freeParkingLot'] : false,
+                // 駐車場:データがない（null）の時は一律 false になるように
+                'hasParking' => isset($place['parkingOptions']['freeParkingLot']) ? (bool)$place['parkingOptions']['freeParkingLot'] : false,
 
-                    // 説明文:入っていないスポットも多いため、ない場合の初期文字を設定
-                    'summary' => $place['editorialSummary']['text'] ?? '説明はありません。',
+                // 説明文:入っていないスポットも多いため、ない場合の初期文字を設定
+                'summary' => $place['editorialSummary']['text'] ?? '説明はありません。',
 
-                    // 写真:大量の配列から「1枚目の写真の名前（ID）」だけを代表でもらう
-                    'photoReference' => $place['photos'][0]['name'] ?? null,
+                // 写真:大量の配列から「1枚目の写真の名前（ID）」だけを代表でもらう
+                'photoReference' => $place['photos'][0]['name'] ?? null,
 
-                    // ルート:
-                    'directionUrl' => $directionUrl,
+                'directionUrl' => $directionUrl,                            // ルート
             ];
         }
 

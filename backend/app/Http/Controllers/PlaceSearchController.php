@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PlaceSearchRequest;
+use App\Http\Resources\PlaceResource;
 use App\Http\Responses\ApiResponse;
 use App\Services\PlaceMatchCalculator;
 use App\Services\PlaceSearchService;
@@ -48,12 +49,12 @@ class PlaceSearchController extends Controller
 
             // 検索結果を返す
             return $this->apiResponse->success(
-                $result,
+                PlaceResource::collection($result),
                 "データ取得に成功しました。"
             );
 
         } catch (Exception $e) {
-            Log::error('場所検索中に例外が発生しました: ' . $e->getMessage());
+            Log::error('場所検索中に例外が発生しました: ' . $e);
             return $this->apiResponse->error(
                 "サーバー内部でエラーが発生しました。",
                 500,

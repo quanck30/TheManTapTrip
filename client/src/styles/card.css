@@ -1,5 +1,5 @@
 .card-display {
-  background-color: #ffffff;
+  background-color: var(--card-bg);
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -28,8 +28,8 @@
   position: absolute;
   top: 10px;
   left: 10px;
-  background: rgba(59, 130, 246, 0.9);
-  color: white;
+  background: color-mix(in srgb, var(--primary) 90%, transparent);
+  color: var(--white);
   padding: 4px 8px;
   border-radius: 6px;
   font-size: 11px;
@@ -44,13 +44,13 @@
 .card-title {
   font-size: 16px;
   font-weight: 700;
-  color: #2c3e50;
+  color: var(--text-main);
   margin: 0 0 8px 0;
 }
 
 .card-description {
   font-size: 13px;
-  color: #7f8c8d;
+  color: var(--text-sub);
   margin: 0 0 12px 0;
   display: -webkit-box;
   -webkit-lineclamp: 2;
@@ -65,8 +65,8 @@
 
 .card-tag {
   font-size: 11px;
-  background: #f1f5f9;
-  color: #64748b;
+  background: var(--border-light);
+  color: var(--text-sub);
   padding: 4px 8px;
   border-radius: 6px;
 }
@@ -74,13 +74,16 @@
 /* トースト通知のスタイル */
 .toast-bookmark {
   border-radius: 10px !important;
-  background: #333 !important;
-  color: #fff !important;
+  background: var(--tooltip-bg) !important;
+  color: var(--white) !important;
 }
 
 .no-places {
   text-align: center;
   margin-top: 10px;
+}
+.recommend{
+  padding: 30px 20px;
 }
 
 .recommend-title {
@@ -91,7 +94,6 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background-color: #fff;
 }
 
 .rating {

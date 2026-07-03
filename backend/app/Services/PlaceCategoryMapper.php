@@ -33,6 +33,14 @@ class PlaceCategoryMapper
                 'park', 'zoo', 'amusement_park', 'campground', 'tourist_attraction',
                 'childrens_camp', 'garden', 'beach', 'hiking_area', 'national_park',
                 'marina', 'farm', 'athletic_field'
+            ],
+            'any' => [
+                'museum', 'art_gallery', 'movie_theater', 'bowling_alley', 'planetarium',
+                'video_arcade', 'shopping_mall', 'department_store', 'library', 'spa',
+                'fitness_center', 'indoor_playground', 'arena', 'casino',
+                'park', 'zoo', 'amusement_park', 'campground', 'tourist_attraction',
+                'childrens_camp', 'garden', 'beach', 'hiking_area', 'national_park',
+                'marina', 'farm', 'athletic_field'
             ]
         ],
 
@@ -56,14 +64,14 @@ class PlaceCategoryMapper
             ],
             // 遊び：遊園地や水族館に加え、ボウリングやゲームセンター、劇場、イベント会場など
             'play' => [
-                'apiSearchTypeIndoor'  => ['amusement_center', 'movie_theater', 'video_arcade', 'bowling_alley'], // 屋内なら「アミューズメントセンター（ボウリング、トランポリン等）」
+                'apiSearchTypeIndoor'  => ['amusement_center', 'bowling_alley'], // 屋内なら「アミューズメントセンター（ボウリング、トランポリン等）」
                 'apiSearchTypeOutdoor' => ['amusement_park', 'park', 'zoo', 'aquarium'],   // 屋外なら「アミューズメントパーク（遊園地、アスレチック等）」
 
                 'matchTypes'     => [
                     'amusement_park', 'zoo', 'aquarium', 'bowling_alley', 'movie_theater',
                     'video_arcade', 'planetarium', 'indoor_playground', 'childrens_camp',
-                    'casino', 'comedy_club', 'night_club', 'theater', 'performing_arts_theater',
-                    'amusement_center', 'arena', 'skate_park', 'swimming_pool', 'water_park'
+                    'casino', 'comedy_club', 'night_club', 'theater', 'performing_arts_theater', 'establishment',
+                    'amusement_center', 'arena', 'skate_park', 'swimming_pool', 'water_park', 'point_of_interest'
                 ]
             ],
             // 観光：観光名所、歴史的建造物、美術館、博物館、寺社仏閣、展望台など

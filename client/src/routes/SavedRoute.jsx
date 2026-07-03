@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import ListItem from "../components/cards/ListItem";
+import SaveListCard from "../components/cards/SaveListCard";
+import { mockSpots } from "../data/mockSpots";
 
 export default function SavedRoute() {
   const navigate = useNavigate();
@@ -20,24 +21,17 @@ export default function SavedRoute() {
 
   return (
     <div className="saved-list-container">
-      {savedSpots.length > 0 ? (
-        savedSpots.map((spot) => {
-          const id = spot.spotId || spot.id;
-          return (
-            <ListItem
-              key={id}
-              spot={spot}
-              onClick={() => {
-                navigate(`/detail/${id}`, {
-                  state: { spot, from: "/saved" },
-                });
-              }}
-            />
-          );
-        })
-      ) : (
-        <div className="empty-message">保存されたスポットはありません。</div>
-      )}
+      {mockSpots.map((spot) => (
+        <SaveListCard
+          key={spot.id}
+          spot={spot}
+          onClick={() => {
+            navigate(`/detail/${spot.id}`, {
+              state: { spot, from: "/saved" },
+            });
+          }}
+        />
+      ))}
     </div>
   );
 }
