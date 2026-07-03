@@ -1,0 +1,56 @@
+.saved-container {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #2d3748;
+}
+
+.spots-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.saved-card-wrapper {
+  position: relative;
+}
+
+.remove-btn {
+  margin-top: 8px;
+  padding: 8px;
+  width: 100%;
+  background: #fff5f5;
+  border: 1px solid #feb2b2;
+  color: #c53030;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.remove-btn:hover {
+  background: #fed7d7;
+}
+
+.remove-btn:active {
+  background: #feb2b2;
+  transform: scale(0.98);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #a0aec0;
+}
+
+@media (max-width: 480px) {
+  .saved-container {
+    padding: 16px 12px;
+  }
+}
