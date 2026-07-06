@@ -6,7 +6,9 @@
  * @Update 26/06/12
  */
 
-const BASE_URL = "/api/v1";
+// Cloudflare: .env
+// Local: 'api/v1'
+export const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const searchPlaces = async (searchData) => {
     const response = await fetch(`${BASE_URL}/placeSearch`, {
