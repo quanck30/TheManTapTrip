@@ -16,8 +16,9 @@ return new class extends Migration
             $table->foreignId('userId')->constrained('users')->cascadeOnDelete();
             // 認証プロバイダー名と外部アカウントの識別子を保存します。
             $table->string('provider', 20);
-            $table->string('providerKey', 255);
+            $table->string('providerKey', 255)->nullable();
             $table->string('passHash', 255)->nullable();
+            $table->string('email')->unique()->nullable();
             $table->timestamps();
             // 同じ外部アカウントでユーザーが重複作成されないようにします。
             $table->unique([
