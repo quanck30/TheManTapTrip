@@ -177,6 +177,10 @@ class AuthenticatedSessionController extends Controller
     {
 
         $user = $request->user();
+        
+        if (!$user) {
+            return $this->apiResponse->error('認証情報が無効です。再度ログインしてください。', 401);
+        }
 
         $user->loadMissing('userAuths');
 
