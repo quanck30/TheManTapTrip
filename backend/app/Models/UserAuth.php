@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class UserAuth extends Model
 {
-    protected $table = 'user_auths';
 
     protected $fillable = [
         'userId',

@@ -113,13 +113,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Choice::class, 'userId');
     }
-
-    /**
-     * emailログイン用の認証情報
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne<UserAuth, User>
-     */
-    public function emailAuth()
-    {
-        return $this->hasOne(UserAuth::class, 'userId');
-    }
 }

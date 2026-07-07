@@ -177,7 +177,7 @@ class AuthenticatedSessionController extends Controller
     {
         $user = $request->user();
 
-        $user->loadMissing('emailAuth');
+        $user->loadMissing('userAuths');
 
         return $this->apiResponse->success([
                 'user' => $this->userResponse($user),
