@@ -12,7 +12,8 @@ class QueryItem extends Model
         'questionId',
         'itemId',
         'title',
-        'searchType',
+        'searchValue',
+        'radius',
 
     ];
 

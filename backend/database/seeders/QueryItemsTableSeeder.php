@@ -21,109 +21,134 @@ class QueryItemsTableSeeder extends Seeder
                     'questionId' => 1,
                     'itemId' => 1,
                     'title' => 'はい',
-                    'searchType' => ''
+                    'searchValue' => 'true',
+                    'radius' => null
                 ],
                 [
                     'questionId' => 1,
                     'itemId' => 2,
                     'title' => 'いいえ',
-                    'searchType' => ''
+                    'searchValue' => 'false',
+                    'radius' => null
                 ],
                 [
                     'questionId' => 2,
                     'itemId' => 1,
                     'title' => '徒歩',
-                    'searchType' => ''
+                    'searchValue' => 'walk',
+                    'radius' => 1000
                 ],
                 [
                     'questionId' => 2,
                     'itemId' => 2,
                     'title' => '自転車',
-                    'searchType' => ''
+                    'searchValue' => 'bicycle',
+                    'radius' => 2000
                 ],
                 [
                     'questionId' => 2,
                     'itemId' => 3,
                     'title' => '車',
-                    'searchType' => ''
+                    'searchValue' => 'drive',
+                    'radius' => 5000
                 ],
-                [
-                    'questionId' => 2,
-                    'itemId' => 4,
-                    'title' => '公共交通機関',
-                    'searchType' => ''
-                ],
+                // [
+                //     'questionId' => 2,
+                //     'itemId' => 4,
+                //     'title' => '公共交通機関',
+                //     'searchValue' => 'public_transport',
+                //     'radius' => 3000
+                // ],
                 [
                     'questionId' => 3,
                     'itemId' => 1,
                     'title' => '屋内',
-                    'searchType' => ''
+                    'searchValue' => 'indoor',
+                    'radius' => null
                 ],
                 [
                     'questionId' => 3,
                     'itemId' => 2,
                     'title' => '屋外',
-                    'searchType' => ''
+                    'searchValue' => 'outdoor',
+                    'radius' => null
                 ],
                 [
                     'questionId' => 3,
                     'itemId' => 3,
                     'title' => 'どちらでも',
-                    'searchType' => ''
+                    'searchValue' => 'any',
+                    'radius' => null
                 ],
                 [
                     'questionId' => 4,
                     'itemId' => 1,
                     'title' => '食事',
-                    'searchType' => ''
+                    'searchValue' => 'eat',
+                    'radius' => null
                 ],
                 [
                     'questionId' => 4,
                     'itemId' => 2,
                     'title' => '遊び',
-                    'searchType' => ''
+                    'searchValue' => 'play',
+                    'radius' => null
                 ],
                 [
                     'questionId' => 4,
                     'itemId' => 3,
                     'title' => '観光',
-                    'searchType' => ''
+                    'searchValue' => 'sightsee',
+                    'radius' => null
                 ],
                 [
                     'questionId' => 4,
                     'itemId' => 4,
                     'title' => '買い物',
-                    'searchType' => ''
+                    'searchValue' => 'shop',
+                    'radius' => null
                 ],
                 [
                     'questionId' => 4,
                     'itemId' => 5,
                     'title' => 'リラックス',
-                    'searchType' => ''
+                    'searchValue' => 'relax',
+                    'radius' => null
                 ],
                 [
                     'questionId' => 5,
                     'itemId' => 1,
                     'title' => '無料',
-                    'searchType' => ''
+                    'searchValue' => 'PRICE_LEVEL_FREE',
+                    'radius' => null
                 ],
                 [
                     'questionId' => 5,
                     'itemId' => 2,
-                    'title' => '~ 1000（円）',
-                    'searchType' => ''
+                    'title' => '¥1 ~ 1,000',
+                    'searchValue' => 'PRICE_LEVEL_INEXPENSIVE',
+                    'radius' => null
                 ],
                 [
                     'questionId' => 5,
                     'itemId' => 3,
-                    'title' => '1000 ~ 4000（円）',
-                    'searchType' => ''
+                    'title' => '¥1,000 ~ 4,000',
+                    'searchValue' => 'PRICE_LEVEL_MODERATE',
+                    'radius' => null
                 ],
                 [
                     'questionId' => 5,
                     'itemId' => 4,
-                    'title' => '4000~（円）',
-                    'searchType' => ''
+                    'title' => '¥4,000 ~ 10,000',
+                    'searchValue' => 'PRICE_LEVEL_EXPENSIVE',
+                    'radius' => null
+                ],
+                [
+                    'questionId' => 5,
+                    'itemId' => 5,
+                    'title' => '¥10,000 ~',
+                    'searchValue' => 'PRICE_LEVEL_VERY_EXPENSIVE',
+                    'radius' => null
                 ],
 
             ]);

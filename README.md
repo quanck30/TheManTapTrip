@@ -148,3 +148,11 @@ docker compose down -v                 # ボリュームも削除（DB データ
 
 - **Windows + バインドマウント**: Laravel の初回リクエストが遅くなりがちです。`backend` イメージで OPcache を有効にして改善を図っています。
 - `.env` には秘密情報が入るため **コミットしない**でください。`.env.example` のみコミットする運用を推奨します。
+
+```CSRF保護用Cookieを取得用URL
+http://localhost:8080/sanctum/csrf-cookie
+```
+```発行内容
+XSRF-TOKEN
+laravel-session
+```

@@ -102,7 +102,7 @@ class PlaceMatchCalculator
         // 計算が終わった後、マッチ度が低すぎるノイズ店舗をここで除外する
         $formattedPlaces = array_filter($formattedPlaces, function ($place) {
             // 目的(purpose)の点数や他の要素が全く噛み合わず、20点未満になったスポットは非表示にする
-            return $place['matchScore'] >= 20;
+            return $place['matchScore'] >= 30;
         });
 
         // スコアで降順に並び変える
