@@ -1,9 +1,72 @@
-/* index.css - グローバルなベース設定
-   色トークンは styles/variables.css に集約。
-   （元の Vite テンプレート由来の未使用スタイルは削除済み） */
+/* index.css - エントリ CSS（唯一の入口）
+   - Tailwind をインポートし、デザイントークンを @theme で公開
+   - 旧 CSS はすべて cascade layer に入れて utilities より下に置く
+     （= どこでも Tailwind の className が勝つ）
+   色トークンの唯一の定義元は styles/variables.css。 */
 
+@import "tailwindcss";
+
+/* デザイントークンを Tailwind に公開（bg-primary, text-main, rounded-lg, shadow-md ...）。
+   値の元は variables.css の :root。ここは var() で参照するだけ。 */
+@theme {
+  --color-primary:        var(--primary);
+  --color-primary-dark:   var(--primary-dark);
+  --color-primary-link:   var(--primary-link);
+  --color-primary-light:  var(--primary-light);
+  --color-accent-green:       var(--accent-green);
+  --color-accent-green-light: var(--accent-green-light);
+  --color-accent-green-dark:  var(--accent-green-dark);
+  --color-danger:        var(--danger);
+  --color-danger-bg:     var(--danger-bg);
+  --color-danger-border: var(--danger-border);
+  --color-heart: var(--heart);
+  --color-star:  var(--star);
+  --color-text-heading: var(--text-heading);
+  --color-text-main:    var(--text-main);
+  --color-text-body:    var(--text-body);
+  --color-text-sub:     var(--text-sub);
+  --color-text-muted:   var(--text-muted);
+  --color-white:     var(--white);
+  --color-card-bg:   var(--card-bg);
+  --color-bg-color:  var(--bg-color);
+  --color-bg-subtle: var(--bg-subtle);
+  --color-border:       var(--border);
+  --color-border-light: var(--border-light);
+
+  --radius-xl: 24px;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* トークン定義（:root）。旧 CSS が var(--primary) 等で参照するので必須。 */
+@import "./styles/variables.css";
+
+/* リセット系は base レイヤー（utilities に負ける） */
+@import "./styles/reset.css"  layer(base);
+@import "./styles/global.css" layer(base);
+
+/* コンポーネント CSS は components レイヤー（utilities に負ける） */
+@import "./styles/layout.css"      layer(components);
+@import "./styles/button.css"      layer(components);
+@import "./styles/card.css"        layer(components);
+@import "./styles/welcome.css"     layer(components);
+@import "./styles/login.css"       layer(components);
+@import "./styles/register.css"    layer(components);
+@import "./styles/home.css"        layer(components);
+@import "./styles/profile.css"     layer(components);
+@import "./styles/detail.css"      layer(components);
+@import "./styles/loginPrompt.css" layer(components);
+@import "./styles/iconButton.css"  layer(components);
+@import "./styles/listItem.css"    layer(components);
+
+/* グローバルなベース設定 */
 :root {
-  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-family: system-ui, "Segoe UI", Roboto, sans-serif;
   line-height: 1.45;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

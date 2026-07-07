@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { FaChevronLeft, FaExclamationTriangle } from 'react-icons/fa';
-import '../styles/login.css';
 import TempButton from '../components/buttons/TempButton';
 import GoogleLoginButton from '../components/buttons/GoogleLoginButton';
 

@@ -6,7 +6,6 @@
  */
 
 import React from 'react';
-import '../../styles/iconButton.css';
 
 function IconButton({ icon, onClick, variant }) {
   // variant: 'bookmark' か 'back' をクラス名に変換

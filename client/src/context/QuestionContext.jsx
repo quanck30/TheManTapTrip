@@ -89,6 +89,9 @@ export const QuestionProvider = ({ children }) => {
         if (q.questionType === "travelMode" && selectedItem) {
           const radius = selectedItem.radius;
         }
+        if (q.questionType === "withChildren" && selectedItem) {
+          formattedAnswers[q.questionType] = Boolean(selectedItem.searchValue);
+        }
       });
 
       const searchData = {
