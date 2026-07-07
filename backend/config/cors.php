@@ -4,8 +4,6 @@ return [
     // CORS対象パス
     'paths' => [
         'api/*',
-        'login',
-        'logout',
         'sanctum/csrf-cookie',
     ],
 

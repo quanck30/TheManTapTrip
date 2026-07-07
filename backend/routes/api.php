@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ChoiceController;
 use App\Http\Controllers\PlaceSearchController;
 use App\Models\Question;
@@ -53,6 +53,7 @@ Route::apiResource('/v1/choices', ChoiceController::class)->middleware('auth:san
 
 // Google Places Api を使用した場所検索APi
 Route::post('/v1/placeSearch', [PlaceSearchController::class, 'placeSearch']);
+
 // Googleアクセストークンを使ったログインAPIです。
 Route::post('/v1/auth/google', [GoogleAuthController::class, 'googleLogin']);
 
@@ -62,4 +63,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/v1/user/', [UserController::class, 'update']);
 });
 
+// アカウント作成API（未ログインのみ）
+Route::post('auth/register', [AuthenticatedSessionController::class, 'register']);
 
+// ログインAPI（未ログインのみ）
+Route::post('auth/email', [AuthenticatedSessionController::class, 'emailLogin']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    // ログアウトAPI
+    Route::post('/auth/logout', [AuthenticatedSessionController::class, 'emailLogout']);
+
+    // ログイン情報取得API
+    Route::get('/me', [AuthenticatedSessionController::class, 'me']);
+});

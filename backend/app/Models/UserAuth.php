@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class UserAuth extends Model
 {
+    protected $table = 'user_auths';
+
     protected $fillable = [
         'userId',
         'provider',
@@ -14,6 +16,12 @@ class UserAuth extends Model
         'passHash',
         'email'
     ];
+
+
+    protected $hidden = [
+        'passHash',
+    ];
+
 
     /**
      * この認証情報に紐づくユーザーを取得します。
