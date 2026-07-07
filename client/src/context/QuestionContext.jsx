@@ -11,17 +11,15 @@ import { useAuth } from "./AuthContext";
 
 export const QuestionContext = createContext();
 
-
-
 export const QuestionProvider = ({ children }) => {
   const { isAuthenticated, logout } = useAuth();
 
   // 質問一覧・回答・診断フローの状態（sessionStorage から復元し、Homeに戻っても回答を保持）
   const [questionForm, setQuestionForm] = useState(() => ({
     questions: [],
-    answers:{},
+    answers: {},
   }));
-  const [currentStep, setCurrentStep] = useState(() => parseInt( "0", 10));
+  const [currentStep, setCurrentStep] = useState(() => parseInt("0", 10));
   const [isConfirming, setIsConfirming] = useState();
   const [directAddress, setDirectAddress] = useState("");
 
@@ -81,31 +79,27 @@ export const QuestionProvider = ({ children }) => {
       }
 
       const formattedAnswers = {};
-
-      for (const [qIdStr, config] of Object.entries(queConf)) {
-        const qId = Number(qIdStr);
-        const userAnswerId = answers[qId];
-        const targetQuestion = questions.find((q) => String(q.id) === String(qId));
-
-        const items = targetQuestion?.queryItems || [];
-        const selectedItem = items.find((i) => String(i.itemId) === String(userAnswerId));
-        const mappedItemId = selectedItem ? Number(selectedItem.itemId) : null;
-
-        formattedAnswers[config.apiKey] = config.values[mappedItemId] ?? config.default;
-      }
-
-      const finalRadius = defaultRadMap[formattedAnswers.travelMode] || 1000;
+      const radius = 1000;
+      questions.forEach((q) => {
+        const selectedItemId = answers[q.id];
+        const selectedItem = q.queryItems.find((item) => item.itemId === selectedItemId);
+        if (selectedItem) {
+          formattedAnswers[q.questionType] = selectedItem.searchValue;
+        }
+        if (q.questionType === "travelMode" && selectedItem) {
+          const radius = selectedItem.radius;
+        }
+      });
 
       const searchData = {
-        radius: finalRadius,
+        radius: radius,
         answers: formattedAnswers,
         ...(directAddress ? { address: directAddress } : { latitude: location?.lat, longitude: location?.lng }),
       };
-
+      console.log("検索データ:", searchData);
       return await searchPlaces(searchData);
     } catch (err) {
       console.error(err);
-      alert("処理中にエラーが発生しました");
       return null;
     }
   };

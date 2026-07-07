@@ -1,8 +1,8 @@
-import { useEffect } from "react";
-import { useQuestion } from "../context/QuestionContext";
-import QuestionStep from "../components/home/QuestionStep";
-import ConfirmStep from "../components/home/ConfirmStep";
-import "../styles/home.css";
+import React from "react";
+import { FaArrowLeft, FaStar, FaYenSign, FaMapMarkerAlt } from "react-icons/fa";
+import TempButton from "../components/buttons/TempButton";
+import "../styles/detail.css";
+import noImage from "../assets/no_image.jpg";
 
 function Home({ onDiagnoseComplete }) {
   const { questions, isConfirming, getLocation, loadQuestions } = useQuestion();
@@ -23,4 +23,5 @@ function Home({ onDiagnoseComplete }) {
     </div>
   );
 }
-export default Home;
+
+export default Detail;

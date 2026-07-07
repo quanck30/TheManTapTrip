@@ -16,7 +16,8 @@ return new class extends Migration
             $table->foreignId('questionId')->constrained('questions');
             $table->string('itemId');
             $table->string('title');
-            $table->string('searchType');
+            $table->string('searchValue', 100);
+            $table->unsignedBigInteger('radius')->nullable();
             $table->timestamps();
             $table->unique(['questionId', 'itemId']);
         });
