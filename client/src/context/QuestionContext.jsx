@@ -2,8 +2,8 @@
  * @brief 質問・回答・診断フローの状態をアプリ全体で保持するコンテキスト
  */
 
-import { createContext, useContext, useEffect, useState } from "react";
-import { queConf, defaultRadMap } from "../data/answerMap.js";
+import { createContext, useContext, useState } from "react";
+import { toast } from "sonner";
 import { fetchQuestions, saveAnswers } from "../services/questionService";
 import { searchPlaces } from "../services/placeService";
 import { useGeolocation } from "../hooks/useGeolocation";
@@ -23,7 +23,7 @@ export const QuestionProvider = ({ children }) => {
   const [isConfirming, setIsConfirming] = useState();
   const [directAddress, setDirectAddress] = useState("");
 
-  const { location, getLocation } = useGeolocation();
+  const { location, status: locationStatus, error: locationError, getLocation } = useGeolocation();
 
   /**
    * DBから質問を取得する（取得済みならスキップ）
@@ -38,6 +38,8 @@ export const QuestionProvider = ({ children }) => {
       setQuestionForm((prev) => ({ ...prev, questions: fetchedQuestions }));
     } catch (err) {
       console.error("質問の取得エラー:", err);
+      // バックエンドが返すメッセージをそのままトースト表示
+      toast.error(err.message);
     }
   };
 
@@ -56,7 +58,8 @@ export const QuestionProvider = ({ children }) => {
    */
   const handleSubmit = async () => {
     if (!directAddress && (!location || !location.lat)) {
-      alert("現在地が取得できませんでした。位置情報を許可するか、場所を入力してください。");
+      // /home の位置情報必須ゲートを通過していれば通常ここには来ない（保険）
+      toast.error("現在地が取得できませんでした。位置情報を許可してください。");
       return null;
     }
 
@@ -70,6 +73,8 @@ export const QuestionProvider = ({ children }) => {
         } catch (saveErr) {
           // 保存に失敗しても、検索処理を止めないようにここでエラーを吸収する
           console.warn("⚠️ 回答の保存に失敗しましたが、検索を続行します:", saveErr);
+          // バックエンドが返すメッセージをそのままトースト表示
+          toast.error(saveErr.message);
 
           // 401エラー（認証切れ）だった場合は、ログアウトしてAuthContextの状態をクリアする
           if (saveErr.message.includes("Unauthenticated") || saveErr.message.includes("401")) {
@@ -79,15 +84,16 @@ export const QuestionProvider = ({ children }) => {
       }
 
       const formattedAnswers = {};
-      const radius = 1000;
+      let radius = 1000;
       questions.forEach((q) => {
         const selectedItemId = answers[q.id];
         const selectedItem = q.queryItems.find((item) => item.itemId === selectedItemId);
         if (selectedItem) {
           formattedAnswers[q.questionType] = selectedItem.searchValue;
         }
-        if (q.questionType === "travelMode" && selectedItem) {
-          const radius = selectedItem.radius;
+        if (q.questionType === "travelMode" && selectedItem && selectedItem.radius) {
+          // 移動手段で選ばれた検索半径を反映する（未指定なら既定の 1000 を維持）
+          radius = selectedItem.radius;
         }
         if (q.questionType === "withChildren" && selectedItem) {
           formattedAnswers[q.questionType] = Boolean(selectedItem.searchValue);
@@ -99,10 +105,11 @@ export const QuestionProvider = ({ children }) => {
         answers: formattedAnswers,
         ...(directAddress ? { address: directAddress } : { latitude: location?.lat, longitude: location?.lng }),
       };
-      console.log("検索データ:", searchData);
       return await searchPlaces(searchData);
     } catch (err) {
       console.error(err);
+      // バックエンドが返すメッセージをそのままトースト表示
+      toast.error(err.message);
       return null;
     }
   };
@@ -127,6 +134,8 @@ export const QuestionProvider = ({ children }) => {
         directAddress,
         setDirectAddress,
         getLocation,
+        locationStatus,
+        locationError,
         loadQuestions,
         handleSelect,
         handleSubmit,

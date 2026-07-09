@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import TempButton from "../components/buttons/TempButton";
-import { useAuth } from "../context/AuthContext";
+import { FaUser, FaCamera, FaBell } from "react-icons/fa";
+import { RiShieldKeyholeFill } from "react-icons/ri";
 
 function Profile() {
   const [formData, setFormData] = useState({

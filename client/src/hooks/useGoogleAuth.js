@@ -6,6 +6,7 @@
  */
 
 import { useState } from "react";
+import { toast } from "sonner";
 import { useGoogleLogin } from "@react-oauth/google";
 import { authService } from "../services/authService";
 import { useAuth } from "../context/AuthContext";
@@ -43,7 +44,10 @@ export const useGoogleAuth = (onLoginSuccess) => {
         saveAuth(token, user);
         onLoginSuccess?.(user);
       } catch (err) {
-        setError(err.message || "Googleログインに失敗しました。");
+        // バックエンドが返すメッセージをそのままトースト表示
+        const message = err.message || "Googleログインに失敗しました。";
+        setError(message);
+        toast.error(message);
       } finally {
         setIsLoading(false);
       }
@@ -56,22 +60,24 @@ export const useGoogleAuth = (onLoginSuccess) => {
     onError: (err) => {
       console.error("Google login error:", err);
       setIsLoading(false);
-      setError(
+      const message =
         err.error_description ||
-          err.error ||
-          err.message ||
-          "Googleログインに失敗しました。",
-      );
+        err.error ||
+        err.message ||
+        "Googleログインに失敗しました。";
+      setError(message);
+      toast.error(message);
     },
 
     onNonOAuthError: (err) => {
       console.error("Google non OAuth error:", err);
       setIsLoading(false);
-      setError(
+      const message =
         err.type === "popup_closed"
           ? "Googleログイン画面が閉じられました。"
-          : "Googleログインを開始できませんでした。",
-      );
+          : "Googleログインを開始できませんでした。";
+      setError(message);
+      toast.error(message);
     },
   });
 
