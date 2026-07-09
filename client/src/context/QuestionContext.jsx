@@ -4,7 +4,7 @@
 
 import { createContext, useContext, useState } from "react";
 import { toast } from "sonner";
-import { fetchQuestions, saveAnswers } from "../services/questionService";
+import { fetchQuestions, saveAnswers, validateAnswersComplete } from "../services/questionService";
 import { searchPlaces } from "../services/placeService";
 import { useGeolocation } from "../hooks/useGeolocation";
 import { useAuth } from "./AuthContext";
@@ -55,15 +55,25 @@ export const QuestionProvider = ({ children }) => {
 
   /**
    * 回答を保存して検索を実行する。検索結果を返す（呼び出し側で遷移を行う）
+   * @param {Object} answers - 送信する回答（questionId -> itemId）。呼び出し側（QuestionStep）で
+   *   選択直後に確定させた最新の値を渡す。questionForm.answers は setState 反映前で
+   *   stale な可能性があるため、ここでは読み直さない。
    */
-  const handleSubmit = async () => {
+  const handleSubmit = async (answers) => {
     if (!directAddress && (!location || !location.lat)) {
       // /home の位置情報必須ゲートを通過していれば通常ここには来ない（保険）
       toast.error("現在地が取得できませんでした。位置情報を許可してください。");
       return null;
     }
 
-    const { questions, answers } = questionForm;
+    const { questions } = questionForm;
+
+    try {
+      validateAnswersComplete(questions, answers);
+    } catch (validationErr) {
+      toast.error(validationErr.message);
+      return null;
+    }
 
     try {
       if (isAuthenticated) {

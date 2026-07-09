@@ -46,6 +46,13 @@ export const fetchQuestions = async () => {
 };
 
 export const saveAnswers = async (questionId, queryItemId) => {
+    if (
+        questionId == null || queryItemId == null ||
+        Number.isNaN(Number(questionId)) || Number.isNaN(Number(queryItemId))
+    ) {
+        throw new Error("回答データが不完全です。もう一度お試しください。");
+    }
+
     const token = localStorage.getItem("authToken");
 
     const response = await fetch(`${BASE_URL}/choices`, {
@@ -64,4 +71,16 @@ export const saveAnswers = async (questionId, queryItemId) => {
         throw new Error(error.message || "回答の保存に失敗しました");
     }
     return await response.json();
+};
+
+/**
+ * 全ての質問に回答が揃っているか検証する。送信前のガードとして使う。
+ */
+export const validateAnswersComplete = (questions, answers) => {
+    const unanswered = questions.filter((q) => answers[q.id] === undefined || answers[q.id] === null);
+    if (unanswered.length > 0) {
+        throw new Error(
+            `未回答の質問があります（${unanswered.map((q) => q.title).join("、")}）。もう一度お試しください。`
+        );
+    }
 };

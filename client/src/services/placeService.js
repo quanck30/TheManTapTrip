@@ -9,6 +9,12 @@
 const BASE_URL = "/api/v1";
 
 export const searchPlaces = async (searchData) => {
+    const hasAnswers = searchData?.answers && Object.keys(searchData.answers).length > 0;
+    const hasLocation = searchData?.address || (searchData?.latitude != null && searchData?.longitude != null);
+    if (!hasAnswers || !hasLocation) {
+        throw new Error("検索データが不完全です。もう一度お試しください。");
+    }
+
     const response = await fetch(`${BASE_URL}/placeSearch`, {
         method: "POST",
         headers: {
