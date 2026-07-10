@@ -1,45 +1,98 @@
 /**
- * @file ListItem.js
- * @brief スポット一覧で表示される個別のアイテムコンポーネント
- * @author [谷之木誠多]
- * @date 2026/06/05
+ * @file SaveListCard.jsx
+ * @brief 保存済みスポット一覧で表示される個別カードコンポーネント
  */
 
-import React from 'react';
-import { FaTag, FaChevronRight } from 'react-icons/fa';
+import React from "react";
+import { MoreVertical, Heart } from "lucide-react";
+
+const noImage = "https://via.placeholder.com/72";
 
 /**
- * リストアイテムを表示するコンポーネント
- * @param {Object} props - コンポーネントのプロパティ
- * @param {Object} props.spot - 表示対象のスポットデータオブジェクト
- * @param {Function} props.onClick - アイテムをクリックした際のコールバック関数
+ * 保存済みスポットカード
+ * @param {Object} props
+ * @param {Object} props.spot - 表示対象のスポットデータ
+ * @param {Function} props.onClick - カードタップ時（詳細へ遷移）
+ * @param {Function} [props.onUnsave] - ハートタップ時（保存解除）
+ * @param {Function} [props.onOpenMenu] - "⋮"タップ時
  */
-function ListItem({ spot, onClick }) {
+function SaveListCard({ spot, onClick, onUnsave, onOpenMenu }) {
   if (!spot) return null;
 
-  // スポットデータの各プロパティを安全に取得（フォールバック付き）
   const title = spot.displayName?.text || "名称不明のスポット";
-  const category = spot.types && spot.types[0] ? spot.types[0] : "観光";
-  const imageUrl = spot.photos && spot.photos[0]?.flagUrl ? spot.photos[0].flagUrl : "https://via.placeholder.com/60";
+  const imageUrl = spot.photos?.[0]?.flagUrl || noImage;
+  const tags = spot.tags || [];
+
+  const handleImageError = (e) => {
+    e.target.onerror = null;
+    e.target.src = noImage;
+  };
 
   return (
-    <div className="list-item-container" onClick={onClick}>
-      {/* スポット画像 */}
-      <img src={imageUrl} alt={title} className="list-item-image" />
-      
-      {/* テキストコンテンツ（タイトルとカテゴリー） */}
-      <div className="list-item-content">
-        <h4 className="list-item-title">{title}</h4>
-        <span className="list-item-category">
-          <FaTag color="#319795" style={{ verticalAlign: "middle", marginRight: 4 }} />
-          {category}
-        </span>
+    <div
+      onClick={onClick}
+      className="relative flex gap-3 p-3 rounded-2xl border border-slate-100 bg-white cursor-pointer active:bg-slate-50"
+    >
+      <img
+        src={imageUrl}
+        alt={title}
+        onError={handleImageError}
+        className="w-16 h-16 rounded-xl object-cover bg-slate-100 flex-shrink-0"
+      />
+
+      <div className="flex-1 min-w-0 flex flex-col gap-1.5 pr-6">
+        <h4 className="text-[14px] font-semibold text-slate-800 truncate">
+          {title}
+        </h4>
+
+        <div className="flex items-center gap-2 text-[12px]">
+          {typeof spot.matchScore === "number" && (
+            <span className="bg-emerald-500 text-white font-medium px-2 py-0.5 rounded-full text-[11px]">
+              {spot.matchScore}% match
+            </span>
+          )}
+          {spot.distance && (
+            <span className="text-slate-400">{spot.distance}</span>
+          )}
+        </div>
+
+        {tags.length > 0 && (
+          <div className="flex items-center gap-1.5">
+            {tags.map((tag) => (
+              <span
+                key={tag}
+                className="text-[11px] text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
 
-      {/* 詳細への遷移を示すインジケーター */}
-      <span className="list-item-arrow"><FaChevronRight color="#cbd5e0" /></span>
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          onOpenMenu?.(spot);
+        }}
+        className="absolute top-2 right-2 text-slate-400 p-1"
+        aria-label="メニュー"
+      >
+        <MoreVertical size={16} />
+      </button>
+
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          onUnsave?.(spot);
+        }}
+        className="absolute bottom-3 right-3 text-rose-400 p-1"
+        aria-label="保存を解除"
+      >
+        <Heart size={18} className="fill-rose-400" />
+      </button>
     </div>
   );
 }
 
-export default ListItem;
+export default SaveListCard;
