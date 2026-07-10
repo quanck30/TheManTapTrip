@@ -41,10 +41,6 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 Route::get('/v1/questions/guest', [QuestionController::class, 'index']);
 
-
-
-
-
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/v1/spots', SpotController::class);
 

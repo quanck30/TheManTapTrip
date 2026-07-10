@@ -23,7 +23,7 @@ class UpdateVisitLocationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'spotId' => ['required', 'numeric','exists:spot,spotId'],
+            'spotId' => ['required', 'numeric','exists:spots,spotId'],
         ];
     }
 

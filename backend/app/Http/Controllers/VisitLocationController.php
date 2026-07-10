@@ -46,8 +46,8 @@ class VisitLocationController extends Controller
         try {
             DB::transaction(function () use ($request) {
                 // 更新をかけるデータを取得
-                $spotData = Spot::where('spot_id', $request->input('spotId'))
-                    ->where('user_id', $request->user()->id)
+                $spotData = Spot::where('spotId', $request->input('spotId'))
+                    ->where('userId', $request->user()->id)
                     ->firstOrFail();
 
                 // 行き済み(true)に更新
