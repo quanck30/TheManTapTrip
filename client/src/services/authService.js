@@ -29,11 +29,11 @@ export const authService = {
             },
         );
 
-        const data = await response.json();
-        console.log(data);
+        const data = await response.json().catch(() => ({}));
 
         if (!response.ok) {
-            throw new Error(data.message || "login failed at Server");
+            // バックエンドが返すメッセージをそのまま利用する
+            throw new Error(data.message || "ログインに失敗しました。");
         }
 
         return data;

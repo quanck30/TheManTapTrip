@@ -1,7 +1,6 @@
 import React from 'react';
 import { FaArrowRight } from 'react-icons/fa';
 import TempButton from '../components/buttons/TempButton';
-import '../styles/welcome.css'; // 通常のCSSファイルをインポート
 
 import logoImage from '../assets/Taptrip.png';
 

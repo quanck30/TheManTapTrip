@@ -1,43 +1,29 @@
-/* button.css - 共通ボタンコンポーネント*/
+/* button.css - 共通ボタンコンポーネント (Tailwind @apply) */
 
 .btn {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding: 15px 24px;
-  font-size: 16px;
-  font-weight: 700;
-  border-radius: 26px; /* 丸みのあるボタン */
-  border: none;
-  cursor: pointer;
-  box-sizing: border-box;
+  @apply inline-flex justify-center items-center w-full py-[15px] px-6 text-[16px] font-bold rounded-[26px] border-0 cursor-pointer box-border;
   transition: opacity 0.2s ease, transform 0.1s ease;
 }
 
 .btn:active {
-  opacity: 0.92;
+  @apply opacity-[0.92];
   transform: scale(0.985);
 }
 
 /* 1. プライマリーボタン（青色グラデーション） */
 .btn-primary {
+  @apply text-white;
   background: var(--primary-gradient);
-  color: var(--white);
   box-shadow: 0 4px 14px rgba(37, 167, 245, 0.35);
 }
 
 /* 2. セカンダリーボタン（アウトライン・白背景） */
 .btn-secondary {
-  background-color: var(--white);
-  color: var(--primary);
-  border: 2px solid var(--primary);
-  padding: 13px 22px; /* ボーダー分内側を小さく調整 */
+  @apply bg-white text-primary border-2 border-primary py-[13px] px-[22px];
 }
 
 /* 3. アクセントボタン（緑色：詳細画面・予約用） */
 .btn-accent {
-  background-color: var(--accent-green);
-  color: var(--white);
+  @apply bg-accent-green text-white;
   box-shadow: 0 4px 14px rgba(0, 230, 118, 0.35);
 }

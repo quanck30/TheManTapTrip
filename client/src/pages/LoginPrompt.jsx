@@ -1,6 +1,5 @@
 import { FaLock } from 'react-icons/fa';
 import TempButton from '../components/buttons/TempButton';
-import '../styles/loginPrompt.css';
 
 function LoginPrompt({ onNavigateToLogin }) {
   return (

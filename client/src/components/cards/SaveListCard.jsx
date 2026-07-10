@@ -7,7 +7,6 @@
 
 import React from 'react';
 import { FaTag, FaChevronRight } from 'react-icons/fa';
-import '../../styles/listItem.css';
 
 /**
  * リストアイテムを表示するコンポーネント

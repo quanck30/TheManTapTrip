@@ -1,17 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 
-import "./styles/reset.css";
-import "./styles/variables.css";
-import "./styles/global.css";
-import "./styles/layout.css";
-import "./styles/button.css";
-import "./styles/card.css";
-import "./styles/welcome.css";
-import "./styles/login.css";
-import "./styles/home.css";
-import "./styles/profile.css";
-import "./styles/detail.css";
-
 import Profile from "./pages/Profile";
 import { useAuth } from "./context/AuthContext";
 import MainLayout from "./components/layout/MainLayout";

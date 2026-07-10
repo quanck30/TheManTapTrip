@@ -1,63 +1,73 @@
-.detail-container { display: flex; flex-direction: column; height: 100%; background-color: var(--card-bg); overflow-y: auto; }
-
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  background-color: #ffffff;
-  overflow-y: auto;
+.detail-container {
+  @apply flex flex-col h-full bg-card-bg overflow-y-auto;
 }
 
-.detail-hero { position: relative; width: 100%; height: 280px; overflow: hidden; }
-.detail-hero-img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.hero-gradient {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 55%;
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.55), transparent);
-  pointer-events: none;
+.detail-hero {
+  @apply relative w-full h-60 overflow-hidden;
+}
+.detail-hero-img {
+  @apply w-full h-full object-cover block;
 }
 
 /* 戻るボタンのスタイル */
-.back-button-wrapper { position: absolute; top: 20px; left: 20px; z-index: 10; }
+.back-button-wrapper {
+  @apply absolute top-5 left-5 z-10;
+}
 .back-button-arrow {
+  @apply border-0 w-10 h-10 rounded-full flex items-center justify-center cursor-pointer p-2.5;
   background: var(--white) !important;
-  border: none;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-full);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s;
 }
-.back-button-arrow:hover { transform: scale(1.1); }
-.back-button-icon { color: #2d3748; }
-
-/* タイトルと評価を画像に重ねるオーバーレイ */
-.hero-overlay-text {
-  position: absolute;
-  left: 20px;
-  right: 20px;
-  bottom: 20px;
-  color: #ffffff;
+.back-button-arrow img {
+  @apply w-full h-full object-contain;
+}
+.back-button-arrow:hover {
+  @apply scale-110;
 }
 
 /* コンテンツ */
-.detail-body { padding: 24px 20px; display: flex; flex-direction: column; gap: 16px; }
-.detail-main-title { font-size: 24px; font-weight: 800; color: var(--text-heading); margin: 0; }
-.detail-info-box { padding: 16px; background-color: var(--bg-subtle); border-radius: 16px; border: 1px solid var(--border-light); }
-.detail-meta { display: flex; gap: 24px; margin-bottom: 12px; }
-.detail-meta-item { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; color: var(--text-main); }
-.detail-address { margin: 0; font-size: 13px; color: var(--text-sub); display: flex; align-items: center; gap: 6px; }
-.detail-description { font-size: 15px; line-height: 1.7; color: var(--text-body); }
+.detail-body {
+  @apply py-6 px-5 flex flex-col gap-4;
+}
+.detail-main-title {
+  @apply text-[24px] font-extrabold m-0;
+  color: var(--text-heading);
+}
+.detail-info-box {
+  @apply p-4 bg-bg-subtle rounded-lg border border-border-light;
+}
+.detail-meta {
+  @apply flex gap-6 mb-3;
+}
+.detail-meta-item {
+  @apply flex items-center gap-1.5 text-[14px] font-bold;
+  color: var(--text-main);
+}
+.detail-address {
+  @apply m-0 text-[13px] flex items-center gap-1.5;
+  color: var(--text-sub);
+}
+.detail-description {
+  @apply text-[15px] leading-[1.7];
+  color: var(--text-body);
+}
 
 /* 地図 */
-.map-section-title { font-size: 15px; font-weight: 700; margin-bottom: 12px; color: var(--text-main); }
-.map-placeholder { width: 100%; height: 160px; background-color: var(--border-light); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: var(--text-sub); font-size: 14px; border: 1px solid var(--border); }
+.map-section-title {
+  @apply text-[15px] font-bold mb-3;
+  color: var(--text-main);
+}
+.map-placeholder {
+  @apply w-full h-40 bg-border-light rounded-lg flex items-center justify-center text-[14px] border border-border;
+  color: var(--text-sub);
+}
 
 /* フッター */
-.detail-footer-bar { padding: 20px; border-top: 1px solid var(--border-light); margin-top: auto; background: var(--white); }
-.detail-footer-bar button { width: 100%; padding: 16px; background: var(--accent-green); color: var(--white); border: none; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; box-shadow: 0 4px 12px rgba(0, 230, 118, 0.2); }
+.detail-footer-bar {
+  @apply p-5 border-t border-border-light mt-auto bg-white;
+}
+.detail-footer-bar button {
+  @apply w-full p-4 bg-accent-green text-white border-0 rounded-md font-bold text-[16px] cursor-pointer;
+  box-shadow: 0 4px 12px rgba(0, 230, 118, 0.2);
+}

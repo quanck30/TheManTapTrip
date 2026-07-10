@@ -1,13 +1,10 @@
 html,
 body {
-  overflow: hidden;
-  height: 100%;
+  @apply overflow-hidden h-full;
 }
+
 .home-container {
-  min-height: 50vh;
-  display: flex;
-  justify-content: center;
-  overflow-y: scroll;
+  @apply min-h-[50vh] flex justify-center overflow-y-scroll;
   -ms-overflow-style: none;
 }
 .home-container::-webkit-scrollbar {
@@ -15,155 +12,79 @@ body {
 }
 
 .diagnostic-card {
-  width: 100%;
-  max-width: 500px;
-  padding: 30px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+  @apply w-full max-w-[500px] p-[30px] flex flex-col gap-6;
 }
 
 .back-button {
-  background: none;
-  border: none;
+  @apply bg-transparent border-0 text-[14px] cursor-pointer py-2 px-1 text-left;
   color: var(--text-sub);
-  font-size: 14px;
-  cursor: pointer;
-  padding: 8px 4px;
-  text-align: left;
 }
 .back-button-bottom {
-  background: none;
-  border: none;
+  @apply bg-transparent border-0 text-[14px] cursor-pointer -mt-2.5;
   color: var(--text-muted);
-  font-size: 14px;
-  cursor: pointer;
-  margin-top: -10px;
 }
 
+/* プログレスバー（重複定義を統合） */
 .progress-container {
-  width: 100%;
-  height: 6px;
-  display: flex;
-  gap: 4px;
+  @apply w-full h-1.5 flex gap-1;
 }
 .progress-segment {
-  flex: 1;
-  height: 100%;
-  background: var(--border);
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
+  @apply flex-1 h-full bg-border border-0 rounded-[3px] cursor-pointer;
 }
 .progress-segment.active {
-  background: var(--star);
-  transform: scaleY(1.6);
-}
-.progress-segment.completed {
-  background: var(--primary-dark);
-}
-
-.question-meta {
-  font-size: 12px;
-  color: var(--text-sub);
-}
-.question-title {
-  font-size: 40px;
-  color: var(--text-main);
-  margin: 0;
-}
-
-.progress-container {
-  width: 100%;
-  height: 6px;
-  display: flex;
-  gap: 4px;
-}
-.progress-segment {
-  flex: 1;
-  height: 100%;
-  background: var(--border);
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-}
-.progress-segment.active {
-  background: var(--star);
+  @apply bg-star;
   transform: scaleY(1.2);
 }
 .progress-segment.completed {
-  background: var(--primary-dark);
+  @apply bg-primary-dark;
 }
 
 .question-meta {
-  font-size: 12px;
+  @apply text-[12px];
   color: var(--text-sub);
 }
 .question-title {
-  font-size: 20px;
+  @apply text-[20px] m-0;
   color: var(--text-main);
 }
 
 .options-group {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  @apply flex flex-col gap-3;
 }
 .option-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 16px 20px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--card-bg);
-  cursor: pointer;
+  @apply flex justify-between items-center w-full py-4 px-5 border border-border rounded-md bg-card-bg cursor-pointer;
 }
 .option-item.selected {
-  background: var(--primary-light);
-  border: 2px solid var(--primary);
+  @apply bg-primary-light border-2 border-primary;
 }
 .option-text {
+  @apply text-[14px] font-medium;
   color: var(--text-main) !important;
-  font-size: 14px;
-  font-weight: 500;
 }
 
 /* 確認画面 */
 .summary-container {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  @apply flex flex-col gap-4;
 }
 .summary-item {
-  background: var(--bg-subtle);
-  padding: 16px;
-  border-radius: 12px;
+  @apply bg-bg-subtle p-4 rounded-md;
 }
 .summary-question {
-  font-size: 12px;
+  @apply text-[12px] m-0 mb-1;
   color: var(--text-sub);
-  margin: 0 0 4px 0;
 }
 .summary-answer {
-  font-size: 15px;
+  @apply text-[15px] font-semibold m-0;
   color: var(--text-heading);
-  font-weight: 600;
-  margin: 0;
 }
 
 .confirm-btn {
-  justify-content: center;
-  background: var(--border-light);
+  @apply justify-center bg-border-light pointer-events-none;
   color: var(--text-muted);
-  pointer-events: none;
 }
 .confirm-btn.active {
-  background: var(--primary);
-  color: var(--white);
-  pointer-events: auto;
+  @apply bg-primary text-white pointer-events-auto;
 }
 .confirm-btn.warning {
-  background: var(--danger);
+  @apply bg-danger;
 }

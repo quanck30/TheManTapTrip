@@ -19,7 +19,9 @@ export const searchPlaces = async (searchData) => {
     });
 
     if (!response.ok) {
-        throw new Error("場所の検索に失敗しました");
+        // バックエンドが返すメッセージをそのまま利用する
+        const error = await response.json().catch(() => ({}));
+        throw new Error(error.message || "場所の検索に失敗しました");
     }
     return response.json();
 };
