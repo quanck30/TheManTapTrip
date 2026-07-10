@@ -17,7 +17,7 @@ export const authService = {
      */
     googleLogin: async (accessToken) => {
         const response = await fetch(
-            `/api/v1/auth/google`,
+            `api/v1/auth/google`,
             {
                 method: "POST",
                 headers: {
@@ -27,7 +27,9 @@ export const authService = {
                 // Laravel側の$request->accessTokenで持ってるキーと合わせる
                 body: JSON.stringify({ accessToken: accessToken }),
             },
-        );
+            // Laravel側の$request->accessTokenで持ってるキーと合わせる
+            body: JSON.stringify({ accessToken: accessToken }),
+        )};
 
         const data = await response.json().catch(() => ({}));
 
