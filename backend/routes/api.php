@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ChoiceController;
 use App\Http\Controllers\PlaceSearchController;
+use App\Http\Controllers\VisitLocationController;
 use App\Models\Question;
 use App\Http\Controllers\GoogleAuthController;
 use App\Models\User;
@@ -46,6 +47,18 @@ Route::get('/v1/questions/guest', [QuestionController::class, 'index']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/v1/spots', SpotController::class);
+
+    // アカウント情報の取得API(ログイン必須)
+    Route::get('/v1/user/', [UserController::class, 'show']);
+    Route::put('/v1/user/', [UserController::class, 'update']);
+
+    // ログアウトAPI
+    Route::post('/auth/logout', [AuthenticatedSessionController::class, 'emailLogout']);
+    // ログイン情報取得API
+    Route::get('/me', [AuthenticatedSessionController::class, 'me']);
+
+    // 行き済み登録API
+    Route::put('/v1/visit', [VisitLocationController::class, 'update']);
 });
 
 // 回答保存API
@@ -57,22 +70,9 @@ Route::post('/v1/placeSearch', [PlaceSearchController::class, 'placeSearch']);
 // Googleアクセストークンを使ったログインAPIです。
 Route::post('/v1/auth/google', [GoogleAuthController::class, 'googleLogin']);
 
-// アカウント情報の取得API(ログイン必須)
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/v1/user/', [UserController::class, 'show']);
-    Route::put('/v1/user/', [UserController::class, 'update']);
-});
-
 // アカウント作成API（未ログインのみ）
 Route::post('auth/register', [AuthenticatedSessionController::class, 'register']);
 
 // ログインAPI（未ログインのみ）
 Route::post('auth/email', [AuthenticatedSessionController::class, 'emailLogin']);
 
-Route::middleware('auth:sanctum')->group(function () {
-    // ログアウトAPI
-    Route::post('/auth/logout', [AuthenticatedSessionController::class, 'emailLogout']);
-
-    // ログイン情報取得API
-    Route::get('/me', [AuthenticatedSessionController::class, 'me']);
-});
