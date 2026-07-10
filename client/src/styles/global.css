@@ -15,14 +15,6 @@ body {
 
 /* スマホ画面のコンテナ（レスポンシブ対応） */
 .app-container {
-  width: 100%;
-  max-width: 414px; /* iPhone 11/15等の標準的な幅 */
-  height: 100vh;
-  max-height: 896px;
-  background-color: var(--card-bg);
+  @apply w-full max-w-[414px] h-screen max-h-[896px] bg-card-bg overflow-y-auto relative flex flex-col;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
-  position: relative;
-  display: flex;
-  flex-direction: column;
 }

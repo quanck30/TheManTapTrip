@@ -1,7 +1,6 @@
 import { useState } from "react";
+import { FaUser, FaCamera, FaBell } from "react-icons/fa";
 import { RiShieldKeyholeFill } from "react-icons/ri";
-import { FaBell, FaUser, FaCamera } from "react-icons/fa";
-import "../styles/profile.css";
 
 function Profile() {
   const [formData, setFormData] = useState({

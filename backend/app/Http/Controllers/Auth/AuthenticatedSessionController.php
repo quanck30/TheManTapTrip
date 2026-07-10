@@ -53,7 +53,7 @@ class AuthenticatedSessionController extends Controller
             // セッション固定攻撃のためセッションIDを作り直す
             $request->session()->regenerate();
 
-            $user->load('emailAuth');
+            $user->load('userAuths');
 
             return $this->apiResponse->success(
                 $this->buildAuthData($user),
@@ -88,7 +88,7 @@ class AuthenticatedSessionController extends Controller
         try {
             // emailログイン情報を取得
             $userAuth = UserAuth::query()
-                ->with('user.emailAuth')
+                ->with('user.userAuths')
                 ->where('provider', 'email')
                 ->where('email', $request->input('email'))
                 ->first();
@@ -175,16 +175,23 @@ class AuthenticatedSessionController extends Controller
      */
     public function me(Request $request)
     {
+
         $user = $request->user();
+        
+        if (!$user) {
+            return $this->apiResponse->error('認証情報が無効です。再度ログインしてください。', 401);
+        }
 
         $user->loadMissing('userAuths');
 
-        return $this->apiResponse->success([
+        return $this->apiResponse->success(
+            [
                 'user' => $this->userResponse($user),
             ],
             "ログイン中のユーザー情報を取得しました。",
             200,
         );
+
     }
 
     /*

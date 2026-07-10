@@ -36,10 +36,10 @@ export const fetchQuestions = async () => {
             },
         });
     }
-    console.log(response);
-    
     if (!response.ok) {
-        throw new Error("質問の取得に失敗しました");
+        // バックエンドが返すメッセージをそのまま利用する
+        const error = await response.json().catch(() => ({}));
+        throw new Error(error.message || "質問の取得に失敗しました");
     }
 
     return await response.json();
@@ -59,8 +59,9 @@ export const saveAnswers = async (questionId, queryItemId) => {
     });
 
     if (!response.ok) {
-        const error = await response.json();
-        throw new Error(`回答の保存に失敗しました: ${error.message}`);
+        // バックエンドが返すメッセージをそのまま利用する
+        const error = await response.json().catch(() => ({}));
+        throw new Error(error.message || "回答の保存に失敗しました");
     }
     return await response.json();
 };

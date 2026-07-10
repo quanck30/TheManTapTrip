@@ -1,10 +1,9 @@
-import React from "react";
+import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { FaHeart, FaStar } from "react-icons/fa";
 import noImage from "../../assets/no_image.jpg";
 import IconButton from "../buttons/IconButton";
 import { useAuth } from "../../context/AuthContext";
-import "../../styles/card.css";
 
 const CardDisplay = ({ places = [] }) => {
     const navigate = useNavigate();
@@ -25,11 +24,7 @@ const CardDisplay = ({ places = [] }) => {
     const handleBookmark = (e, title) => {
         e.stopPropagation(); // 親のカードクリックイベント（詳細への遷移）が発火するのを防ぐ
 
-        // ※react-toastify 等を入れている場合は下のコメントアウトを外してください
-        // toast.success(`${title}をお気に入りに保存しました！`, { className: 'toast-bookmark' });
-
-        // 代替として標準のalertを使用
-        alert(`${title}をお気に入りに保存しました！`);
+        toast.success(`${title}をお気に入りに保存しました！`);
     };
 
     return (

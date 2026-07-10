@@ -38,7 +38,7 @@ class UserRegisterRequest extends FormRequest
 
             'email.required'              => 'メールアドレスを入力してください。',
             'email.email'                 => 'メールアドレスの形式で入力してください。',
-            'email.max'                   => 'ユーザー名は255文字以内にしてください。',
+            'email.max'                   => 'メールアドレスは255文字以内にしてください。',
             'email.unique' => 'そのメールアドレスは既に使用されています。',
 
             'password.required' => 'パスワードを入力してください。',

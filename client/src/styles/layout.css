@@ -1,87 +1,53 @@
 /* アプリ全体のレイアウトを中央に固定 */
 .app-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: var(--bg-color);
-  margin: 0;
-  padding: 0;
+  @apply flex justify-center items-center min-h-screen bg-bg-color m-0 p-0;
 }
 
 .app-wrapper {
-  width: 390px;
-  height: 844px;
-  background-color: var(--card-bg);
+  @apply w-[390px] h-[844px] bg-card-bg flex flex-col overflow-hidden relative;
   box-shadow: 0 0 24px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  position: relative;
 }
 
+/* App.css から復元: 主コンテンツ領域 */
+.app-content-area {
+  @apply flex-1 m-0 mb-[50px] bg-bg-subtle;
+}
 
 /* デスクトップ表示用レスポンシブ */
 @media (min-width: 480px) {
   .app-wrapper {
-    border-radius: 20px;
+    @apply rounded-[20px];
   }
 }
 
-
-
 /* --- 下部ナビゲーション --- */
 .bottom-nav-bar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 64px;
-  background-color: var(--card-bg);
-  border-top: 1px solid var(--border-light);
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  z-index: 100;
+  @apply absolute bottom-0 left-0 w-full h-16 bg-card-bg border-t border-border-light flex justify-around items-center z-[100];
 }
 
 .nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  @apply flex flex-col items-center justify-center text-[10px] font-semibold cursor-pointer w-1/4 h-full gap-[3px];
   color: var(--text-muted);
-  font-size: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  width: 25%;
-  height: 100%;
-  gap: 3px;
 }
 
 .nav-item.is-active {
-  color: var(--primary);
+  @apply text-primary;
 }
 
 /* --- その他共通コンポーネント --- */
+/* card.css から統合: 見出し + sticky なヘッダー行 */
 .recommend-title {
-  font-size: 18px;
-  font-weight: 700;
-  margin-bottom: 16px;
+  @apply flex justify-between items-center pb-2 sticky top-0 z-[100] text-[18px] font-bold mb-4;
   color: var(--text-main);
 }
 
 .spot-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  @apply flex flex-col gap-4;
 }
 
 .saved-list-container {
-  background: var(--card-bg);
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  overflow: hidden;
+  @apply bg-card-bg rounded-lg overflow-hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 /* --- スクロールバー完全非表示設定 --- */

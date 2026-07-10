@@ -1,7 +1,6 @@
 import { useState, React } from 'react';
 import { FaChevronLeft, FaExclamationTriangle } from 'react-icons/fa';
 import TempButton from '../components/buttons/TempButton';
-import '../styles/register.css';
 import { GoogleLoginButton } from "../components/buttons/GoogleLoginButton";
 
 function Register({ onRegisterSuccess, onNavigateToLogin, onBackToWelcome }) {
