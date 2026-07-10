@@ -14,5 +14,5 @@ export default function RegisterRoute() {
     navigate("/home", { replace: true });
   };
 
-  return <Register onRegisterSuccess={handleRegisterSuccess} onNavigateToLogin={() => navigate("/login")} onBackToWelcome={() => navigate("/")} />;
+  return <Register onRegisterSuccess={handleRegisterSuccess} />;
 }

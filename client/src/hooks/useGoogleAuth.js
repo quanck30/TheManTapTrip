@@ -14,7 +14,7 @@ import { useAuth } from "../context/AuthContext";
 /**
  * Googleログインの画面起動、ローディング状態、エラー状態、Laravelとの連携フローを管理するカスタムフック
  * * @returns {Object} - ログイン関数、ローディング状態、エラー状態を返すオブジェクト
- * @return {Function} login - Googleログインを開始する関数
+ * @return {Function} triggerGoogleLogin - Googleログインを開始する関数
  * @return {boolean} isLoading - ログイン処理が進行中かどうかの状態
  * @return {string|null} error - ログイン処理中に発生したエラーのメッセージ、エラーがない場合はnull
  */
@@ -23,7 +23,7 @@ export const useGoogleAuth = (onLoginSuccess) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const login = useGoogleLogin({
+  const triggerGoogleLogin = useGoogleLogin({
     /**
      * Google側で本人認証が成功した場合の処理
      * @param {Object} tokenResponse - Googleから返ってきた認証データ一式
@@ -81,5 +81,5 @@ export const useGoogleAuth = (onLoginSuccess) => {
     },
   });
 
-  return { login, isLoading, error };
+  return { triggerGoogleLogin, isLoading, error };
 };

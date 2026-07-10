@@ -1,4 +1,6 @@
+import { useMemo, useState } from "react";
 import { FaChevronLeft } from "react-icons/fa";
+import { Loader2 } from "lucide-react";
 import CardDisplay from "../components/cards/CardDisplay";
 import { usePlaces } from "../context/PlacesContext";
 import { useNavigate } from "react-router-dom";
@@ -7,12 +9,41 @@ const RecommendRoute = () => {
   const { places } = usePlaces();
   const navigate = useNavigate();
 
+  // 選択中のタイプ（null = すべて表示）と絞り込み中のローディング状態
+  const [selectedType, setSelectedType] = useState(null);
+  const [isFiltering, setIsFiltering] = useState(false);
+
+  // 結果に含まれる全タイプを重複なしで抽出する
+  const allTypes = useMemo(() => {
+    const set = new Set();
+    (places || []).forEach((p) => {
+      [p?.primaryType, ...(p?.types || [])].filter(Boolean).forEach((t) => set.add(t));
+    });
+    return Array.from(set);
+  }, [places]);
+
+  // 選択中のタイプで結果を絞り込む（未選択なら全件）
+  const filteredPlaces = useMemo(() => {
+    if (!selectedType) return places || [];
+    return (places || []).filter((p) => p?.primaryType === selectedType || (p?.types || []).includes(selectedType));
+  }, [places, selectedType]);
+
+  // タイプをクリックした時：同じものなら解除、違えば絞り込み。少し待ってローディング演出を見せる
+  const handleSelectType = (type) => {
+    const next = selectedType === type ? null : type;
+    setIsFiltering(true);
+    setTimeout(() => {
+      setSelectedType(next);
+      setIsFiltering(false);
+    }, 400);
+  };
+
   return (
-    <div className="recommend">
+    <>
       <div className="recommend-title">
         <button
           onClick={() => {
-            navigate(-1);
+            navigate("/home");
           }}
         >
           <FaChevronLeft color="#2d3748" />
@@ -20,8 +51,33 @@ const RecommendRoute = () => {
         <h2> おすすめスポット</h2>
         <button></button>
       </div>
-      <CardDisplay places={places} />
-    </div>
+
+      <div className="recommend">
+        {/* タイプ絞り込みバー */}
+        {allTypes.length > 0 && (
+          <div className="type-filter-bar">
+            <button type="button" className={`type-filter-chip ${!selectedType ? "type-filter-chip--active" : ""}`} onClick={() => handleSelectType(selectedType)} disabled={!selectedType}>
+              すべて
+            </button>
+            {allTypes.map((type) => (
+              <button key={type} type="button" className={`type-filter-chip ${selectedType === type ? "type-filter-chip--active" : ""}`} onClick={() => handleSelectType(type)}>
+                {type}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* 絞り込み中はローディングアニメーションを表示 */}
+        {isFiltering ? (
+          <div className="filter-loading">
+            <Loader2 className="filter-loading-spinner" />
+            <span>絞り込み中...</span>
+          </div>
+        ) : (
+          <CardDisplay places={filteredPlaces} />
+        )}
+      </div>
+    </>
   );
 };
 

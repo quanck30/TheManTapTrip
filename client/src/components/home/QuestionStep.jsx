@@ -9,7 +9,7 @@ import { validateAnswersComplete } from "../../services/questionService";
 import { FaArrowRight } from "react-icons/fa";
 
 export default function QuestionStep({ onDiagnoseComplete }) {
-  const { questions, answers, currentStep, setCurrentStep, setIsConfirming, handleSelect, handleSubmit } = useQuestion();
+  const { questions, answers, currentStep, setCurrentStep, setIsConfirming, handleSelect, submitAnswers } = useQuestion();
 
   const currentQuestion = questions[currentStep];
 
@@ -32,7 +32,7 @@ export default function QuestionStep({ onDiagnoseComplete }) {
     }
 
     handleSelect(qId, itemId);
-    const result = await handleSubmit(mergedAnswers);
+    const result = await submitAnswers(mergedAnswers);
     onDiagnoseComplete(result);
   };
 

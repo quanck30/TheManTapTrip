@@ -56,11 +56,50 @@
 }
 
 .recommend {
-  @apply py-[30px] px-5;
+  @apply pb-[30px] px-5 pt-1;
 }
 
 /* .recommend-title は layout.css に統合済み */
 
 .rating {
   @apply flex justify-center items-center gap-1;
+}
+
+/* タイプ絞り込みバー（横一列・ユーザー操作で横スクロール） */
+.type-filter-bar {
+  @apply flex flex-nowrap gap-2 mb-4 overflow-x-auto;
+}
+
+.type-filter-chip {
+  @apply shrink-0 py-1.5 px-3 rounded-full text-[13px] font-medium cursor-pointer transition-all border;
+  border-color: var(--border-light);
+  background: var(--card-bg);
+  color: var(--text-sub);
+}
+
+.type-filter-chip:hover:not(:disabled) {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.type-filter-chip--active {
+  @apply font-bold;
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--white);
+}
+
+.type-filter-chip:disabled {
+  @apply cursor-default;
+}
+
+/* 絞り込み中のローディング */
+.filter-loading {
+  @apply flex flex-col items-center justify-center gap-3 py-16 text-[14px];
+  color: var(--text-sub);
+}
+
+.filter-loading-spinner {
+  @apply w-8 h-8 animate-spin;
+  color: var(--primary);
 }

@@ -59,7 +59,7 @@ export const QuestionProvider = ({ children }) => {
    *   選択直後に確定させた最新の値を渡す。questionForm.answers は setState 反映前で
    *   stale な可能性があるため、ここでは読み直さない。
    */
-  const handleSubmit = async (answers) => {
+  const submitAnswers = async (answers) => {
     if (!directAddress && (!location || !location.lat)) {
       // /home の位置情報必須ゲートを通過していれば通常ここには来ない（保険）
       toast.error("現在地が取得できませんでした。位置情報を許可してください。");
@@ -148,7 +148,7 @@ export const QuestionProvider = ({ children }) => {
         locationError,
         loadQuestions,
         handleSelect,
-        handleSubmit,
+        submitAnswers,
         reset,
       }}
     >

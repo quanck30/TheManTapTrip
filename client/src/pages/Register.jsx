@@ -2,14 +2,17 @@ import { useState, React } from 'react';
 import { FaChevronLeft, FaExclamationTriangle } from 'react-icons/fa';
 import TempButton from '../components/buttons/TempButton';
 import { GoogleLoginButton } from "../components/buttons/GoogleLoginButton";
+import { useNavigate } from "react-router-dom";
 
-function Register({ onRegisterSuccess, onNavigateToLogin, onBackToWelcome }) {
+function Register({ onRegisterSuccess }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,7 +29,7 @@ function Register({ onRegisterSuccess, onNavigateToLogin, onBackToWelcome }) {
 
   return (
     <div className="reg-container">
-      <button className="reg-back-button" onClick={onBackToWelcome}><FaChevronLeft /></button>
+      <button className="reg-back-button" onClick={()=>navigate(-1)}><FaChevronLeft /></button>
       <div className="reg-header">
         <h1 className="reg-title">TapTrip</h1>
       </div>
@@ -62,7 +65,7 @@ function Register({ onRegisterSuccess, onNavigateToLogin, onBackToWelcome }) {
         <div className="reg-divider"><span>または</span></div>
         <GoogleLoginButton onLoginSuccess={onRegisterSuccess} />
         <div className="reg-footer">
-          アカウントをお持ちですか？ <span onClick={onNavigateToLogin}>ログイン</span>
+          アカウントをお持ちですか？ <span onClick={() => navigate("/login")}>ログイン</span>
         </div>
       </div>
     </div>

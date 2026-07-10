@@ -14,13 +14,13 @@ import { useGoogleAuth } from "../../hooks/useGoogleAuth.js";
  */
 export const GoogleLoginButton = ({ onLoginSuccess }) => {
   // Google hookから必要な機能と状態を受け取る
-  const { login, isLoading, error } = useGoogleAuth(onLoginSuccess);
+  const { triggerGoogleLogin, isLoading, error } = useGoogleAuth(onLoginSuccess);
 
   return (
     <>
       <TempButton
         text={isLoading ? "Googleログイン中..." : "Googleでログイン"}
-        onClick={login}
+        onClick={triggerGoogleLogin}
         disabled={isLoading}
       />
       {error && (
