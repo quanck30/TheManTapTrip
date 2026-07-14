@@ -10,6 +10,7 @@ class Spot extends Model
     protected $fillable = [
         'userId',
         'spotId',
+        'sName',
         'address',
         'isVisited',
         'lat',
