@@ -24,7 +24,7 @@ class PlaceSearchController extends Controller
         private ApiResponse $apiResponse,
         private PlaceMatchCalculator $placeMatchCalculator,
         private PlacesVisitedLastSorter $placesSorter
-        ) {}
+    ) {}
 
     /**
      * 現在位置(緯度・経度)、半径、質問の回答を受け取り、条件に合致する場所を検索する
@@ -47,8 +47,10 @@ class PlaceSearchController extends Controller
             // マッチ度検索
             $result = $this->placeMatchCalculator->calculateMatches($result, $answers);
 
+            $user = $request->user();
+
             // 行き済みを最後に並び変える
-            if (Auth::check()) {
+            if ($user !== null) {
                 $result = $this->placesSorter->sort($result);
             }
 
