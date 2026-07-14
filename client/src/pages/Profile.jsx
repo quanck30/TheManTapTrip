@@ -1,6 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { User, Camera, Bell, Lock, ChevronLeft, HelpCircle, ChevronRight, Pencil, Check } from "lucide-react";
+import {
+  User,
+  Camera,
+  Bell,
+  Lock,
+  ChevronLeft,
+  HelpCircle,
+  ChevronRight,
+  Pencil,
+  Check,
+} from "lucide-react";
 
 const initialData = {
   displayName: "Minh Anh",
@@ -12,9 +22,7 @@ const initialData = {
 function Profile() {
   const navigate = useNavigate();
 
-  // 現在の入力値
   const [formData, setFormData] = useState(initialData);
-  // 直近で保存した状態（差分の比較に使う）
   const [savedData, setSavedData] = useState(initialData);
 
   const [isSaving, setIsSaving] = useState(false);
@@ -22,13 +30,10 @@ function Profile() {
   const [avatarLoadError, setAvatarLoadError] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
-  // フィールドごとの編集状態と下書き値
-  const [editingField, setEditingField] = useState(null); // "displayName" | "email" | null
+  const [editingField, setEditingField] = useState(null);
   const [draftValue, setDraftValue] = useState("");
 
-  const hasChanges =
-    formData.displayName !== savedData.displayName ||
-    formData.email !== savedData.email;
+  const hasChanges = formData.displayName !== savedData.displayName;
 
   const startEditing = (field) => {
     setEditingField(field);
@@ -41,13 +46,11 @@ function Profile() {
     setEditingField(null);
   };
 
-  // 「変更を保存」を押したら、まず確認ダイアログを出す
   const handleSaveClick = () => {
     if (!hasChanges || isSaving) return;
     setShowConfirm(true);
   };
 
-  // ダイアログで「保存する」を選んだら実際に保存する
   const handleConfirmSave = async () => {
     setShowConfirm(false);
     setIsSaving(true);
@@ -64,7 +67,8 @@ function Profile() {
   const handleCancelSave = () => setShowConfirm(false);
 
   const handleBack = () => navigate(-1);
-  const handleMenuClick = (label) => console.log(`${label} がクリックされました`);
+  const handleMenuClick = (label) =>
+    console.log(`${label} がクリックされました`);
   const handleLogout = () => console.log("ログアウトしました");
 
   return (
@@ -105,8 +109,9 @@ function Profile() {
         <p className="text-[13px] text-slate-400 mt-0.5">週末の散歩が好き</p>
       </div>
 
-      {/* 各フィールド：通常は表示のみ、編集ボタンでインライン編集 */}
+      {/* フィールド */}
       <div className="px-4 flex flex-col divide-y divide-slate-100 border-y border-slate-100">
+        {/* 表示名：編集可能 */}
         <EditableField
           label="表示名"
           value={formData.displayName}
@@ -116,16 +121,13 @@ function Profile() {
           onStartEdit={() => startEditing("displayName")}
           onConfirm={confirmEditing}
         />
-        <EditableField
-          label="メールアドレス"
-          value={formData.email}
-          isEditing={editingField === "email"}
-          draftValue={draftValue}
-          onDraftChange={setDraftValue}
-          onStartEdit={() => startEditing("email")}
-          onConfirm={confirmEditing}
-          type="email"
-        />
+        {/* メールアドレス：表示のみ */}
+        <div className="py-3">
+          <label className="text-[12px] text-slate-400 mb-1 block">
+            メールアドレス
+          </label>
+          <span className="text-[14px] text-slate-400">{formData.email}</span>
+        </div>
       </div>
 
       {/* メニュー */}
