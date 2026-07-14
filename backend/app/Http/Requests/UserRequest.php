@@ -31,9 +31,9 @@ class UserRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'displayName.required' => 'ユーザー名を入力してください.',
+            'displayName.required' => 'ユーザー名を入力してください。',
             'displayName.string'   => 'ユーザー名は文字列で入力してください。',
-            'displayName.max:20'   => 'ユーザー名は20文字以内にしてください。'
+            'displayName.max'      => 'ユーザー名は20文字以内にしてください。'
         ];
     }
 }

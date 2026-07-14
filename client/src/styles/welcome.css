@@ -1,127 +1,65 @@
 .welcome-container {
-  width: 100%;
-  height: 100%;
+  @apply w-full h-full box-border flex flex-col items-center justify-between pt-10 px-6 pb-8;
   background: linear-gradient(180deg, var(--primary-light) 0%, var(--bg-subtle) 100%);
-  padding: 40px 24px 32px 24px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
   font-family: sans-serif;
 }
 
 .welcome-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
-  width: 100%;
+  @apply flex flex-col items-center mt-5 w-full;
 }
 
+/* ロゴ画像とテキストのラッパー（重複定義を統合） */
 .welcome-logo-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 28px;
+  @apply flex items-center justify-center gap-2 mb-7 pt-[15px];
 }
 
 .welcome-logo-icon {
-  font-size: 24px;
+  @apply text-[24px] text-white w-8 h-8 rounded-full flex items-center justify-center font-bold;
   background: var(--text-main);
-  color: var(--white);
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
 }
 
 .welcome-title {
-  font-size: 24px;
-  font-weight: 800;
+  @apply text-[24px] font-extrabold m-0;
   color: var(--text-heading);
-  margin: 0;
 }
 
 .welcome-subtitle {
-  font-size: 24px;
-  font-weight: 800;
-  color: var(--primary-dark);
-  margin: 0 0 12px 0;
-  text-align: center;
+  @apply text-[24px] font-extrabold text-primary-dark m-0 mb-3 text-center;
 }
 
 .welcome-description {
-  font-size: 13px;
+  @apply text-[13px] text-center leading-[1.6];
   color: var(--text-body);
-  text-align: center;
-  line-height: 1.6;
 }
 
 .welcome-graphic {
-  width: 100%;
-  height: 240px;
-  border-radius: 24px;
+  @apply w-full h-60 rounded-xl relative flex items-center justify-center;
   background: linear-gradient(135deg, #a7f3d0 0%, #818cf8 100%);
-  position: relative;
   box-shadow: 0 12px 32px rgba(43, 108, 176, 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .welcome-graphic-text {
-  color: var(--white);
-  font-size: 14px;
-  font-weight: 600;
+  @apply text-white text-[14px] font-semibold;
 }
 
 .welcome-actions {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  align-items: center;
+  @apply w-full flex flex-col gap-[14px] items-center;
 }
 
 .welcome-btn {
-  width: 100%;
-  padding: 14px;
-  border-radius: 14px;
+  @apply w-full p-[14px] rounded-[14px];
 }
 
 .welcome-btn-register {
-  background-color: #90cdf4;
+  @apply bg-[#90cdf4] border-0;
   color: var(--text-heading);
-  border: none;
 }
 
 .welcome-login-link {
-  font-size: 13px;
-  color: var(--primary-dark);
-  font-weight: 600;
-  cursor: pointer;
-  text-decoration: underline;
-  margin-top: 6px;
+  @apply text-[13px] text-primary-dark font-semibold cursor-pointer underline mt-1.5;
 }
 
-/* ロゴ画像用のスタイルを追加 */
-
+/* ロゴ画像用のスタイル */
 .welcome-logo-image {
-  /* ここでサイズを小さく調整します */
-  max-width: 80px; 
-  width: 80%;
-  height: auto;
-  margin-bottom: 16px;
-}
-
-.welcome-logo-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* 画像の周りに余白を持たせるとバランスが良くなります */
-  padding-top: 15px;
+  @apply max-w-20 w-4/5 h-auto mb-4;
 }

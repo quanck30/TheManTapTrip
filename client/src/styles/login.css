@@ -1,51 +1,54 @@
 .login-container {
-  padding: 40px 24px;
-  background-color: var(--card-bg);
-  height: 100%;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
+  @apply py-10 px-6 bg-card-bg h-full box-border flex flex-col justify-center relative;
 }
 
-.login-back-wrapper { position: absolute; top: 16px; left: 16px; }
-.login-back-btn { font-size: 18px; cursor: pointer; color: var(--text-sub); padding: 8px; }
+.login-back-wrapper { @apply absolute top-4 left-4; }
+.login-back-btn {
+  @apply text-[18px] cursor-pointer p-2;
+  color: var(--text-sub);
+}
 
-.login-header { text-align: center; margin-bottom: 40px; }
-.login-title { font-size: 24px; font-weight: 800; color: var(--text-main); margin: 0 0 8px 0; }
-.login-subtitle { font-size: 14px; color: var(--text-sub); margin: 0; }
+.login-header { @apply text-center mb-10; }
+.login-title {
+  @apply text-[24px] font-extrabold m-0 mb-2;
+  color: var(--text-main);
+}
+.login-subtitle {
+  @apply text-[14px] m-0;
+  color: var(--text-sub);
+}
 
-.login-form { display: flex; flex-direction: column; gap: 20px; }
+.login-form { @apply flex flex-col gap-5; }
 
 .login-error {
-  background-color: var(--danger-bg); color: var(--danger); padding: 12px;
-  border-radius: 8px; font-size: 13px; border: 1px solid var(--danger-border);
-  margin-bottom: 10px;
+  @apply bg-danger-bg text-danger p-3 rounded-sm text-[13px] border border-danger-border mb-2.5;
 }
 
-.form-group { display: flex; flex-direction: column; gap: 6px; }
-.form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--text-body); }
+.form-group { @apply flex flex-col gap-1.5; }
+.form-group label {
+  @apply block text-[12px] font-semibold;
+  color: var(--text-body);
+}
 .form-group input {
-  width: 100%; padding: 12px 16px; border: 1px solid var(--border);
-  border-radius: 10px; font-size: 14px; box-sizing: border-box; background-color: var(--bg-subtle);
+  @apply w-full py-3 px-4 border border-border rounded-[10px] text-[14px] box-border bg-bg-subtle;
 }
 
-.login-forgot-pass { text-align: right; font-size: 12px; color: var(--primary-link); cursor: pointer; margin-top: 5px; }
+.login-forgot-pass {
+  @apply text-right text-[12px] text-primary-link cursor-pointer mt-[5px];
+}
 
-.login-submit-btn { width: 100%; padding: 14px; margin-top: 10px; }
+.login-submit-btn { @apply w-full p-[14px] mt-2.5; }
 
 .login-footer {
-  text-align: center; margin-top: 32px; font-size: 13px; color: var(--text-sub);
+  @apply text-center mt-8 text-[13px];
+  color: var(--text-sub);
 }
 .login-footer span {
-  color: var(--primary-link); font-weight: 600; cursor: pointer; text-decoration: underline;
+  @apply text-primary-link font-semibold cursor-pointer underline;
 }
 
 /* Googleボタン用などの区切り線 */
 .login-divider {
-  text-align: center;
+  @apply text-center text-[13px] my-5 mx-0;
   color: var(--text-muted);
-  font-size: 13px;
-  margin: 20px 0;
 }

@@ -1,7 +1,6 @@
 import React, { useMemo, useCallback } from "react";
 import { FaArrowLeft, FaStar, FaYenSign, FaMapMarkerAlt } from "react-icons/fa";
 import TempButton from "../components/buttons/TempButton";
-import "../styles/detail.css";
 import noImage from "../assets/no_image.jpg";
 
 const GOOGLE_PLACES_API_KEY = import.meta.env.VITE_GOOGLE_PLACES_API_KEY;
