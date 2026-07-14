@@ -10,7 +10,7 @@ function Welcome({ onStartExplore, onNavigateToLogin, onNavigateToRegister }) {
       {/* ロゴとキャッチコピー */}
       <div className="welcome-header">
         <div className="welcome-logo-wrapper">
-         <img src={logoImage} alt="TapTrip Logo" className="welcome-logo-image" />
+         <img src={logoImage} alt="TapTripロゴ" className="welcome-logo-image" />
           <h1 className="welcome-title">TapTrip</h1>
         </div>
         <h2 className="welcome-subtitle">今日はどこへ行く？</h2>
@@ -21,7 +21,7 @@ function Welcome({ onStartExplore, onNavigateToLogin, onNavigateToRegister }) {
 
       {/* グラフィック領域 */}
       <div className="welcome-graphic">
-        <div className="welcome-graphic-text">Your Smart Trip Planner</div>
+        <div className="welcome-graphic-text">あなたのためのスマート旅行プランナー</div>
       </div>
 
       {/* アクションボタン */}

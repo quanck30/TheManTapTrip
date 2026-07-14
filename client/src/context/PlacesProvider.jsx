@@ -2,7 +2,8 @@
  * @brief 検索結果（places）をアプリ全体で保持するコンテキスト
  */
 
-import { createContext, useContext, useState } from "react";
+import { useState } from "react";
+import { PlacesContext } from "./PlacesContext";
 
 const PLACES_STORAGE_KEY = "search_places";
 
@@ -18,8 +19,6 @@ const getStoredPlaces = () => {
     return [];
   }
 };
-
-export const PlacesContext = createContext();
 
 export const PlacesProvider = ({ children }) => {
   const [places, setPlacesState] = useState(getStoredPlaces);
@@ -41,5 +40,3 @@ export const PlacesProvider = ({ children }) => {
     </PlacesContext.Provider>
   );
 };
-
-export const usePlaces = () => useContext(PlacesContext);

@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { FaChevronLeft } from "react-icons/fa";
 import { Loader2 } from "lucide-react";
 import CardDisplay from "../components/cards/CardDisplay";
-import { usePlaces } from "../context/PlacesContext";
+import { usePlaces } from "../hooks/usePlaces";
 import { useNavigate } from "react-router-dom";
 
 const RecommendRoute = () => {

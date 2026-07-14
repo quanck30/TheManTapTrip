@@ -1,30 +1,39 @@
-import { useState, React } from 'react';
+import { useState } from 'react';
 import { FaChevronLeft, FaExclamationTriangle } from 'react-icons/fa';
 import TempButton from '../components/buttons/TempButton';
 import { GoogleLoginButton } from "../components/buttons/GoogleLoginButton";
 import { useNavigate } from "react-router-dom";
+import { useEmailAuth } from '../hooks/useEmailAuth';
 
 function Register({ onRegisterSuccess }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword] = useState(false);
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  
+  const [inputError, setInputError] = useState("");
+
   const navigate = useNavigate();
+
+  // Email/パスワードによるアカウント登録（成功時に画面遷移）
+  const { register, isLoading, error: authError } = useEmailAuth((user) => {
+    onRegisterSuccess(user);
+  });
+
+  // 入力チェックのエラーとサーバー由来のエラーをまとめて表示する
+  const error = inputError || authError;
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name || !email || !password) {
-      setError('すべての項目を入力してください。');
+      setInputError('すべての項目を入力してください。');
       return;
     }
-    setIsLoading(true);
-    setTimeout(() => {
-      onRegisterSuccess({ uid: "user-" + Date.now(), displayName: name, email: email });
-      setIsLoading(false);
-    }, 800);
+    if (password.length < 8) {
+      setInputError('パスワードは8文字以上にしてください。');
+      return;
+    }
+    setInputError('');
+    register({ displayName: name, email, password });
   };
 
   return (

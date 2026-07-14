@@ -9,7 +9,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useGoogleLogin } from "@react-oauth/google";
 import { authService } from "../services/authService";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "./useAuth";
 
 /**
  * Googleログインの画面起動、ローディング状態、エラー状態、Laravelとの連携フローを管理するカスタムフック

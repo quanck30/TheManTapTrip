@@ -4,7 +4,7 @@
 
 import { toast } from "sonner";
 import { FaArrowLeft } from "react-icons/fa";
-import { useQuestion } from "../../context/QuestionContext";
+import { useQuestion } from "../../hooks/useQuestion";
 import { validateAnswersComplete } from "../../services/questionService";
 import { FaArrowRight } from "react-icons/fa";
 

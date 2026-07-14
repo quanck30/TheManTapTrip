@@ -2,14 +2,13 @@
  * @brief 質問・回答・診断フローの状態をアプリ全体で保持するコンテキスト
  */
 
-import { createContext, useContext, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { fetchQuestions, saveAnswers, validateAnswersComplete } from "../services/questionService";
 import { searchPlaces } from "../services/placeService";
 import { useGeolocation } from "../hooks/useGeolocation";
-import { useAuth } from "./AuthContext";
-
-export const QuestionContext = createContext();
+import { useAuth } from "../hooks/useAuth";
+import { QuestionContext } from "./QuestionContext";
 
 export const QuestionProvider = ({ children }) => {
   const { isAuthenticated, logout } = useAuth();
@@ -23,23 +22,42 @@ export const QuestionProvider = ({ children }) => {
   const [isConfirming, setIsConfirming] = useState();
   const [directAddress, setDirectAddress] = useState("");
 
+  // 質問取得の状態: "idle" | "loading" | "success" | "error"
+  const [questionsStatus, setQuestionsStatus] = useState("idle");
+  const [questionsError, setQuestionsError] = useState(null);
+
   const { location, status: locationStatus, error: locationError, getLocation } = useGeolocation();
 
   /**
    * DBから質問を取得する（取得済みならスキップ）
    */
   const loadQuestions = async () => {
+    // 取得済みなら何もしない（多重取得防止）
     if (questionForm.questions.length > 0) return;
+
+    // 読み込み開始：UI 側に「読み込み中」を伝える
+    setQuestionsStatus("loading");
+    setQuestionsError(null);
+
     try {
       const res = await fetchQuestions();
-      const fetchedQuestions = res.data.questions;
+      const fetchedQuestions = res?.data?.questions ?? [];
+
+      // データが空（＝まだ質問が用意されていない）の場合はエラー扱いにする
+      if (fetchedQuestions.length === 0) {
+        setQuestionsStatus("error");
+        setQuestionsError("現在、診断に使える質問がありません。しばらくしてからお試しください。");
+        return;
+      }
 
       // 回答はユーザーが実際に選択したときのみ設定する（事前入力しない）
       setQuestionForm((prev) => ({ ...prev, questions: fetchedQuestions }));
+      setQuestionsStatus("success");
     } catch (err) {
       console.error("質問の取得エラー:", err);
-      // バックエンドが返すメッセージをそのままトースト表示
-      toast.error(err.message);
+      setQuestionsStatus("error");
+      // バックエンドが返すメッセージを画面に表示する
+      setQuestionsError(err.message || "質問の取得に失敗しました。");
     }
   };
 
@@ -137,6 +155,8 @@ export const QuestionProvider = ({ children }) => {
       value={{
         questions: questionForm.questions,
         answers: questionForm.answers,
+        questionsStatus,
+        questionsError,
         currentStep,
         setCurrentStep,
         isConfirming,
@@ -156,5 +176,3 @@ export const QuestionProvider = ({ children }) => {
     </QuestionContext.Provider>
   );
 };
-
-export const useQuestion = () => useContext(QuestionContext);

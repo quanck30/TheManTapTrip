@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
-import { useQuestion } from "../context/QuestionContext";
+import { Loader2 } from "lucide-react";
+import { useQuestion } from "../hooks/useQuestion";
 import QuestionStep from "../components/home/QuestionStep";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,7 +14,15 @@ import {
 } from "@/components/ui/alert-dialog";
 
 function Home({ onDiagnoseComplete }) {
-  const { questions, getLocation, loadQuestions, locationStatus, locationError } = useQuestion();
+  const {
+    questions,
+    questionsStatus,
+    questionsError,
+    getLocation,
+    loadQuestions,
+    locationStatus,
+    locationError,
+  } = useQuestion();
 
   // Home表示時に質問の取得と現在地の取得を行う
   useEffect(() => {
@@ -30,8 +39,20 @@ function Home({ onDiagnoseComplete }) {
   return (
     <div className="home-container">
       {isLocationGranted ? (
-        questions.length === 0 ? (
-          <div className="home-container">読み込み中...</div>
+        questionsStatus === "error" ? (
+          // 取得失敗・質問が無い場合はエラーを表示して再読み込みを促す
+          <div className="question-status">
+            <p className="question-status-message">
+              {questionsError || "質問の取得に失敗しました。"}
+            </p>
+            <Button onClick={loadQuestions}>再読み込み</Button>
+          </div>
+        ) : questions.length === 0 ? (
+          // 読み込み中（idle / loading）はローディングを表示する
+          <div className="question-status">
+            <Loader2 className="question-status-spinner" />
+            <span>質問を読み込み中...</span>
+          </div>
         ) : (
           <div className="diagnostic-card">
             <QuestionStep onDiagnoseComplete={onDiagnoseComplete} />

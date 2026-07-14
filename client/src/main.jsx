@@ -6,9 +6,9 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import App from "./App.jsx";
-import { AuthProvider } from "./context/AuthContext.jsx";
-import { QuestionProvider } from "./context/QuestionContext.jsx";
-import { PlacesProvider } from "./context/PlacesContext.jsx";
+import { AuthProvider } from "./context/AuthProvider.jsx";
+import { QuestionProvider } from "./context/QuestionProvider.jsx";
+import { PlacesProvider } from "./context/PlacesProvider.jsx";
 import { Toaster } from "@/components/ui/sonner";
 
 const GoogleClientID = import.meta.env.VITE_GOOGLE_CLIENT_ID;

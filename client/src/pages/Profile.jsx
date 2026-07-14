@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { FaUser, FaCamera, FaBell } from "react-icons/fa";
 import { RiShieldKeyholeFill } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 function Profile() {
+  const navigate = useNavigate();
+  const { logout } = useAuth();
   const [formData, setFormData] = useState({
     displayName: "Minh Anh",
     email: "minhanh@email.com",
@@ -51,8 +55,10 @@ function Profile() {
     console.log(`${label} がクリックされました`);
   };
 
-  const handleLogout = () => {
-    console.log("ログアウトしました");
+  const handleLogout = async () => {
+    // セッション破棄とローカル状態のクリアを行い、トップへ戻る
+    await logout();
+    navigate("/", { replace: true });
   };
 
   return (

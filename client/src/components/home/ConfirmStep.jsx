@@ -3,7 +3,7 @@
  */
 
 import { FaArrowLeft } from "react-icons/fa";
-import { useQuestion } from "../../context/QuestionContext";
+import { useQuestion } from "../../hooks/useQuestion";
 
 export default function ConfirmStep({ onDiagnoseComplete }) {
   const { questions, answers, submitAnswers, reset, setIsConfirming, setCurrentStep } = useQuestion();

@@ -35,7 +35,7 @@ function Detail({ spot, onBack }) {
 
   if (!spot) return null;
 
-  const { sName, address = "住所情報なし", rating = "N/A", priceLevel, summary = "説明はありません。", directionUrl, goodForChildren, menuForChildren, hasParking } = spot;
+  const { sName, address = "住所情報なし", rating = "評価なし", priceLevel, summary = "説明はありません。", directionUrl, goodForChildren, menuForChildren, hasParking } = spot;
 
   const title = sName || "名称不明";
 

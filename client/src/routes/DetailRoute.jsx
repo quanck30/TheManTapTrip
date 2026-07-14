@@ -1,6 +1,6 @@
 import { Navigate, useNavigate, useLocation, useParams } from "react-router-dom";
 import Detail from "../pages/Detail";
-import { usePlaces } from "../context/PlacesContext";
+import { usePlaces } from "../hooks/usePlaces";
 
 export default function DetailRoute() {
   const navigate = useNavigate();

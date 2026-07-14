@@ -1,9 +1,9 @@
-import { createContext, useContext, useState } from "react";
+import { useEffect, useState } from "react";
+import { authService } from "../services/authService";
+import { AuthContext } from "./AuthContext";
 
 const TOKEN_STORAGE_KEY = "authToken";
 const USER_STORAGE_KEY = "authUser";
-
-const AuthContext = createContext(null);
 
 function removeDiagItems() {
   localStorage.removeItem("diag_step");
@@ -53,7 +53,14 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    // Email セッション（Cookie）ユーザーのためにサーバー側もログアウトする。失敗しても続行。
+    try {
+      await authService.emailLogout();
+    } catch {
+      // セッションが既に無い等は無視してローカルをクリアする
+    }
+
     setToken(null);
     setUser(null);
     localStorage.removeItem(TOKEN_STORAGE_KEY);
@@ -61,12 +68,39 @@ export const AuthProvider = ({ children }) => {
     removeDiagItems();
   };
 
+  // 起動時ブートストラップ：Bearer トークンが無い（＝Email セッション想定）ときのみ
+  // /api/me でセッションの有効性を確認し、状態を最新化する。
+  useEffect(() => {
+    if (token) {
+      return;
+    }
+
+    let cancelled = false;
+
+    authService
+      .fetchMe()
+      .then((currentUser) => {
+        if (cancelled) return;
+        // 返ればログイン中、返らなければ（401）ローカルの user をクリアする
+        setAuthenticatedUser(currentUser || null);
+      })
+      .catch(() => {
+        // ネットワークエラー時はローカルのキャッシュを維持する
+      });
+
+    return () => {
+      cancelled = true;
+    };
+    // 初回マウント時のみ実行する
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <AuthContext.Provider
       value={{
         token,
         user,
-        isAuthenticated: Boolean(token),
+        isAuthenticated: Boolean(token) || Boolean(user),
         login,
         logout,
         getToken: () => token,
@@ -76,15 +110,4 @@ export const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
-};
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-
-  return context;
 };

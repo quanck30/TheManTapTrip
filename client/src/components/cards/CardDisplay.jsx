@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FaHeart, FaStar } from "react-icons/fa";
 import noImage from "../../assets/no_image.jpg";
 import IconButton from "../buttons/IconButton";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../hooks/useAuth";
 
 const CardDisplay = ({ places = [] }) => {
     const navigate = useNavigate();
