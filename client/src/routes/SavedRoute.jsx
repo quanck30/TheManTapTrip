@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Menu, Search, Heart, LayoutGrid, Plus } from "lucide-react";
+import { Heart, Plus } from "lucide-react";
 import SaveListCard from "../components/cards/SaveListCard";
 
 const FILTERS = [
@@ -59,36 +59,9 @@ export default function SavedRoute() {
 
   return (
     <div className="w-full max-w-sm mx-auto bg-white h-full flex flex-col">
-      {/* トップヘッダー */}
-      <div className="flex items-center justify-between px-4 py-3">
-        <div className="flex items-center gap-2">
-          <button className="text-slate-700 p-1 -ml-1" aria-label="メニュー">
-            <Menu size={20} />
-          </button>
-          <span className="text-[16px] font-bold text-sky-500">TapTrip</span>
-        </div>
-        <div className="flex items-center gap-3">
-          <span className="text-[13px] font-medium text-sky-500">保存済み</span>
-          <button
-            onClick={() => navigate("/search")}
-            className="text-slate-500 p-1"
-            aria-label="検索"
-          >
-            <Search size={18} />
-          </button>
-          <button onClick={() => navigate("/profile")}>
-            <div className="w-7 h-7 rounded-full bg-slate-200 overflow-hidden" />
-          </button>
-        </div>
-      </div>
-
-      {/* タイトル + 件数 */}
-      <div className="flex items-center justify-between px-4 pt-2 pb-3">
+      {/* タイトル */}
+      <div className="px-4 pt-8 pb-3">
         <h1 className="text-[20px] font-bold text-slate-800">あなたが保存したスポット</h1>
-        <div className="flex items-center gap-1 text-slate-400">
-          <span className="text-[13px]">{filteredSpots.length}</span>
-          <LayoutGrid size={16} />
-        </div>
       </div>
 
       {/* フィルタータブ */}
@@ -110,7 +83,6 @@ export default function SavedRoute() {
 
       {/* メインエリア */}
       {isEmpty ? (
-        // データが無いときは残りスペースの縦中央に配置
         <div className="flex-1 flex flex-col justify-center gap-4 px-4 pb-10">
           <div className="flex flex-col items-center justify-center gap-2 py-10 rounded-2xl border border-slate-100">
             <Heart size={28} className="text-slate-300" />
