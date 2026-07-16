@@ -67,7 +67,7 @@ function Profile() {
   const handleCancelSave = () => setShowConfirm(false);
 
   const handleBack = () => navigate(-1);
-  const handleMenuClick = (label) =>
+  const handleMenuClick = (label) =>{
     console.log(`${label} がクリックされました`);
   };
 
