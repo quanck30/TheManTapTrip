@@ -58,7 +58,7 @@ const CardDisplay = ({ places = [] }) => {
             <div className="card-image-wrapper">
               <img
                 src={
-                  "https://lh3.googleusercontent.com/place-photos/AG9NLjCeckVxjzkQNNjJ3f0sN54JetK41pujlrcxEpH5q9RRJex2jS5Xz7Ow8JB6eqqXTwV4kEb_5yOE26PjN8ATrcstvODAfxVmCzoUz8btbtHcW0E5oBJ2Bkw5drWK_Qza7yi7bej14UjqMb7SEeo=s4800-w400-h400"
+                 imageUrl
                 }
                 className="card-image"
                 alt={title}
