@@ -2,23 +2,38 @@
  * @brief 診断フローの質問選択画面（isConfirming === false）
  */
 
+import { toast } from "sonner";
 import { FaArrowLeft } from "react-icons/fa";
-import { useQuestion } from "../../context/QuestionContext";
+import { useQuestion } from "../../hooks/useQuestion";
+import { validateAnswersComplete } from "../../services/questionService";
 import { FaArrowRight } from "react-icons/fa";
 
 export default function QuestionStep({ onDiagnoseComplete }) {
-  const { questions, answers, currentStep, setCurrentStep, setIsConfirming, handleSelect, handleSubmit } = useQuestion();
+  const { questions, answers, currentStep, setCurrentStep, setIsConfirming, handleSelect, submitAnswers } = useQuestion();
 
   const currentQuestion = questions[currentStep];
 
   const handleOptionClick = async (qId, itemId) => {
-    handleSelect(qId, itemId);
     if (currentStep < questions.length - 1) {
+      handleSelect(qId, itemId);
       setCurrentStep((prev) => prev + 1);
-    } else {
-      const resutl = await handleSubmit();
-      onDiagnoseComplete(resutl);
+      return;
     }
+
+    // 最後の質問: state の反映を待たず、その場で回答をマージして検証する。
+    // handleSelect 直後に state を読むと setState 未反映で stale な場合があるため。
+    const mergedAnswers = { ...answers, [qId]: itemId };
+
+    try {
+      validateAnswersComplete(questions, mergedAnswers);
+    } catch (err) {
+      toast.error(err.message);
+      return;
+    }
+
+    handleSelect(qId, itemId);
+    const result = await submitAnswers(mergedAnswers);
+    onDiagnoseComplete(result);
   };
 
   const handleBack = () => {

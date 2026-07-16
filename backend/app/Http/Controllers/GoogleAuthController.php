@@ -8,6 +8,7 @@ use App\Models\User;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Exceptions\DriverMissingConfigurationException;
 use Laravel\Socialite\Facades\Socialite;
@@ -71,18 +72,16 @@ class GoogleAuthController extends Controller
             // 検証済みGoogleユーザーに対応するローカルユーザーを取得または作成します。
             $user = User::findOrCreateUserWithGoogle($googleUser);
 
-            // 前回のトークンを削除する。
-            $user->tokens()->delete();
-            // API認証用のSanctumトークンを発行します。
-            $token = $user->createToken('google-login')->plainTextToken;
+            // メールログインと同じくSanctum SPAセッションでログインする（HttpOnly Cookie）。
+            Auth::login($user);
+            // セッション固定攻撃対策のためセッションIDを再生成する。
+            $request->session()->regenerate();
 
             return ApiResponse::success([
                 'user' => [
                     'id' => $user->id,
                     'displayName' => $user->displayName,
                 ],
-                'token' => $token,
-                'tokenType' => 'Bearer',
             ], 'Googleログインに成功しました');
         } catch (Throwable $e) {
             // Google認証後のユーザー作成やトークン発行に失敗した場合の処理です。

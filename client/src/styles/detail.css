@@ -1,73 +1,106 @@
 .detail-container {
-  @apply flex flex-col h-full bg-card-bg overflow-y-auto;
+  @apply flex flex-col h-full bg-background overflow-y-auto;
 }
 
+/* ヒーロー */
 .detail-hero {
-  @apply relative w-full h-60 overflow-hidden;
+  @apply relative w-full h-60 shrink-0 overflow-hidden;
 }
 .detail-hero-img {
   @apply w-full h-full object-cover block;
 }
+.hero-gradient {
+  @apply absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent;
+}
 
-/* 戻るボタンのスタイル */
+/* 戻るボタン */
 .back-button-wrapper {
   @apply absolute top-5 left-5 z-10;
 }
 .back-button-arrow {
-  @apply border-0 w-10 h-10 rounded-full flex items-center justify-center cursor-pointer p-2.5;
-  background: var(--white) !important;
+  @apply flex h-10 w-10 items-center justify-center rounded-full bg-white cursor-pointer transition-transform;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s;
-}
-.back-button-arrow img {
-  @apply w-full h-full object-contain;
 }
 .back-button-arrow:hover {
   @apply scale-110;
 }
+.back-button-icon {
+  @apply text-text-main;
+}
 
-/* コンテンツ */
+/* ヒーロー内のタイトル・評価 */
+.hero-overlay-text {
+  @apply absolute right-5 bottom-4 left-5 text-white;
+}
+.detail-main-title {
+  @apply text-2xl font-extrabold m-0;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+.detail-meta {
+  @apply mt-1.5 flex items-center gap-3 text-sm font-bold;
+}
+.detail-meta-item {
+  @apply flex items-center gap-1.5;
+}
+.star-icon {
+  @apply text-star;
+}
+.meta-divider {
+  @apply h-4 bg-white/40;
+}
+
+/* 本文 */
 .detail-body {
   @apply py-6 px-5 flex flex-col gap-4;
 }
-.detail-main-title {
-  @apply text-[24px] font-extrabold m-0;
-  color: var(--text-heading);
-}
-.detail-info-box {
-  @apply p-4 bg-bg-subtle rounded-lg border border-border-light;
-}
-.detail-meta {
-  @apply flex gap-6 mb-3;
-}
-.detail-meta-item {
-  @apply flex items-center gap-1.5 text-[14px] font-bold;
-  color: var(--text-main);
-}
 .detail-address {
-  @apply m-0 text-[13px] flex items-center gap-1.5;
-  color: var(--text-sub);
+  @apply m-0 flex items-start gap-2 text-sm text-text-body;
 }
+.address-icon {
+  @apply mt-0.5 shrink-0 text-primary;
+}
+
+/* 設備バッジ */
+.detail-features {
+  @apply flex flex-wrap gap-2;
+}
+.detail-feature-badge {
+  @apply gap-1.5 px-2.5 py-1;
+}
+
+/* カテゴリー（ユーザー操作で横スクロール・末尾で停止） */
+.detail-type-scroll {
+  @apply flex gap-2 overflow-x-auto flex-wrap;
+}
+.detail-type-button {
+  /* ボタン風だが押せない */
+  @apply pointer-events-none cursor-default shrink-0;
+}
+.detail-type-button--primary {
+  /* primaryType を強調する */
+  @apply font-bold! shadow-md;
+}
+
+/* 紹介 */
 .detail-description {
-  @apply text-[15px] leading-[1.7];
-  color: var(--text-body);
+  @apply text-[15px] leading-relaxed text-text-body;
 }
 
 /* 地図 */
-.map-section-title {
-  @apply text-[15px] font-bold mb-3;
-  color: var(--text-main);
-}
 .map-placeholder {
-  @apply w-full h-40 bg-border-light rounded-lg flex items-center justify-center text-[14px] border border-border;
-  color: var(--text-sub);
+  @apply w-full h-40 overflow-hidden rounded-lg border border-border;
 }
 
 /* フッター */
 .detail-footer-bar {
   @apply p-5 border-t border-border-light mt-auto bg-white;
 }
-.detail-footer-bar button {
-  @apply w-full p-4 bg-accent-green text-white border-0 rounded-md font-bold text-[16px] cursor-pointer;
-  box-shadow: 0 4px 12px rgba(0, 230, 118, 0.2);
+.footer-button-full {
+  @apply h-12 w-full text-base;
+}
+.footer-button-route {
+  @apply bg-accent-green! text-white!;
+}
+.footer-button-route:hover {
+  @apply bg-accent-green/90!;
 }

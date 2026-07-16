@@ -35,18 +35,13 @@ Route::get('/test', function () {
     ]);
 });
 
-Route::middleware('auth:sanctum')->group(function () {
-    // 質問一覧と選択肢をJSONで返します。
-    Route::get('/v1/questions/login', [QuestionController::class, 'loginedIndex']);
-});
-Route::get('/v1/questions/guest', [QuestionController::class, 'index']);
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('/v1/spots', SpotController::class);
+Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
+    Route::apiResource('spots', SpotController::class);
 
     // アカウント情報の取得API(ログイン必須)
-    Route::get('/v1/user/', [UserController::class, 'show']);
-    Route::put('/v1/user/', [UserController::class, 'update']);
+    Route::get('user/', [UserController::class, 'show']);
+    Route::put('user/', [UserController::class, 'update']);
 
     // ログアウトAPI
     Route::post('/auth/logout', [AuthenticatedSessionController::class, 'emailLogout']);
@@ -54,21 +49,30 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthenticatedSessionController::class, 'me']);
 
     // 行き済み登録API
-    Route::put('/v1/visit', [VisitLocationController::class, 'update']);
+    Route::put('visit', [VisitLocationController::class, 'update']);
+
+     // 質問一覧と選択肢をJSONで返します。
+    Route::get('questions/login', [QuestionController::class, 'loginedIndex']);
 });
 
-// 回答保存API
-Route::apiResource('/v1/choices', ChoiceController::class)->middleware('auth:sanctum');
 
-// Google Places Api を使用した場所検索APi
-Route::post('/v1/placeSearch', [PlaceSearchController::class, 'placeSearch']);
+Route::prefix('v1')->group(function () {
 
-// Googleアクセストークンを使ったログインAPIです。
-Route::post('/v1/auth/google', [GoogleAuthController::class, 'googleLogin']);
+    // 回答保存API
+    Route::apiResource('choices', ChoiceController::class)->middleware('auth:sanctum');
 
-// アカウント作成API（未ログインのみ）
-Route::post('auth/register', [AuthenticatedSessionController::class, 'register']);
+    // Google Places Api を使用した場所検索APi
+    Route::post('placeSearch', [PlaceSearchController::class, 'placeSearch']);
 
-// ログインAPI（未ログインのみ）
-Route::post('auth/email', [AuthenticatedSessionController::class, 'emailLogin']);
+    // Googleアクセストークンを使ったログインAPIです。
+    Route::post('auth/google', [GoogleAuthController::class, 'googleLogin']);
 
+    // アカウント作成API（未ログインのみ）
+    Route::post('auth/register', [AuthenticatedSessionController::class, 'register']);
+
+    // ログインAPI（未ログインのみ）
+    Route::post('auth/email', [AuthenticatedSessionController::class, 'emailLogin']);
+
+    //ログインしない質問取得
+    Route::get('questions/guest', [QuestionController::class, 'index']);
+});
