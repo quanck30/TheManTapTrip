@@ -1,152 +1,264 @@
 import { useState } from "react";
-import { FaUser, FaCamera, FaBell } from "react-icons/fa";
-import { RiShieldKeyholeFill } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
+import {
+  User,
+  Camera,
+  Bell,
+  Lock,
+  ChevronLeft,
+  HelpCircle,
+  ChevronRight,
+  Pencil,
+  Check,
+} from "lucide-react";
+
+const initialData = {
+  displayName: "Minh Anh",
+  email: "minhanh@email.com",
+  phone: "090 123 4567",
+  avatarUrl: "",
+};
 
 function Profile() {
-  const [formData, setFormData] = useState({
-    displayName: "Minh Anh",
-    email: "minhanh@email.com",
-    phone: "090 123 4567",
-    avatarUrl: "", // 画像URLがあればそれを表示、なければプレースホルダー
-  });
+  const navigate = useNavigate();
 
-  // 保存中の状態と、完了メッセージの状態
+  const [formData, setFormData] = useState(initialData);
+  const [savedData, setSavedData] = useState(initialData);
+
   const [isSaving, setIsSaving] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
-
-  // 画像の読み込みに失敗した場合もプレースホルダーに切り替える
   const [avatarLoadError, setAvatarLoadError] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
-  // 表示名は入力中ずっと反映せず、フォーカスが外れたタイミングでまとめて反映する
-  const [displayNameDraft, setDisplayNameDraft] = useState(formData.displayName);
+  const [editingField, setEditingField] = useState(null);
+  const [draftValue, setDraftValue] = useState("");
 
-  const handleChange = (field) => (e) => {
-    setFormData((prev) => ({ ...prev, [field]: e.target.value }));
+  const hasChanges = formData.displayName !== savedData.displayName;
+
+  const startEditing = (field) => {
+    setEditingField(field);
+    setDraftValue(formData[field]);
   };
 
-  // 入力中はdisplayNameDraftだけ更新し、フォーカスが外れたら formData に反映する
-  const handleDisplayNameBlur = () => {
-    setFormData((prev) => ({ ...prev, displayName: displayNameDraft }));
+  const confirmEditing = () => {
+    if (!editingField) return;
+    setFormData((prev) => ({ ...prev, [editingField]: draftValue }));
+    setEditingField(null);
   };
 
-  const handleSave = async () => {
+  const handleSaveClick = () => {
+    if (!hasChanges || isSaving) return;
+    setShowConfirm(true);
+  };
+
+  const handleConfirmSave = async () => {
+    setShowConfirm(false);
     setIsSaving(true);
     setStatusMessage("");
 
-    // 擬似的なAPI通信（1.5秒待機）
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
+    setSavedData(formData);
     setIsSaving(false);
     setStatusMessage("プロフィールを更新しました！");
-
-    // 3秒後にメッセージを消す
     setTimeout(() => setStatusMessage(""), 3000);
   };
 
-  const handleBack = () => {
-    console.log("戻る");
-  };
+  const handleCancelSave = () => setShowConfirm(false);
 
-  const handleMenuClick = (label) => {
+  const handleBack = () => navigate(-1);
+  const handleMenuClick = (label) =>
     console.log(`${label} がクリックされました`);
-  };
-
-  const handleLogout = () => {
-    console.log("ログアウトしました");
-  };
+  const handleLogout = () => console.log("ログアウトしました");
 
   return (
-    <div className="profile-container">
+    <div className="w-full max-w-sm mx-auto bg-white min-h-full flex flex-col relative">
       {/* ヘッダー */}
-      <div className="profile-header">
-        <span className="nav-icon" onClick={handleBack}>‹</span>
-        <h1 className="header-title">アカウント</h1>
-        <span className="nav-icon">?</span>
+      <div className="flex items-center justify-between px-4 py-4">
+        <button onClick={handleBack} className="text-slate-700 p-1 -ml-1">
+          <ChevronLeft size={22} />
+        </button>
+        <h1 className="text-[15px] font-semibold text-slate-800">アカウント</h1>
+        <button className="text-slate-500 p-1 -mr-1">
+          <HelpCircle size={20} />
+        </button>
       </div>
 
       {/* アバター */}
-      <div className="profile-avatar-section">
-        <div className="avatar-wrapper">
+      <div className="flex flex-col items-center pt-4 pb-6">
+        <div className="relative">
           {formData.avatarUrl && !avatarLoadError ? (
             <img
-              className="avatar-img"
+              className="w-20 h-20 rounded-full object-cover"
               src={formData.avatarUrl}
               alt="プロフィール画像"
               onError={() => setAvatarLoadError(true)}
             />
           ) : (
-            <div className="avatar-img avatar-placeholder">
-              <FaUser />
+            <div className="w-20 h-20 rounded-full bg-slate-200 flex items-center justify-center text-slate-500">
+              <User size={32} />
             </div>
           )}
-          <span className="avatar-edit-icon">
-            <FaCamera />
+          <span className="absolute bottom-0 right-0 w-6 h-6 rounded-full bg-sky-400 text-white flex items-center justify-center border-2 border-white">
+            <Camera size={12} />
           </span>
         </div>
-        <h2 className="user-name">{formData.displayName}</h2>
-        <p className="user-bio">週末の散歩が好き</p>
+        <h2 className="mt-3 text-[17px] font-semibold text-slate-800">
+          {formData.displayName}
+        </h2>
+        <p className="text-[13px] text-slate-400 mt-0.5">週末の散歩が好き</p>
       </div>
 
-      {/* 個人情報 */}
-      <div className="profile-section">
-        <p className="section-title">個人情報</p>
-        <div className="form-group">
-          <div>
-            <label className="input-label">表示名</label>
-            <input
-              type="text"
-              value={displayNameDraft}
-              onChange={(e) => setDisplayNameDraft(e.target.value)}
-              onBlur={handleDisplayNameBlur}
-            />
-          </div>
-          <div>
-            <label className="input-label">メールアドレス</label>
-            <input
-              type="email"
-              value={formData.email}
-              onChange={handleChange("email")}
-            />
-          </div>
+      {/* フィールド */}
+      <div className="px-4 flex flex-col divide-y divide-slate-100 border-y border-slate-100">
+        {/* 表示名：編集可能 */}
+        <EditableField
+          label="表示名"
+          value={formData.displayName}
+          isEditing={editingField === "displayName"}
+          draftValue={draftValue}
+          onDraftChange={setDraftValue}
+          onStartEdit={() => startEditing("displayName")}
+          onConfirm={confirmEditing}
+        />
+        {/* メールアドレス：表示のみ */}
+        <div className="py-3">
+          <label className="text-[12px] text-slate-400 mb-1 block">
+            メールアドレス
+          </label>
+          <span className="text-[14px] text-slate-400">{formData.email}</span>
         </div>
       </div>
 
       {/* メニュー */}
-      <div className="menu-list">
-        <div className="menu-item" onClick={() => handleMenuClick("パスワード変更")}>
-          <span>
-            <RiShieldKeyholeFill className="menu-icon" />
-            パスワード変更
-          </span>
-          <span className="arrow">›</span>
-        </div>
-        <div className="menu-item" onClick={() => handleMenuClick("通知設定")}>
-          <span>
-            <FaBell className="menu-icon" />
-            通知設定
-          </span>
-          <span className="arrow">›</span>
+      <div className="px-4 mt-5">
+        <div className="flex flex-col divide-y divide-slate-100 border-y border-slate-100">
+          <div
+            onClick={() => handleMenuClick("パスワード変更")}
+            className="flex items-center justify-between py-3 cursor-pointer"
+          >
+            <span className="flex items-center gap-2 text-[14px] text-slate-700">
+              <Lock size={16} className="text-slate-400" />
+              パスワード変更
+            </span>
+            <ChevronRight size={16} className="text-slate-300" />
+          </div>
+          <div
+            onClick={() => handleMenuClick("通知設定")}
+            className="flex items-center justify-between py-3 cursor-pointer"
+          >
+            <span className="flex items-center gap-2 text-[14px] text-slate-700">
+              <Bell size={16} className="text-slate-400" />
+              通知設定
+            </span>
+            <ChevronRight size={16} className="text-slate-300" />
+          </div>
         </div>
       </div>
 
       {/* アクションエリア */}
-      <div className="profile-actions">
-        {/* メッセージ表示エリア（高さを常に確保してボタン位置がズレないようにする） */}
-        <div className={`status-success ${statusMessage ? "is-visible" : ""}`}>
+      <div className="px-4 pb-8 flex flex-col items-center mt-auto">
+        <div
+          className={`text-[13px] mb-2 h-5 transition-opacity ${
+            statusMessage ? "opacity-100 text-emerald-500" : "opacity-0"
+          }`}
+        >
           {statusMessage || "\u00A0"}
         </div>
 
         <button
-          className="save-btn"
-          disabled={isSaving}
-          onClick={handleSave}
+          onClick={handleSaveClick}
+          disabled={!hasChanges || isSaving}
+          className={`w-full h-12 rounded-xl text-[15px] font-medium transition-colors active:scale-[0.98] ${
+            hasChanges
+              ? "bg-sky-400 text-white"
+              : "bg-slate-100 text-slate-400 cursor-not-allowed"
+          } ${isSaving ? "opacity-70" : ""}`}
         >
           {isSaving ? "保存中..." : "変更を保存"}
         </button>
-        <span className="logout-link" onClick={handleLogout}>
+        <button
+          onClick={handleLogout}
+          className="mt-3 text-[13px] text-rose-400"
+        >
           ログアウト
-        </span>
+        </button>
       </div>
+
+      {/* 保存確認ダイアログ */}
+      {showConfirm && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/30 px-6">
+          <div className="w-full max-w-[280px] bg-white rounded-2xl p-5 text-center shadow-lg">
+            <p className="text-[15px] font-medium text-slate-800 mb-1">
+              本当に変更しますか？
+            </p>
+            <p className="text-[13px] text-slate-400 mb-4">
+              プロフィールの内容を更新します。
+            </p>
+            <div className="flex gap-2">
+              <button
+                onClick={handleCancelSave}
+                className="flex-1 h-10 rounded-xl border border-slate-200 text-[14px] text-slate-600"
+              >
+                キャンセル
+              </button>
+              <button
+                onClick={handleConfirmSave}
+                className="flex-1 h-10 rounded-xl bg-sky-400 text-white text-[14px] font-medium"
+              >
+                保存する
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function EditableField({
+  label,
+  value,
+  isEditing,
+  draftValue,
+  onDraftChange,
+  onStartEdit,
+  onConfirm,
+  type = "text",
+}) {
+  return (
+    <div className="py-3">
+      <label className="text-[12px] text-slate-400 mb-1 block">{label}</label>
+      {isEditing ? (
+        <div className="flex items-center gap-2">
+          <input
+            type={type}
+            value={draftValue}
+            autoFocus
+            onChange={(e) => onDraftChange(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && onConfirm()}
+            className="flex-1 h-9 border-b border-sky-300 text-[14px] text-slate-800 outline-none bg-transparent"
+          />
+          <button
+            onClick={onConfirm}
+            className="text-sky-400 p-1"
+            aria-label="確定"
+          >
+            <Check size={18} />
+          </button>
+        </div>
+      ) : (
+        <div className="flex items-center justify-between">
+          <span className="text-[14px] text-slate-800">{value}</span>
+          <button
+            onClick={onStartEdit}
+            className="text-slate-400 p-1"
+            aria-label={`${label}を変更`}
+          >
+            <Pencil size={15} />
+          </button>
+        </div>
+      )}
     </div>
   );
 }
