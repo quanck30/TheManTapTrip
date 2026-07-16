@@ -39,15 +39,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const login = (newToken, authenticatedUser) => {
-    setToken(newToken);
-
-    if (newToken) {
-      localStorage.setItem(TOKEN_STORAGE_KEY, newToken);
-    } else {
-      localStorage.removeItem(TOKEN_STORAGE_KEY);
-    }
-
+  const login = ( authenticatedUser) => {
     if (authenticatedUser) {
       setAuthenticatedUser(authenticatedUser);
     }

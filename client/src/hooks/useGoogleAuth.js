@@ -34,14 +34,14 @@ export const useGoogleAuth = (onLoginSuccess) => {
       setError(null);
 
       try {
-        const result = await authService.googleLogin(tokenResponse.access_token);
-        const { token, user } = result.data ?? result;
+        const user = await authService.googleLogin(tokenResponse.access_token);
 
-        if (!token || !user) {
+        if (!user) {
           throw new Error("ログイン情報を取得できませんでした。");
         }
 
-        saveAuth(token, user);
+        // セッション（HttpOnly Cookie）認証なのでトークンは無し。user のみ保持する。
+        saveAuth(null, user);
         onLoginSuccess?.(user);
       } catch (err) {
         // バックエンドが返すメッセージをそのままトースト表示

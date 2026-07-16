@@ -13,26 +13,23 @@ import { getCsrfCookie, readXsrfToken } from "./authService";
 
 const BASE_URL = "/api/v1";
 
-// ログイン中か判定する（Google=Bearerトークン / Email=セッションCookie の両対応）
-const isAuthenticated = () =>
-    Boolean(localStorage.getItem("authToken") || localStorage.getItem("authUser"));
+// ログイン中か判定する（Google/Email ともにセッション Cookie 認証）
+const isAuthenticated = () => Boolean(localStorage.getItem("authUser"));
 
 export const fetchQuestions = async () => {
-    const token = localStorage.getItem("authToken");
+    await getCsrfCookie();
 
-    // ログイン中（トークンまたはセッション）なら login 用、未ログインなら guest 用のURLを設定
+    // ログイン中なら login 用、未ログインなら guest 用のURLを設定
     const endpoint = isAuthenticated()
         ? `${BASE_URL}/questions/login`
         : `${BASE_URL}/questions/guest`;
 
     let response = await fetch(endpoint, {
         method: "GET",
-        // Email セッション（Cookie）ユーザーのために Cookie を送受信する
+        // セッション（Cookie）認証のために Cookie を送受信する
         credentials: "include",
         headers: {
             Accept: "application/json",
-            // トークンがある場合のみAuthorizationヘッダーを付与
-            ...(token && { Authorization: `Bearer ${token}` }),
         },
     });
 
@@ -62,12 +59,8 @@ export const saveAnswers = async (questionId, queryItemId) => {
         throw new Error("回答データが不完全です。もう一度お試しください。");
     }
 
-    const token = localStorage.getItem("authToken");
-
-    // Email セッション（トークン無し）ユーザーは CSRF Cookie を用意してヘッダに付与する
-    if (!token) {
-        await getCsrfCookie();
-    }
+    // セッション認証のため CSRF Cookie を用意してヘッダに付与する
+    await getCsrfCookie();
 
     const response = await fetch(`${BASE_URL}/choices`, {
         method: "POST",
@@ -75,9 +68,7 @@ export const saveAnswers = async (questionId, queryItemId) => {
         headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
-            ...(token
-                ? { Authorization: `Bearer ${token}` }
-                : { "X-XSRF-TOKEN": readXsrfToken() }),
+            "X-XSRF-TOKEN": readXsrfToken(),
         },
         body: JSON.stringify({ questionId, queryItemId }),
     });
