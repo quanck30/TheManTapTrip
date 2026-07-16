@@ -7,8 +7,11 @@ use App\Http\Resources\PlaceResource;
 use App\Http\Responses\ApiResponse;
 use App\Services\PlaceMatchCalculator;
 use App\Services\PlaceSearchService;
+use App\Services\PlacesVisitedLastSorter;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Route;
 
 /**
  * GooglePlacesApiを呼び出し場所を探すコントローラー
@@ -16,7 +19,12 @@ use Illuminate\Support\Facades\Log;
 class PlaceSearchController extends Controller
 {
 
-    public function __construct(private PlaceSearchService $placeSearchService, private ApiResponse $apiResponse, private PlaceMatchCalculator $placeMatchCalculator) {}
+    public function __construct(
+        private PlaceSearchService $placeSearchService,
+        private ApiResponse $apiResponse,
+        private PlaceMatchCalculator $placeMatchCalculator,
+        private PlacesVisitedLastSorter $placesSorter
+    ) {}
 
     /**
      * 現在位置(緯度・経度)、半径、質問の回答を受け取り、条件に合致する場所を検索する
@@ -38,6 +46,13 @@ class PlaceSearchController extends Controller
 
             // マッチ度検索
             $result = $this->placeMatchCalculator->calculateMatches($result, $answers);
+
+            $user = $request->user();
+
+            // 行き済みを最後に並び変える
+            if ($user !== null) {
+                $result = $this->placesSorter->sort($result);
+            }
 
             // 結果が空だった場合
             if (empty($result)) {
