@@ -23,7 +23,7 @@ class UpdateVisitLocationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'spotId' => ['required', 'numeric','exists:spots,spotId'],
+            'spotId' => ['required', 'string','exists:spots,spotId'],
         ];
     }
 
@@ -31,7 +31,7 @@ class UpdateVisitLocationRequest extends FormRequest
     {
         return [
             'spotId.required' => 'スポットIDを入力してください。',
-            'spotId.numeric'  => 'スポットIDは数値で入力してください。',
+            'spotId.string'   => 'スポットIDは文字で入力してください。',
             'spotId.exists'   => '指定されたスポットが存在しません。',
         ];
     }
