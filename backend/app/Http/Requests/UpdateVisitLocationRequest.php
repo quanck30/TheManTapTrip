@@ -23,16 +23,16 @@ class UpdateVisitLocationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'spotId' => ['required', 'string','exists:spots,spotId'],
+            'id' => ['required', 'integer','exists:spots,id'],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'spotId.required' => 'スポットIDを入力してください。',
-            'spotId.string'   => 'スポットIDは文字で入力してください。',
-            'spotId.exists'   => '指定されたスポットが存在しません。',
+            'id.required' => 'スポットIDを入力してください。',
+            'id.integer'   => 'スポットIDは数字で入力してください。',
+            'id.exists'   => '指定されたスポットが存在しません。',
         ];
     }
 }

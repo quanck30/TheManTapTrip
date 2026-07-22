@@ -4,10 +4,12 @@ import { FaHeart, FaStar } from "react-icons/fa";
 import noImage from "../../assets/no_image.jpg";
 import IconButton from "../buttons/IconButton";
 import { useAuth } from "../../hooks/useAuth";
+import { useSpot } from "../../hooks/useSpot";
 
 const CardDisplay = ({ places = [] }) => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth(); // ログインしているか判定
+  const { saveSpot } = useSpot();
 
   // 安全対策
   const displayPlaces = Array.isArray(places) ? places : places?.data || [];
@@ -17,10 +19,16 @@ const CardDisplay = ({ places = [] }) => {
   }
 
   // お気に入りボタンを押した時の処理
-  const handleBookmark = (e, title) => {
+  const handleBookmark = async (e, place) => {
     e.stopPropagation(); // 親のカードクリックイベント（詳細への遷移）が発火するのを防ぐ
 
-    toast.success(`${title}をお気に入りに保存しました！`);
+    try {
+      const result = await saveSpot(place);
+
+      const { spot } = result;
+
+      toast.success(result.message);
+    } catch {}
   };
 
   return (
@@ -52,14 +60,11 @@ const CardDisplay = ({ places = [] }) => {
             state: { from: "/recommend" },
           });
         };
-
         return (
           <div key={place.spotId || index} className="card-display" onClick={onCardClick}>
             <div className="card-image-wrapper">
               <img
-                src={
-                 imageUrl
-                }
+                src={imageUrl}
                 className="card-image"
                 alt={title}
                 crossOrigin="anonymous"
@@ -73,7 +78,7 @@ const CardDisplay = ({ places = [] }) => {
               {matchScore && <div className="match-badge">マッチ度: {matchScore}%</div>}
 
               {/* ログイン中のみお気に入り（ハート）ボタンを表示 */}
-              {isAuthenticated && <IconButton icon={<FaHeart color="#e53e3e" />} variant="bookmark" onClick={(e) => handleBookmark(e, title)} />}
+              {isAuthenticated && <IconButton icon={<FaHeart color="#e53e3e" />} variant="bookmark" onClick={(e) => handleBookmark(e, place, title)} />}
             </div>
 
             <div className="card-content">

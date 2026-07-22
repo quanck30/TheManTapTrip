@@ -33,7 +33,7 @@ body {
   color: var(--text-sub);
 }
 .back-button-bottom {
-  @apply bg-transparent border-0 text-[14px] cursor-pointer -mt-2.5;
+  @apply bg-transparent border-0 text-[14px] cursor-pointer -mt-2.5 flex items-center justify-center;
   color: var(--text-muted);
 }
 
