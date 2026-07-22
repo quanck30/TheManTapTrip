@@ -24,9 +24,14 @@ export default defineConfig(({ mode }) => {
       watch: {
         usePolling: true,
       },
-      // ブラウザは同一オリジンで /api を叩き、Vite が apiProxyTarget（nginx 等）へ中継（CORS 回避）
+      // ブラウザは同一オリジンで /api・/sanctum を叩き、Vite が apiProxyTarget（nginx 等）へ中継（CORS 回避）
       proxy: {
         "/api": {
+          target: apiProxyTarget,
+          changeOrigin: true,
+        },
+        // Sanctum SPA の CSRF Cookie 発行エンドポイント
+        "/sanctum": {
           target: apiProxyTarget,
           changeOrigin: true,
         },

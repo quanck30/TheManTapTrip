@@ -9,28 +9,34 @@
 /**
  * src/api/questionApi.js
  */
+import { getCsrfCookie, readXsrfToken } from "./authService";
+
 const BASE_URL = "/api/v1";
 
-export const fetchQuestions = async () => {
-    const token = localStorage.getItem("authToken");
+// ログイン中か判定する（Google/Email ともにセッション Cookie 認証）
+const isAuthenticated = () => Boolean(localStorage.getItem("authUser"));
 
-    // トークンがあれば login 用、なければ guest 用のURLを設定
-    const endpoint = token
+export const fetchQuestions = async () => {
+    await getCsrfCookie();
+
+    // ログイン中なら login 用、未ログインなら guest 用のURLを設定
+    const endpoint = isAuthenticated()
         ? `${BASE_URL}/questions/login`
         : `${BASE_URL}/questions/guest`;
 
     let response = await fetch(endpoint, {
         method: "GET",
+        // セッション（Cookie）認証のために Cookie を送受信する
+        credentials: "include",
         headers: {
             Accept: "application/json",
-            // トークンがある場合のみAuthorizationヘッダーを付与
-            ...(token && { Authorization: `Bearer ${token}` }),
         },
     });
 
     if (response.status === 401) {
         response = await fetch(`${BASE_URL}/questions/guest`, {
             method: "GET",
+            credentials: "include",
             headers: {
                 Accept: "application/json",
             },
@@ -46,14 +52,23 @@ export const fetchQuestions = async () => {
 };
 
 export const saveAnswers = async (questionId, queryItemId) => {
-    const token = localStorage.getItem("authToken");
+    if (
+        questionId == null || queryItemId == null ||
+        Number.isNaN(Number(questionId)) || Number.isNaN(Number(queryItemId))
+    ) {
+        throw new Error("回答データが不完全です。もう一度お試しください。");
+    }
+
+    // セッション認証のため CSRF Cookie を用意してヘッダに付与する
+    await getCsrfCookie();
 
     const response = await fetch(`${BASE_URL}/choices`, {
         method: "POST",
+        credentials: "include",
         headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
-            ...(token && { Authorization: `Bearer ${token}` }),
+            "X-XSRF-TOKEN": readXsrfToken(),
         },
         body: JSON.stringify({ questionId, queryItemId }),
     });
@@ -64,4 +79,16 @@ export const saveAnswers = async (questionId, queryItemId) => {
         throw new Error(error.message || "回答の保存に失敗しました");
     }
     return await response.json();
+};
+
+/**
+ * 全ての質問に回答が揃っているか検証する。送信前のガードとして使う。
+ */
+export const validateAnswersComplete = (questions, answers) => {
+    const unanswered = questions.filter((q) => answers[q.id] === undefined || answers[q.id] === null);
+    if (unanswered.length > 0) {
+        throw new Error(
+            `未回答の質問があります（${unanswered.map((q) => q.title).join("、")}）。もう一度お試しください。`
+        );
+    }
 };

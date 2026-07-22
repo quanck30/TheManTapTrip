@@ -3,19 +3,19 @@
  */
 
 import { FaArrowLeft } from "react-icons/fa";
-import { useQuestion } from "../../context/QuestionContext";
+import { useQuestion } from "../../hooks/useQuestion";
 
 export default function ConfirmStep({ onDiagnoseComplete }) {
-  const { questions, answers, handleSubmit, reset, setIsConfirming, setCurrentStep } = useQuestion();
+  const { questions, answers, submitAnswers, reset, setIsConfirming, setCurrentStep } = useQuestion();
 
   const handleComplete = async () => {
-    const results = await handleSubmit();
+    const results = await submitAnswers(answers);
     // 完了時に診断フローを初期化
     reset();
     if (results) onDiagnoseComplete(results);
   };
 
-  const handleBack = () => {
+  const handleRestartFromFirstQuestion = () => {
     // 確認画面から戻る場合は「最初の質問」へ戻す
     setIsConfirming(false);
     setCurrentStep(0);
@@ -35,7 +35,7 @@ export default function ConfirmStep({ onDiagnoseComplete }) {
       <button className={`option-item confirm-btn active `} onClick={() => handleComplete()}>
         <span className="option-text">おススメを見る</span>
       </button>
-      <button className="back-button" onClick={handleBack}>
+      <button className="back-button" onClick={handleRestartFromFirstQuestion}>
         <FaArrowLeft style={{ verticalAlign: "middle", marginRight: 4 }} />修正する
       </button>
     </>

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Home from "../pages/Home";
-import { usePlaces } from "../context/PlacesContext";
+import { usePlaces } from "../hooks/usePlaces";
 
 const HomeRoute = () => {
     const navigate = useNavigate();

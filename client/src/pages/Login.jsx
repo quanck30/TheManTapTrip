@@ -2,33 +2,32 @@ import { useState } from 'react';
 import { FaChevronLeft, FaExclamationTriangle } from 'react-icons/fa';
 import TempButton from '../components/buttons/TempButton';
 import GoogleLoginButton from '../components/buttons/GoogleLoginButton';
+import { useEmailAuth } from '../hooks/useEmailAuth';
 
 function Login({ onLoginSuccess, onBackToWelcome, onNavigateToRegister }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [inputError, setInputError] = useState('');
+
+  // Email/パスワードによるログイン処理（成功時に画面遷移）
+  const { login, isLoading, error: authError } = useEmailAuth((user) => {
+    onLoginSuccess(user);
+  });
+
+  // 入力チェックのエラーとサーバー由来のエラーをまとめて表示する
+  const error = inputError || authError;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     // 入力チェック
     if (!email || !password) {
-      setError('メールアドレスとパスワードを入力してください');
+      setInputError('メールアドレスとパスワードを入力してください');
       return;
     }
 
-    setError('');
-    setIsLoading(true);
-
-    // ログイン処理のシミュレーション
-    console.log("ログイン実行:", { email, password });
-
-    // 1秒後に遷移を実行
-    setTimeout(() => {
-      setIsLoading(false);
-      onLoginSuccess(); // ここで画面遷移を実行します
-    }, 1000);
+    setInputError('');
+    login({ email, password });
   };
 
   return (
@@ -58,7 +57,7 @@ function Login({ onLoginSuccess, onBackToWelcome, onNavigateToRegister }) {
             type="email" 
             placeholder="example@email.com" 
             value={email} 
-            onChange={(e) => { setEmail(e.target.value); setError(''); }} 
+            onChange={(e) => { setEmail(e.target.value); setInputError(''); }}
           />
         </div>
 
@@ -68,7 +67,7 @@ function Login({ onLoginSuccess, onBackToWelcome, onNavigateToRegister }) {
             type="password" 
             placeholder="••••••••" 
             value={password} 
-            onChange={(e) => { setPassword(e.target.value); setError(''); }} 
+            onChange={(e) => { setPassword(e.target.value); setInputError(''); }}
           />
         </div>
 

@@ -67,9 +67,15 @@ function Profile() {
   const handleCancelSave = () => setShowConfirm(false);
 
   const handleBack = () => navigate(-1);
-  const handleMenuClick = (label) =>
+  const handleMenuClick = (label) =>{
     console.log(`${label} がクリックされました`);
-  const handleLogout = () => console.log("ログアウトしました");
+  };
+
+  const handleLogout = async () => {
+    // セッション破棄とローカル状態のクリアを行い、トップへ戻る
+    await logout();
+    navigate("/", { replace: true });
+  };
 
   return (
     <div className="w-full max-w-sm mx-auto bg-white min-h-full flex flex-col relative">

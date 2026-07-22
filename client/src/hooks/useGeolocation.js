@@ -14,7 +14,7 @@ import { useState } from "react";
  *  - unsupported: 端末/ブラウザが Geolocation 非対応
  */
 export const useGeolocation = () => {
-    const [location, setLocation] = useState(null);
+    const [location, setLocation] = useState(sessionStorage.getItem("location") ? JSON.parse(sessionStorage.getItem("location")) : null);
     const [error, setError] = useState(null);
     const [status, setStatus] = useState("idle");
 
@@ -35,6 +35,7 @@ export const useGeolocation = () => {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude,
                 });
+                sessionStorage.setItem("location", JSON.stringify({ lat: position.coords.latitude, lng: position.coords.longitude }));
                 setStatus("granted");
             },
             (err) => {
