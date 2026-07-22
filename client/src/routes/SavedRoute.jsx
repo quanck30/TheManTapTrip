@@ -2,54 +2,57 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Heart, Plus } from "lucide-react";
 import SaveListCard from "../components/cards/SaveListCard";
-
-const FILTERS = [
-  { key: "all", label: "すべて" },
-  { key: "weekend", label: "週末" },
-  { key: "cafe", label: "カフェ" },
-  { key: "walk", label: "散歩" },
-];
+import TypeFilterBar from "../components/filters/TypeFilterBar";
+import { useSpot } from "../hooks/useSpot";
+import { toast } from "sonner";
 
 export default function SavedRoute() {
   const navigate = useNavigate();
-  const [savedSpots, setSavedSpots] = useState([]);
-  const [activeFilter, setActiveFilter] = useState("all");
+  const [spots, setSpots] = useState([]);
+  const [activeFilter, setActiveFilter] = useState(null);
+  const { getSpots, deleteSpot, setVisited } = useSpot();
+  const [primaryTypes, setPrimaryTypes] = useState([]);
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem("saved_spots");
-      const data = raw ? JSON.parse(raw) : [];
-      setSavedSpots(Array.isArray(data) ? data : []);
-    } catch (e) {
-      console.error("保存データの読み込みに失敗しました", e);
-      setSavedSpots([]);
-    }
-  }, []);
-
-  const handleUnsave = (spot) => {
-    setSavedSpots((prev) => {
-      const next = prev.filter((s) => s.id !== spot.id);
+    const loadSpots = async () => {
       try {
-        localStorage.setItem("saved_spots", JSON.stringify(next));
-      } catch (e) {
-        console.error("保存データの更新に失敗しました", e);
-      }
-      return next;
-    });
+        const result = await getSpots();
+        const nextSpots = result.spots ?? [];
+        setSpots(nextSpots);
+        console.log(nextSpots);
+        console.log(spots);
+
+        const types = [...new Set(nextSpots.map((spot) => spot.primaryType).filter(Boolean))];
+
+        setPrimaryTypes(types);
+      } catch {}
+    };
+    loadSpots();
+    return () => {};
+  }, [getSpots]);
+  const handleUnsave = async (spot) => {
+    try {
+      const result = await deleteSpot(spot.id);
+      setSpots((prev) => prev.filter((s) => s.id != spot.id));
+      toast.success(result.message || `${spot.sName}お気に入りを削除しました`);
+    } catch {}
   };
 
-  const filteredSpots =
-    activeFilter === "all"
-      ? savedSpots
-      : savedSpots.filter((s) => s.categories?.includes(activeFilter));
+  const handleSetVisited = async (spotId) => {
+    try {
+      const result = await setVisited(spotId);
+      toast.success(result.message || "行き済みを登録しました");
+    } catch {
+      // useSpot側でエラー通知を表示する。
+    }
+  };
+
+  const filteredSpots = activeFilter ? spots.filter((spot) => spot.primaryType === activeFilter) : spots;
 
   const isEmpty = filteredSpots.length === 0;
 
   const CollectionButton = (
-    <button
-      onClick={() => navigate("/collections/new")}
-      className="w-full flex flex-col items-center gap-2 py-6 rounded-2xl border-2 border-dashed border-slate-200 text-slate-500"
-    >
+    <button onClick={() => navigate("/collections/new")} className="w-full flex flex-col items-center gap-2 py-6 rounded-2xl border-2 border-dashed border-slate-200 text-slate-500">
       <span className="w-9 h-9 rounded-full bg-sky-500 text-white flex items-center justify-center">
         <Plus size={18} />
       </span>
@@ -65,20 +68,8 @@ export default function SavedRoute() {
       </div>
 
       {/* フィルタータブ */}
-      <div className="flex items-center gap-2 px-4 pb-3 overflow-x-auto">
-        {FILTERS.map((f) => (
-          <button
-            key={f.key}
-            onClick={() => setActiveFilter(f.key)}
-            className={`text-[13px] px-3.5 py-1.5 rounded-full whitespace-nowrap border ${
-              activeFilter === f.key
-                ? "bg-sky-400 text-white border-sky-400"
-                : "bg-white text-slate-500 border-slate-200"
-            }`}
-          >
-            {f.label}
-          </button>
-        ))}
+      <div className="px-4 pb-3">
+        <TypeFilterBar types={primaryTypes} selectedType={activeFilter} onChange={setActiveFilter} />
       </div>
 
       {/* メインエリア */}
@@ -86,9 +77,7 @@ export default function SavedRoute() {
         <div className="flex-1 flex flex-col justify-center gap-4 px-4 pb-10">
           <div className="flex flex-col items-center justify-center gap-2 py-10 rounded-2xl border border-slate-100">
             <Heart size={28} className="text-slate-300" />
-            <p className="text-[13px] text-slate-400">
-              保存したスポットはまだありません
-            </p>
+            <p className="text-[13px] text-slate-400">保存したスポットはまだありません</p>
           </div>
           {CollectionButton}
         </div>
@@ -98,9 +87,10 @@ export default function SavedRoute() {
             <SaveListCard
               key={spot.id}
               spot={spot}
+              onSetVisited={handleSetVisited}
               onUnsave={handleUnsave}
               onClick={() => {
-                navigate(`/detail/${spot.id}`, {
+                navigate(`/detail/${spot.spotId}`, {
                   state: { spot, from: "/saved" },
                 });
               }}

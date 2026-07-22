@@ -5,7 +5,7 @@ use App\Http\Controllers\ChoiceController;
 use App\Http\Controllers\PlaceSearchController;
 use App\Http\Controllers\VisitLocationController;
 use App\Models\Question;
-use App\Http\Controllers\GoogleAuthController;
+use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +37,9 @@ Route::get('/test', function () {
 
 
 Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
+    // 行き済み登録APIは、spots/{spot} より先に定義する。
+    Route::put('spots/visit', [VisitLocationController::class, 'update']);
+
     Route::apiResource('spots', SpotController::class);
 
     // アカウント情報の取得API(ログイン必須)
@@ -47,9 +50,6 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     Route::post('/auth/logout', [AuthenticatedSessionController::class, 'emailLogout']);
     // ログイン情報取得API
     Route::get('/me', [AuthenticatedSessionController::class, 'me']);
-
-    // 行き済み登録API
-    Route::put('visit', [VisitLocationController::class, 'update']);
 
      // 質問一覧と選択肢をJSONで返します。
     Route::get('questions/login', [QuestionController::class, 'loginedIndex']);

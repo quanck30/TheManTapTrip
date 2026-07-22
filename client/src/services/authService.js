@@ -108,7 +108,7 @@ export const authService = {
    * @returns {Promise<Object>} - 登録したユーザー情報
    */
   emailRegister: async ({ displayName, email, password }) => {
-    const response = await postWithCsrf(`/api/auth/register`, {
+    const response = await postWithCsrf(`/api/v1/auth/register`, {
       displayName,
       email,
       password,
@@ -126,7 +126,7 @@ export const authService = {
    * @returns {Promise<Object>} - ログインしたユーザー情報
    */
   emailLogin: async ({ email, password }) => {
-    const response = await postWithCsrf(`/api/auth/email`, {
+    const response = await postWithCsrf(`/api/v1/auth/email`, {
       email,
       password,
     });
@@ -139,7 +139,7 @@ export const authService = {
    * ログアウトする（セッション破棄）
    */
   emailLogout: async () => {
-    const response = await postWithCsrf(`/api/auth/logout`);
+    const response = await postWithCsrf(`/api/v1/auth/logout`);
     await parseJsonOrThrow(response, "ログアウトに失敗しました。");
   },
 
@@ -148,7 +148,7 @@ export const authService = {
    * @returns {Promise<Object|null>} - ログイン中ならユーザー情報、未ログインなら null
    */
   fetchMe: async () => {
-    const response = await fetch(`/api/me`, {
+    const response = await fetch(`/api/v1/me`, {
       method: "GET",
       credentials: "include",
       headers: { Accept: "application/json" },
