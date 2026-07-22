@@ -42,46 +42,16 @@ class SpotController extends Controller
     public function store(SpotRequest $request)
     {
         try {
-            $spot = Spot::create([
-                // ログインユーザーID
-                'userId' => Auth::id(),
+            $user = $request->user();
 
-                // スポット情報
-                'sName' => $request->sName,
-                'spotId' => $request->spotId,
-                'address' => $request->address,
-
-                // 緯度経度
-                'lat' => $request->lat,
-                'long' => $request->long,
-
-                // 評価
-                'rating' => $request->rating,
-
-                // 価格帯
-                'price' => $request->price,
-
-                // 駐車場有無
-                'hasParking' => $request->hasParking ?? false,
-
-                // 説明
-                'summary' => $request->summary,
-
-                // 写真リファレンス
-                'photoReference' => $request->photoReference,
-
-                // ルート案内URL
-                'directionUrl' => $request->directionUrl,
-
-
-            ]);
-
+            $data = $request->validated();
+            $spot = $user->spots()->create($data);
             return ApiResponse::success(
                 //テストでspotsを出している
                 [
                     'spot' => $spot,
                 ],
-                'お気に入り場所を保存しました',
+                "{$spot->sName}お気に入り場所を保存しました",
                 200
             );
         } catch (Exception $e) {

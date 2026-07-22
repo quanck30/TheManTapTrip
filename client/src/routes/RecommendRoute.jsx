@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { FaChevronLeft } from "react-icons/fa";
 import { Loader2 } from "lucide-react";
 import CardDisplay from "../components/cards/CardDisplay";
+import TypeFilterBar from "../components/filters/TypeFilterBar";
 import { usePlaces } from "../hooks/usePlaces";
 import { useNavigate } from "react-router-dom";
 
@@ -54,18 +55,7 @@ const RecommendRoute = () => {
 
       <div className="recommend">
         {/* タイプ絞り込みバー */}
-        {allTypes.length > 0 && (
-          <div className="type-filter-bar">
-            <button type="button" className={`type-filter-chip ${!selectedType ? "type-filter-chip--active" : ""}`} onClick={() => handleSelectType(selectedType)} disabled={!selectedType}>
-              すべて
-            </button>
-            {allTypes.map((type) => (
-              <button key={type} type="button" className={`type-filter-chip ${selectedType === type ? "type-filter-chip--active" : ""}`} onClick={() => handleSelectType(type)}>
-                {type}
-              </button>
-            ))}
-          </div>
-        )}
+        <TypeFilterBar types={allTypes} selectedType={selectedType} onChange={handleSelectType} />
 
         {/* 絞り込み中はローディングアニメーションを表示 */}
         {isFiltering ? (

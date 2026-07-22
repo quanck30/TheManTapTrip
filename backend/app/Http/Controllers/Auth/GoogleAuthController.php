@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\User;
@@ -77,10 +78,19 @@ class GoogleAuthController extends Controller
             // セッション固定攻撃対策のためセッションIDを再生成する。
             $request->session()->regenerate();
 
+            Log::info('Googleログイン成功', [
+                'user_id' => $user->id,
+                'display_name' => $user->displayName,
+                'google_id' => $googleUser->getId(),
+                'google_email' => $googleUser->getEmail(),
+                'ip' => $request->ip(),
+            ]);
+
             return ApiResponse::success([
                 'user' => [
                     'id' => $user->id,
                     'displayName' => $user->displayName,
+                    'email' => $googleUser->getEmail(),
                 ],
             ], 'Googleログインに成功しました');
         } catch (Throwable $e) {

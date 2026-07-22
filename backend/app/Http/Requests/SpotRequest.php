@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class SpotRequest extends FormRequest
 {
@@ -28,7 +29,10 @@ class SpotRequest extends FormRequest
             //
 
             // PlacesAPIのスポットID
-            'spotId' => ['required', 'string'],
+            'spotId' => ['required', 'string', Rule::unique('spots', 'spotId')->where(
+                fn($query) =>
+                $query->where('userId', $this->user()->id),
+            )],
 
             // 住所
             'address' => ['required', 'string', 'max:255'],
@@ -46,7 +50,7 @@ class SpotRequest extends FormRequest
             'rating' => ['nullable', 'numeric'],
 
             // 価格帯
-            'price' => ['nullable', 'max:25'],
+            'price' => ['nullable', 'max:255'],
 
             // 駐車場有無
             'hasParking' => ['nullable', 'boolean'],
@@ -55,10 +59,13 @@ class SpotRequest extends FormRequest
             'summary' => ['nullable', 'string', 'max:255'],
 
             // PlacesAPIの写真参照ID
-            'photoReference' => ['nullable', 'string', 'max:255'],
+            'photoReference' => ['nullable', 'string', 'max:2048'],
 
             // GoogleMapルート案内URL
             'directionUrl' => ['nullable', 'string', 'max:255'],
+
+            //Primary Type
+            'primaryType' => ['nullable', 'string', 'max:255']
 
         ];
     }
@@ -71,6 +78,7 @@ class SpotRequest extends FormRequest
             // PlacesAPIのスポットID
             'spotId.required' => 'スポットIDがありません',
             'spotId.integer'  => 'スポットIDは整数で入力してください',
+            'spotId.unique' => 'このスポットはすでに保存されています。',
 
             // 住所
             'address.required' => '住所がありません',
@@ -110,6 +118,10 @@ class SpotRequest extends FormRequest
             // GoogleMapルート案内URL
             'directionUrl.string' => 'ルート案内リンクは文字列で入力してください',
             'directionUrl.max'    => 'ルート案内リンクは255文字以内で入力してください',
+
+             // GoogleMapルート案内URL
+            'primaryType.string' => 'タイプは文字列で入力してください',
+            'primaryType.max'    => 'タイプは255文字以内で入力してください',
         ];
     }
 }

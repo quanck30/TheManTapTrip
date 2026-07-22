@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 import {
   User,
   Camera,
@@ -21,6 +22,7 @@ const initialData = {
 
 function Profile() {
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const [formData, setFormData] = useState(initialData);
   const [savedData, setSavedData] = useState(initialData);

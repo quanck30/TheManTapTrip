@@ -21,6 +21,7 @@ class Spot extends Model
         'summary',
         'photoReference',
         'directionUrl',
+        'primaryType'
     ];
 
     /**

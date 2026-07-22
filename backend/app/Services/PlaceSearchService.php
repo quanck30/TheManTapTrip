@@ -79,7 +79,7 @@ class PlaceSearchService
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
             'X-Goog-Api-Key' => $apikey,
-            'X-Goog-FieldMask' => 'places.id,places.displayName,places.editorialSummary,places.photos,places.formattedAddress,places.rating,places.primary_type,places.types,places.location,places.priceLevel,places.parkingOptions,routingSummaries,places.goodForChildren,places.menuForChildren',
+            'X-Goog-FieldMask' => 'places.id,places.displayName,places.editorialSummary,places.photos,places.formattedAddress,places.rating,places.primaryType,places.types,places.location,places.priceLevel,places.parkingOptions,routingSummaries,places.goodForChildren,places.menuForChildren',
             'Accept-Language' => 'ja',             // 言語
         ])->post($url, $body);
 

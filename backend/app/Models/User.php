@@ -38,6 +38,7 @@ class User extends Authenticatable
             return (new self())->newFromBuilder([
                 'id' => $cachedUser['id'],
                 'displayName' => $cachedUser['displayName'],
+                'email' => $cachedUser['email']
             ]);
         }
 
@@ -58,6 +59,7 @@ class User extends Authenticatable
                 'provider' => 'google',
                 'providerKey' => $googleUser->getId(),
                 'passHash' => null,
+                'email' =>  $googleUser->getEmail(),
             ]);
             return $user;
         });
@@ -66,6 +68,7 @@ class User extends Authenticatable
         Cache::put($cacheKey, [
             'id' => $user->id,
             'displayName' => $user->displayName,
+            'email' => $googleUser->getEmail(),
         ], now()->addHour());
         return $user;
     }
