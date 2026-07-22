@@ -53,6 +53,7 @@ class PlaceResource extends JsonResource
             'photoReference'  => $this->resource['photoReference'] ?? null,
             'directionUrl'    => $this->resource['directionUrl'] ?? null,
             'matchScore'      => $this->resource['matchScore'] ?? 0,
+            'isVisited'       => $this->resource['isVisited'] ?? false,
         ];
     }
 }

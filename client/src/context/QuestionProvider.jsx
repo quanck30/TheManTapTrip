@@ -10,14 +10,22 @@ import { useGeolocation } from "../hooks/useGeolocation";
 import { useAuth } from "../hooks/useAuth";
 import { QuestionContext } from "./QuestionContext";
 
+const QUESTIONS_STORAGE_KEY = "questionForm";
+
 export const QuestionProvider = ({ children }) => {
   const { isAuthenticated, logout } = useAuth();
 
   // 質問一覧・回答・診断フローの状態（sessionStorage から復元し、Homeに戻っても回答を保持）
-  const [questionForm, setQuestionForm] = useState(() => ({
-    questions: [],
-    answers: {},
-  }));
+  const [questionForm, setQuestionForm] = useState(() => {
+    try {
+      const saved = sessionStorage.getItem(QUESTIONS_STORAGE_KEY);
+      if (saved) return JSON.parse(saved);
+    } catch {
+      // 壊れていたら無視して初期値を使う
+    }
+    return { questions: [], answers: {} };
+  });
+
   const [currentStep, setCurrentStep] = useState(() => parseInt("0", 10));
   const [isConfirming, setIsConfirming] = useState();
   const [directAddress, setDirectAddress] = useState("");
@@ -27,6 +35,19 @@ export const QuestionProvider = ({ children }) => {
   const [questionsError, setQuestionsError] = useState(null);
 
   const { location, status: locationStatus, error: locationError, getLocation } = useGeolocation();
+
+  // questionForm が変わるたびに sessionStorage へ同期
+  const updateQuestionForm = (updater) => {
+    setQuestionForm((prev) => {
+      const next = typeof updater === "function" ? updater(prev) : updater;
+      try {
+        sessionStorage.setItem(QUESTIONS_STORAGE_KEY, JSON.stringify(next));
+      } catch {
+        // 保存失敗（容量超過など）は無視
+      }
+      return next;
+    });
+  };
 
   /**
    * DBから質問を取得する（取得済みならスキップ）
@@ -61,11 +82,8 @@ export const QuestionProvider = ({ children }) => {
     }
   };
 
-  /**
-   * 質問の選択を更新する
-   */
   const handleSelect = (queId, itemId) => {
-    setQuestionForm((prev) => ({
+    updateQuestionForm((prev) => ({
       ...prev,
       answers: { ...prev.answers, [queId]: itemId },
     }));
