@@ -5,7 +5,11 @@ import LoginPrompt from "../pages/LoginPrompt";
 export default function ProtectedRoute({ children }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, authLoading } = useAuth();
+
+  if (authLoading) {
+    return <div>ログイン状態を確認しています...</div>;
+  }
 
   if (!isAuthenticated) {
     return (

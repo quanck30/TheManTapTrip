@@ -19,8 +19,6 @@ export default function SavedRoute() {
         const result = await getSpots();
         const nextSpots = result.spots ?? [];
         setSpots(nextSpots);
-        console.log(nextSpots);
-        console.log(spots);
 
         const types = [...new Set(nextSpots.map((spot) => spot.primaryType).filter(Boolean))];
 
