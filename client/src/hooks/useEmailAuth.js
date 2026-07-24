@@ -36,7 +36,6 @@ export const useEmailAuth = (onSuccess) => {
     } catch (err) {
       const message = err.message || "認証に失敗しました。";
       setError(message);
-      toast.error(message);
       return null;
     } finally {
       setIsLoading(false);

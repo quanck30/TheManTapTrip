@@ -12,7 +12,7 @@ export default function LoginRoute() {
       setAuthenticatedUser(user);
     }
 
-    const destination = location.state?.from?.pathname || "/home";
+    const destination = location.state?.from?.pathname == "/login" ? "/home" : location.state?.from?.pathname;
     navigate(destination, { replace: true });
   };
 

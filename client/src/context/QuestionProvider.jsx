@@ -40,7 +40,7 @@ export const QuestionProvider = ({ children }) => {
     setQuestionsError(null);
 
     try {
-      const res = await fetchQuestions();
+      const res = await fetchQuestions(isAuthenticated);
       const fetchedQuestions = res?.data?.questions ?? [];
 
       // データが空（＝まだ質問が用意されていない）の場合はエラー扱いにする

@@ -13,14 +13,11 @@ import { getCsrfCookie, readXsrfToken } from "./authService";
 
 const BASE_URL = "/api/v1";
 
-// ログイン中か判定する（Google/Email ともにセッション Cookie 認証）
-const isAuthenticated = () => Boolean(localStorage.getItem("authUser"));
-
-export const fetchQuestions = async () => {
+export const fetchQuestions = async (isAuthenticated) => {
     await getCsrfCookie();
 
     // ログイン中なら login 用、未ログインなら guest 用のURLを設定
-    const endpoint = isAuthenticated()
+    const endpoint = isAuthenticated
         ? `${BASE_URL}/questions/login`
         : `${BASE_URL}/questions/guest`;
 

@@ -20,7 +20,6 @@ function Detail({ spot, onBack }) {
     if (!spot?.photoReference) return noImage;
     return buildPhotoUrl(spot.photoReference);
   }, [spot?.photoReference]);
-  console.log(imageUrl);
   // primaryType と types をまとめ、null・重複を除去して表示用リストを作る（全件表示）
   const typeList = useMemo(() => {
     const merged = [spot?.primaryType, ...(spot?.types || [])].filter(Boolean);
