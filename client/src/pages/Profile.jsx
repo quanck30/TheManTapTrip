@@ -1,17 +1,19 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { updateDisplayName } from "../services/userService";
 import { User, Camera, Bell, Lock, ChevronLeft, HelpCircle, ChevronRight, Pencil, Check } from "lucide-react";
 
 function Profile() {
   const navigate = useNavigate();
-  const { logout, user } = useAuth();
+  const { logout, user, setAuthenticatedUser } = useAuth();
 
   const [formData, setFormData] = useState(user);
   const [savedData, setSavedData] = useState(user);
 
   const [isSaving, setIsSaving] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
+  const [statusType, setStatusType] = useState("success");
   const [avatarLoadError, setAvatarLoadError] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -20,16 +22,28 @@ function Profile() {
 
   const hasChanges = formData.displayName !== savedData.displayName;
 
-  console.log(user);
-
   const startEditing = (field) => {
     setEditingField(field);
     setDraftValue(formData[field]);
+    setStatusMessage("");
   };
 
   const confirmEditing = () => {
     if (!editingField) return;
-    setFormData((prev) => ({ ...prev, [editingField]: draftValue }));
+
+    const nextValue = draftValue.trim();
+    if (!nextValue) {
+      setStatusType("error");
+      setStatusMessage("ユーザー名を入力してください。");
+      return;
+    }
+    if (nextValue.length > 20) {
+      setStatusType("error");
+      setStatusMessage("ユーザー名は20文字以内で入力してください。");
+      return;
+    }
+
+    setFormData((prev) => ({ ...prev, [editingField]: nextValue }));
     setEditingField(null);
   };
 
@@ -40,15 +54,37 @@ function Profile() {
 
   const handleConfirmSave = async () => {
     setShowConfirm(false);
+
+    const displayName = formData.displayName.trim();
+    if (!displayName) {
+      setStatusType("error");
+      setStatusMessage("ユーザー名を入力してください。");
+      return;
+    }
+    if (displayName.length > 20) {
+      setStatusType("error");
+      setStatusMessage("ユーザー名は20文字以内で入力してください。");
+      return;
+    }
+
     setIsSaving(true);
     setStatusMessage("");
 
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      const result = await updateDisplayName(displayName);
+      const updatedUser = { ...user, displayName };
 
-    setSavedData(formData);
-    setIsSaving(false);
-    setStatusMessage("プロフィールを更新しました！");
-    setTimeout(() => setStatusMessage(""), 3000);
+      setFormData(updatedUser);
+      setSavedData(updatedUser);
+      setAuthenticatedUser(updatedUser);
+      setStatusType("success");
+      setStatusMessage(result.message || "プロフィールを更新しました！");
+    } catch (err) {
+      setStatusType("error");
+      setStatusMessage(err.message || "プロフィールの更新に失敗しました。");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handleCancelSave = () => setShowConfirm(false);
@@ -136,7 +172,17 @@ function Profile() {
 
       {/* アクションエリア */}
       <div className="px-4 pb-8 flex flex-col items-center mt-auto">
-        <div className={`text-[13px] mb-2 h-5 transition-opacity ${statusMessage ? "opacity-100 text-emerald-500" : "opacity-0"}`}>{statusMessage || "\u00A0"}</div>
+        <div
+          className={`text-[13px] mb-2 h-5 transition-opacity ${
+            statusMessage
+              ? statusType === "error"
+                ? "opacity-100 text-rose-500"
+                : "opacity-100 text-emerald-500"
+              : "opacity-0"
+          }`}
+        >
+          {statusMessage || "\u00A0"}
+        </div>
 
         <button
           onClick={handleSaveClick}
