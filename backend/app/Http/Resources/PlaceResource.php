@@ -50,8 +50,7 @@ class PlaceResource extends JsonResource
             'menuForChildren' => $this->resource['menuForChildren'] ?? false,
             'hasParking'      => $this->resource['hasParking'] ?? false,
             'summary'         => $this->resource['summary'] ?? '説明はありません。',
-            'photoReference'  => $this->resource['photoReference'] ?? null,
-            'directionUrl'    => $this->resource['directionUrl'] ?? null,
+            'photoUrl'        => $this->resource['photoUrl'] ?? null,
             'matchScore'      => $this->resource['matchScore'] ?? 0,
             'isVisited'       => $this->resource['isVisited'] ?? false,
         ];

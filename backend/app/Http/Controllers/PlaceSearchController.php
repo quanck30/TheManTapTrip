@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PlaceSearchRequest;
 use App\Http\Resources\PlaceResource;
 use App\Http\Responses\ApiResponse;
+use App\Services\GooglePlacesPhotoService;
 use App\Services\PlaceMatchCalculator;
 use App\Services\PlaceSearchService;
 use App\Services\PlacesVisitedLastSorter;
@@ -23,7 +24,8 @@ class PlaceSearchController extends Controller
         private PlaceSearchService $placeSearchService,
         private ApiResponse $apiResponse,
         private PlaceMatchCalculator $placeMatchCalculator,
-        private PlacesVisitedLastSorter $placesSorter
+        private PlacesVisitedLastSorter $placesSorter,
+        private GooglePlacesPhotoService $googlePhoto,
     ) {}
 
     /**
@@ -61,6 +63,8 @@ class PlaceSearchController extends Controller
                     "指定された条件にマッチする場所が周辺で見つかりませんでした。条件を変えて再度お試しください。"
                 );
             }
+
+            $result = $this->googlePhoto->addPhotoUrls($result);
 
             // 検索結果を返す
             return $this->apiResponse->success(
