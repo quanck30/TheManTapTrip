@@ -1,4 +1,10 @@
 import { useEffect } from "react";
+<<<<<<< HEAD
+import { useQuestion } from "../context/QuestionContext";
+import QuestionStep from "../components/home/QuestionStep";
+import ConfirmStep from "../components/home/ConfirmStep";
+import "../styles/home.css";
+=======
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { Loader2 } from "lucide-react";
 import { useQuestion } from "../hooks/useQuestion";
@@ -12,6 +18,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+>>>>>>> 2fa557a2218b9a62b15419d7c0f4f93dd3248607
 
 function Home({ onDiagnoseComplete }) {
   const {
@@ -91,5 +98,8 @@ function Home({ onDiagnoseComplete }) {
     </div>
   );
 }
+<<<<<<< HEAD
+=======
 
+>>>>>>> 2fa557a2218b9a62b15419d7c0f4f93dd3248607
 export default Home;
