@@ -19,5 +19,5 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 COPY . .
 RUN composer install --optimize-autoloader
-
+RUN chown -R www-data:www-data storage bootstrap/cache
 
