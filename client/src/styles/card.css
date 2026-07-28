@@ -39,6 +39,21 @@
   @apply flex gap-2;
 }
 
+/* カードではおすすめ理由を短く見せ、注意点は控えめな色で表示する */
+.card-reasons {
+  @apply mt-3 flex flex-col gap-1;
+}
+
+.card-reason {
+  @apply text-[12px] leading-snug;
+  color: var(--primary);
+}
+
+.card-warning {
+  @apply mt-2 mb-0 text-[11px] leading-snug;
+  color: var(--text-sub);
+}
+
 .card-tag {
   @apply text-[11px] bg-border-light py-1 px-2 rounded-[6px];
   color: var(--text-sub);

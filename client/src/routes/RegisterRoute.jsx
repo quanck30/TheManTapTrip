@@ -11,7 +11,8 @@ export default function RegisterRoute() {
       setAuthenticatedUser(user);
     }
 
-    navigate(-1, { replace: true });
+    // 登録完了後は、戻る履歴に依存せずホーム画面へ移動する
+    navigate("/home", { replace: true });
   };
 
   return <Register onRegisterSuccess={handleRegisterSuccess} />;

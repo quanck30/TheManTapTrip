@@ -16,7 +16,10 @@ use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Socialite\Contracts\User as ContractsUser;
 
-#[Fillable(['displayName'])]
+#[Fillable([
+    'displayName',
+    'avatarUrl'
+])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -38,7 +41,8 @@ class User extends Authenticatable
             return (new self())->newFromBuilder([
                 'id' => $cachedUser['id'],
                 'displayName' => $cachedUser['displayName'],
-                'email' => $cachedUser['email']
+                'email' => $cachedUser['email'],
+                'avatarUrl' => $cachedUser['avatarUrl']
             ]);
         }
 
@@ -54,6 +58,7 @@ class User extends Authenticatable
             // 初回ログイン時はユーザー本体とGoogle認証情報を同時に作成します。
             $user = self::create([
                 'displayName' => $googleUser->getName() ?? $googleUser->getEmail() ?? $googleUser->getNickname() ?? 'Google User',
+                'avatarUrl' => $googleUser->getAvatar(),
             ]);
             $user->userAuths()->create([
                 'provider' => 'google',
@@ -69,6 +74,7 @@ class User extends Authenticatable
             'id' => $user->id,
             'displayName' => $user->displayName,
             'email' => $googleUser->getEmail(),
+            'avatarUrl' => $googleUser->getAvatar()
         ], now()->addHour());
         return $user;
     }

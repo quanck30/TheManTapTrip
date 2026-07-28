@@ -19,7 +19,7 @@ import { useAuth } from "./useAuth";
  * @return {string|null} error - ログイン処理中に発生したエラーのメッセージ、エラーがない場合はnull
  */
 export const useGoogleAuth = (onLoginSuccess) => {
-  const { login: saveAuth } = useAuth();
+  const { setAuthenticatedUser } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -40,8 +40,8 @@ export const useGoogleAuth = (onLoginSuccess) => {
           throw new Error("ログイン情報を取得できませんでした。");
         }
 
-        // セッション（HttpOnly Cookie）認証なのでトークンは無し。user のみ保持する。
-        saveAuth(null, user);
+        // セッション（HttpOnly Cookie）認証なのでトークンは保存しない。
+        setAuthenticatedUser(user);
         onLoginSuccess?.(user);
       } catch (err) {
         // バックエンドが返すメッセージをそのままトースト表示

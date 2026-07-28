@@ -6,6 +6,7 @@ use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use App\Http\Responses\ApiResponse;
 use Exception;
 use Illuminate\Support\Facades\Log;
@@ -56,6 +57,15 @@ class UserController extends Controller
         try {
             // データベースに保存
             $user->save();
+
+            // Googleログイン時に使うキャッシュが古い表示名を返さないようにする。
+            // 次回のGoogleログインではDBから最新のユーザー情報を取得して再キャッシュする。
+            $googleAuth = $user->userAuths()
+                ->where('provider', 'google')
+                ->first();
+            if ($googleAuth?->providerKey) {
+                Cache::forget('googleUser:' . $googleAuth->providerKey);
+            }
 
             // レスポンスを返す
             return $this->apiResponse->success(

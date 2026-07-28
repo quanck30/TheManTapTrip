@@ -3,17 +3,20 @@
  */
 
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 import { FaArrowLeft } from "react-icons/fa";
 import { useQuestion } from "../../hooks/useQuestion";
 import { validateAnswersComplete } from "../../services/questionService";
 import { FaArrowRight } from "react-icons/fa";
 
 export default function QuestionStep({ onDiagnoseComplete }) {
-  const { questions, answers, currentStep, setCurrentStep, setIsConfirming, handleSelect, submitAnswers } = useQuestion();
+  const { questions, answers, currentStep, setCurrentStep, handleSelect, submitAnswers, isSubmitting } = useQuestion();
 
   const currentQuestion = questions[currentStep];
 
   const handleOptionClick = async (qId, itemId) => {
+    if (isSubmitting) return;
+
     if (currentStep < questions.length - 1) {
       handleSelect(qId, itemId);
       setCurrentStep((prev) => prev + 1);
@@ -33,7 +36,7 @@ export default function QuestionStep({ onDiagnoseComplete }) {
 
     handleSelect(qId, itemId);
     const result = await submitAnswers(mergedAnswers);
-    onDiagnoseComplete(result);
+    if (result) onDiagnoseComplete(result);
   };
 
   const handleBack = () => {
@@ -41,6 +44,15 @@ export default function QuestionStep({ onDiagnoseComplete }) {
       setCurrentStep((prev) => prev - 1);
     }
   };
+
+  if (isSubmitting) {
+    return (
+      <div className="question-status">
+        <Loader2 className="question-status-spinner" />
+        <span>おすすめスポットを検索中...</span>
+      </div>
+    );
+  }
 
   return (
     <>

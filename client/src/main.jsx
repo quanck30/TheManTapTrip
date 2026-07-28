@@ -12,12 +12,13 @@ import { PlacesProvider } from "./context/PlacesProvider.jsx";
 import { Toaster } from "@/components/ui/sonner";
 
 const GoogleClientID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+const GoogleMapsApiKey = import.meta.env.VITE_GOOGLE_MAP_API_KEY || import.meta.env.VITE_GOOGLE_PLACES_API_KEY;
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <APIProvider apiKey={import.meta.env.VITE_GOOGLE_PLACES_API_KEY}>
+        <APIProvider apiKey={GoogleMapsApiKey}>
           <GoogleOAuthProvider clientId={GoogleClientID}>
             <QuestionProvider>
               <PlacesProvider>

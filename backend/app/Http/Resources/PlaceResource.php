@@ -50,9 +50,13 @@ class PlaceResource extends JsonResource
             'menuForChildren' => $this->resource['menuForChildren'] ?? false,
             'hasParking'      => $this->resource['hasParking'] ?? false,
             'summary'         => $this->resource['summary'] ?? '説明はありません。',
-            'photoReference'  => $this->resource['photoReference'] ?? null,
+            'photoUrl'        => $this->resource['photoUrl'] ?? null,
+            'photoReference' => $this->resource['photoReference'] ?? null,
             'directionUrl'    => $this->resource['directionUrl'] ?? null,
             'matchScore'      => $this->resource['matchScore'] ?? 0,
+            // おすすめの根拠と確認事項を、フロントで表示できる形のまま返す
+            'matchReasons'    => $this->resource['matchReasons'] ?? [],
+            'matchWarnings'   => $this->resource['matchWarnings'] ?? [],
             'isVisited'       => $this->resource['isVisited'] ?? false,
         ];
     }

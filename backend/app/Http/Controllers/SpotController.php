@@ -5,21 +5,25 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SpotRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\Spot;
+use App\Services\GooglePlacesPhotoService;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
+
 class SpotController extends Controller
 {
+    public function __construct(
+        private GooglePlacesPhotoService $googlePhoto
+    ) {}
     /**
      * ログインユーザーのお気に入り一覧取得
      */
     public function index()
     {
         try {
-            $spots = Auth::user()->spots;
-
+            $spots = Auth::user()->spots->toArray();
+            $spots = $this->googlePhoto->addPhotoUrls($spots);
             return ApiResponse::success(
                 //テストでspotsを出している
                 [

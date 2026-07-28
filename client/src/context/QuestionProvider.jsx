@@ -33,6 +33,7 @@ export const QuestionProvider = ({ children }) => {
   // 質問取得の状態: "idle" | "loading" | "success" | "error"
   const [questionsStatus, setQuestionsStatus] = useState("idle");
   const [questionsError, setQuestionsError] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { location, status: locationStatus, error: locationError, getLocation } = useGeolocation();
 
@@ -61,7 +62,7 @@ export const QuestionProvider = ({ children }) => {
     setQuestionsError(null);
 
     try {
-      const res = await fetchQuestions();
+      const res = await fetchQuestions(isAuthenticated);
       const fetchedQuestions = res?.data?.questions ?? [];
 
       // データが空（＝まだ質問が用意されていない）の場合はエラー扱いにする
@@ -72,7 +73,7 @@ export const QuestionProvider = ({ children }) => {
       }
 
       // 回答はユーザーが実際に選択したときのみ設定する（事前入力しない）
-      setQuestionForm((prev) => ({ ...prev, questions: fetchedQuestions }));
+      updateQuestionForm((prev) => ({ ...prev, questions: fetchedQuestions }));
       setQuestionsStatus("success");
     } catch (err) {
       console.error("質問の取得エラー:", err);
@@ -96,6 +97,8 @@ export const QuestionProvider = ({ children }) => {
    *   stale な可能性があるため、ここでは読み直さない。
    */
   const submitAnswers = async (answers) => {
+    if (isSubmitting) return null;
+
     if (!directAddress && (!location || !location.lat)) {
       // /home の位置情報必須ゲートを通過していれば通常ここには来ない（保険）
       toast.error("現在地が取得できませんでした。位置情報を許可してください。");
@@ -110,6 +113,8 @@ export const QuestionProvider = ({ children }) => {
       toast.error(validationErr.message);
       return null;
     }
+
+    setIsSubmitting(true);
 
     try {
       if (isAuthenticated) {
@@ -142,7 +147,7 @@ export const QuestionProvider = ({ children }) => {
           radius = selectedItem.radius;
         }
         if (q.questionType === "withChildren" && selectedItem) {
-          formattedAnswers[q.questionType] = Boolean(selectedItem.searchValue);
+          formattedAnswers[q.questionType] = selectedItem.searchValue === true || selectedItem.searchValue === "true";
         }
       });
 
@@ -157,6 +162,8 @@ export const QuestionProvider = ({ children }) => {
       // バックエンドが返すメッセージをそのままトースト表示
       toast.error(err.message);
       return null;
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -175,6 +182,7 @@ export const QuestionProvider = ({ children }) => {
         answers: questionForm.answers,
         questionsStatus,
         questionsError,
+        isSubmitting,
         currentStep,
         setCurrentStep,
         isConfirming,

@@ -48,7 +48,7 @@ class VisitLocationController extends Controller
                 // 更新をかけるデータを取得
                 $spotData = $request->user()->spots()->findOrFail($request->input('id'));
                 // 行き済み(true)に更新
-                $spotData->isVisited = true;
+                $spotData->isVisited = $spotData->isVisited ? false : true;
 
                 // 更新を保存
                 $spotData->save();

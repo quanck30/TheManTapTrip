@@ -7,8 +7,7 @@ export default function DetailRoute() {
   const location = useLocation();
   const { spotId } = useParams();
   const { getSpotById } = usePlaces();
-  const spot = getSpotById(spotId);
-  
+  const spot = getSpotById(spotId) || location.state?.spot;
 
   if (!spot) {
     return <Navigate to="/recommend" replace />;
@@ -16,7 +15,12 @@ export default function DetailRoute() {
 
   return (
     <>
-      <Detail spot={spot} onBack={() => navigate(location.state?.from || "/recommend")} />
+      {/* 一覧から渡された状態を初期値にし、Detail側でDBの最新状態も確認する */}
+      <Detail
+        spot={spot}
+        initialSaved={location.state?.isSaved ?? Boolean(spot.id || spot.isSaved)}
+        onBack={() => navigate(location.state?.from || "/recommend")}
+      />
     </>
   );
 }

@@ -21,6 +21,16 @@ class QuestionController extends Controller
 
         // 全て null にする　
         foreach ($questions as $question) {
+            if ($question->questionType === 'withChildren') {
+                foreach ($question->queryItems as $queryItem) {
+                    if ($queryItem->searchValue === 'true') {
+                        $queryItem->searchValue = true;
+                    } elseif ($queryItem->searchValue === 'false') {
+                        $queryItem->searchValue = false;
+                    }
+                }
+            }
+
             $question->choice = null;
         }
 

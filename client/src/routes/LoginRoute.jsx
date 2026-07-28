@@ -12,7 +12,12 @@ export default function LoginRoute() {
       setAuthenticatedUser(user);
     }
 
-    const destination = location.state?.from?.pathname || "/home";
+    // 通常のログイン画面には `from` がないため、必ずホームへ遷移する。
+    // 保護ページから来た場合だけ、ログイン前のページへ戻す。
+    const from = location.state?.from;
+    const destination = from?.pathname && from.pathname !== "/login"
+      ? `${from.pathname}${from.search ?? ""}${from.hash ?? ""}`
+      : "/home";
     navigate(destination, { replace: true });
   };
 
