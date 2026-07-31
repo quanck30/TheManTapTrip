@@ -2,3 +2,13 @@
 AGENTS.md
 .agents
 .codex
+
+# Local macOS and generated files
+.DS_Store
+_build_swiftui_deck/
+output/
+tmp/
+
+# Xcode personal settings left outside the shared iOS project
+Team/
+Team.xcodeproj/
