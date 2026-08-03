@@ -7,8 +7,8 @@
 
 // VITE_API_BASE_URL は末尾に /api/v1 を含む。sanctum/csrf-cookie は
 // /api/v1 配下ではないため、オリジン部分だけ取り出して使う。
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
-const ORIGIN = BASE_URL.replace(/\/api\/v1$/, "");
+// const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+// const ORIGIN = BASE_URL.replace(/\/api\/v1$/, "");
 
 /**
  * document.cookie から XSRF-TOKEN を読み取り、URLデコードして返す
