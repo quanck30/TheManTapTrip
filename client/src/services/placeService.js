@@ -6,7 +6,8 @@
  * @Update 26/06/12
  */
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+// const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const BASE_URL = "/api/v1";
 
 export const searchPlaces = async (searchData) => {
   const hasAnswers = searchData?.answers && Object.keys(searchData.answers).length > 0;
@@ -19,7 +20,7 @@ export const searchPlaces = async (searchData) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Accept": "application/json",
+      Accept: "application/json",
     },
     body: JSON.stringify(searchData),
   });

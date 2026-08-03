@@ -24,7 +24,8 @@ export const readXsrfToken = () => {
  * 書き込み系（register/login/logout）を叩く前に必ず呼ぶ
  */
 export const getCsrfCookie = async () => {
-  await fetch(`${ORIGIN}/sanctum/csrf-cookie`, {
+  await fetch(`/sanctum/csrf-cookie`, {
+    // await fetch(`${ORIGIN}/sanctum/csrf-cookie`, {
     method: "GET",
     credentials: "include",
     headers: { Accept: "application/json" },
@@ -98,7 +99,8 @@ export const authService = {
    */
   googleLogin: async (accessToken) => {
     // Laravel側の$request->accessTokenで持ってるキーと合わせる
-    const response = await postWithCsrf(`${BASE_URL}/auth/google`, { accessToken });
+    // const response = await postWithCsrf(`${BASE_URL}/auth/google`, { accessToken });
+    const response = await postWithCsrf(`/api/v1/auth/google`, { accessToken });
 
     const data = await parseJsonOrThrow(response, "ログインに失敗しました。");
     return data.data?.user ?? data.user;
@@ -113,7 +115,8 @@ export const authService = {
    * @returns {Promise<Object>} - 登録したユーザー情報
    */
   emailRegister: async ({ displayName, email, password }) => {
-    const response = await postWithCsrf(`${BASE_URL}/auth/register`, {
+    // const response = await postWithCsrf(`${BASE_URL}/auth/register`, {
+    const response = await postWithCsrf(`/api/v1/auth/register`, {
       displayName,
       email,
       password,
@@ -131,7 +134,8 @@ export const authService = {
    * @returns {Promise<Object>} - ログインしたユーザー情報
    */
   emailLogin: async ({ email, password }) => {
-    const response = await postWithCsrf(`${BASE_URL}/auth/email`, {
+    // const response = await postWithCsrf(`${BASE_URL}/auth/email`, {
+    const response = await postWithCsrf(`/api/v1/auth/email`, {
       email,
       password,
     });
@@ -144,7 +148,8 @@ export const authService = {
    * ログアウトする（セッション破棄）
    */
   emailLogout: async () => {
-    const response = await postWithCsrf(`${BASE_URL}/auth/logout`);
+    // const response = await postWithCsrf(`${BASE_URL}/auth/logout`);
+    const response = await postWithCsrf(`/api/v1/auth/logout`);
     await parseJsonOrThrow(response, "ログアウトに失敗しました。");
   },
 
@@ -153,7 +158,8 @@ export const authService = {
    * @returns {Promise<Object|null>} - ログイン中ならユーザー情報、未ログインなら null
    */
   fetchMe: async () => {
-    const response = await fetch(`${BASE_URL}/me`, {
+    // const response = await fetch(`${BASE_URL}/me`, {
+    const response = await fetch(`/api/v1/me`, {
       method: "GET",
       credentials: "include",
       headers: { Accept: "application/json" },
