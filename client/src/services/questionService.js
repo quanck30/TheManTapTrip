@@ -11,8 +11,7 @@
  */
 import { getCsrfCookie, readXsrfToken } from "./authService";
 
-// const BASE_URL = import.meta.env.VITE_API_BASE_URL;
-const BASE_URL = "/api/v1";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const fetchQuestions = async (isAuthenticated) => {
   await getCsrfCookie();

@@ -6,8 +6,9 @@
  * @Update 26/06/12
  */
 
-// const BASE_URL = import.meta.env.VITE_API_BASE_URL;
-const BASE_URL = "/api/v1";
+import { getCsrfCookie, readXsrfToken } from "./authService";
+
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const searchPlaces = async (searchData) => {
   const hasAnswers = searchData?.answers && Object.keys(searchData.answers).length > 0;
@@ -16,11 +17,16 @@ export const searchPlaces = async (searchData) => {
     throw new Error("検索データが不完全です。もう一度お試しください。");
   }
 
+  // statefulApiミドルウェア配下のためログイン有無に関わらずCSRF検証が必要
+  await getCsrfCookie();
+
   const response = await fetch(`${BASE_URL}/placeSearch`, {
     method: "POST",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
+      "X-XSRF-TOKEN": readXsrfToken(),
     },
     body: JSON.stringify(searchData),
   });

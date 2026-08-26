@@ -7,8 +7,8 @@
 
 // VITE_API_BASE_URL は末尾に /api/v1 を含む。sanctum/csrf-cookie は
 // /api/v1 配下ではないため、オリジン部分だけ取り出して使う。
-// const BASE_URL = import.meta.env.VITE_API_BASE_URL;
-// const ORIGIN = BASE_URL.replace(/\/api\/v1$/, "");
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const ORIGIN = BASE_URL.replace(/\/api\/v1$/, "");
 
 /**
  * document.cookie から XSRF-TOKEN を読み取り、URLデコードして返す
@@ -24,8 +24,7 @@ export const readXsrfToken = () => {
  * 書き込み系（register/login/logout）を叩く前に必ず呼ぶ
  */
 export const getCsrfCookie = async () => {
-  await fetch(`/sanctum/csrf-cookie`, {
-    // await fetch(`${ORIGIN}/sanctum/csrf-cookie`, {
+  await fetch(`${ORIGIN}/sanctum/csrf-cookie`, {
     method: "GET",
     credentials: "include",
     headers: { Accept: "application/json" },
@@ -99,8 +98,7 @@ export const authService = {
    */
   googleLogin: async (accessToken) => {
     // Laravel側の$request->accessTokenで持ってるキーと合わせる
-    // const response = await postWithCsrf(`${BASE_URL}/auth/google`, { accessToken });
-    const response = await postWithCsrf(`/api/v1/auth/google`, { accessToken });
+    const response = await postWithCsrf(`${BASE_URL}/auth/google`, { accessToken });
 
     const data = await parseJsonOrThrow(response, "ログインに失敗しました。");
     return data.data?.user ?? data.user;
@@ -115,8 +113,7 @@ export const authService = {
    * @returns {Promise<Object>} - 登録したユーザー情報
    */
   emailRegister: async ({ displayName, email, password }) => {
-    // const response = await postWithCsrf(`${BASE_URL}/auth/register`, {
-    const response = await postWithCsrf(`/api/v1/auth/register`, {
+    const response = await postWithCsrf(`${BASE_URL}/auth/register`, {
       displayName,
       email,
       password,
@@ -134,8 +131,7 @@ export const authService = {
    * @returns {Promise<Object>} - ログインしたユーザー情報
    */
   emailLogin: async ({ email, password }) => {
-    // const response = await postWithCsrf(`${BASE_URL}/auth/email`, {
-    const response = await postWithCsrf(`/api/v1/auth/email`, {
+    const response = await postWithCsrf(`${BASE_URL}/auth/email`, {
       email,
       password,
     });
@@ -148,8 +144,7 @@ export const authService = {
    * ログアウトする（セッション破棄）
    */
   emailLogout: async () => {
-    // const response = await postWithCsrf(`${BASE_URL}/auth/logout`);
-    const response = await postWithCsrf(`/api/v1/auth/logout`);
+    const response = await postWithCsrf(`${BASE_URL}/auth/logout`);
     await parseJsonOrThrow(response, "ログアウトに失敗しました。");
   },
 
@@ -158,8 +153,7 @@ export const authService = {
    * @returns {Promise<Object|null>} - ログイン中ならユーザー情報、未ログインなら null
    */
   fetchMe: async () => {
-    // const response = await fetch(`${BASE_URL}/me`, {
-    const response = await fetch(`/api/v1/me`, {
+    const response = await fetch(`${BASE_URL}/me`, {
       method: "GET",
       credentials: "include",
       headers: { Accept: "application/json" },
