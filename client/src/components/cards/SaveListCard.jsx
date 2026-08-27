@@ -41,7 +41,6 @@ function SaveListCard({ spot, onClick, onUnsave, onSetVisited }) {
           src={imageUrl}
           alt={title}
           onError={handleImageError}
-          crossOrigin="anonymous"
           referrerPolicy="no-referrer"
           className="w-16 h-16 rounded-xl object-cover bg-slate-100"
         />

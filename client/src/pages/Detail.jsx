@@ -105,7 +105,7 @@ function Detail({ spot, initialSaved = false, onBack }) {
   return (
     <div className="detail-container">
       <div className="detail-hero">
-        <img src={imageUrl} className="detail-hero-img" alt={title} crossOrigin="anonymous" referrerPolicy="no-referrer" onError={handleImageError} />
+        <img src={imageUrl} className="detail-hero-img" alt={title} referrerPolicy="no-referrer" onError={handleImageError} />
         <div className="hero-gradient" />
         <div className="back-button-wrapper">
           <button onClick={onBack} className="back-button-arrow" aria-label="戻る">

@@ -99,7 +99,6 @@ const CardDisplay = ({ places = [] }) => {
                 src={imageUrl}
                 className="card-image"
                 alt={title}
-                crossOrigin="anonymous"
                 referrerPolicy="no-referrer"
                 onError={(e) => {
                   e.target.onerror = null;
