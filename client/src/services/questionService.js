@@ -12,12 +12,17 @@
 import { getCsrfCookie, readXsrfToken } from "./authService";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const URLS = {
+  login: `${BASE_URL}/questions/login`,
+  guest: `${BASE_URL}/questions/guest`,
+  choices: `${BASE_URL}/choices`,
+};
 
 export const fetchQuestions = async (isAuthenticated) => {
   await getCsrfCookie();
 
   // ログイン中なら login 用、未ログインなら guest 用のURLを設定
-  const endpoint = isAuthenticated ? `${BASE_URL}/questions/login` : `${BASE_URL}/questions/guest`;
+  const endpoint = isAuthenticated ? URLS.login : URLS.guest;
 
   let response = await fetch(endpoint, {
     method: "GET",
@@ -29,7 +34,7 @@ export const fetchQuestions = async (isAuthenticated) => {
   });
 
   if (response.status === 401) {
-    response = await fetch(`${BASE_URL}/questions/guest`, {
+    response = await fetch(URLS.guest, {
       method: "GET",
       credentials: "include",
       headers: {
@@ -54,7 +59,7 @@ export const saveAnswers = async (questionId, queryItemId) => {
   // セッション認証のため CSRF Cookie を用意してヘッダに付与する
   await getCsrfCookie();
 
-  const response = await fetch(`${BASE_URL}/choices`, {
+  const response = await fetch(URLS.choices, {
     method: "POST",
     credentials: "include",
     headers: {

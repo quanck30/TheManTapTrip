@@ -1,6 +1,12 @@
 import { getCsrfCookie, readXsrfToken } from "./authService";
 
-const BASE_URL = "/api/v1/spots";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const URLS = {
+  fetchSpot: `${BASE_URL}/spots`,
+  saveSpot: `${BASE_URL}/spots`,
+  deleteSpot: (id) => `${BASE_URL}/spots/${id}`,
+  setVisited: `${BASE_URL}/spots/visit`,
+};
 
 const toSpotPayload = (place) => ({
   spotId: place.spotId,
@@ -31,7 +37,7 @@ const parseOrThrow = async (response, fallback) => {
 
 export const spotService = {
   fetchSpot: async () => {
-    const response = await fetch(`${BASE_URL}`, {
+    const response = await fetch(URLS.fetchSpot, {
       method: "GET",
       credentials: "include",
       headers: {
@@ -48,7 +54,7 @@ export const spotService = {
   saveSpot: async (place) => {
     const payload = toSpotPayload(place);
     await getCsrfCookie();
-    const response = await fetch(`${BASE_URL}`, {
+    const response = await fetch(URLS.saveSpot, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -67,7 +73,7 @@ export const spotService = {
 
   deleteSpot: async (id) => {
     await getCsrfCookie();
-    const response = await fetch(`${BASE_URL}/${id}`, {
+    const response = await fetch(URLS.deleteSpot(id), {
       method: "DELETE",
       credentials: "include",
       headers: {
@@ -83,7 +89,7 @@ export const spotService = {
 
   setVisited: async (id) => {
     await getCsrfCookie();
-    const response = await fetch(`${BASE_URL}/visit`, {
+    const response = await fetch(URLS.setVisited, {
       method: "PUT",
       credentials: "include",
       headers: {
@@ -96,6 +102,6 @@ export const spotService = {
     const result = await parseOrThrow(response, "行き済み登録に失敗しました。");
     return {
       message: result.message ?? "",
-    }
-  }
+    };
+  },
 };
