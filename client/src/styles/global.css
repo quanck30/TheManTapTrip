@@ -10,11 +10,17 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Portal của dialog được render ngoài #root, nên giữ app shell đủ rộng kể cả khi nội dung đang rỗng. */
+#root {
+  width: 100%;
+  min-height: 100dvh;
 }
 
 /* スマホ画面のコンテナ（レスポンシブ対応） */
 .app-container {
-  @apply w-full max-w-[414px] h-screen max-h-[896px] bg-card-bg overflow-y-auto relative flex flex-col;
+  @apply w-full max-w-[414px] h-dvh max-h-[896px] bg-card-bg overflow-y-auto relative flex flex-col;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }

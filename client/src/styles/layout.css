@@ -1,16 +1,16 @@
 /* アプリ全体のレイアウトを中央に固定 */
 .app-body {
-  @apply flex justify-center items-center min-h-screen bg-bg-color m-0 p-0;
+  @apply flex w-full justify-center items-center min-h-dvh bg-bg-color m-0 p-0;
 }
 
 .app-wrapper {
-  @apply w-[390px] h-screen bg-card-bg flex flex-col overflow-hidden relative;
+  @apply w-full max-w-[390px] h-dvh bg-card-bg flex flex-col overflow-hidden relative;
   box-shadow: 0 0 24px rgba(0, 0, 0, 0.1);
 }
 
 /* App.css から復元: 主コンテンツ領域 */
 .app-content-area {
-  @apply flex-1 m-0 mb-[50px] bg-bg-subtle;
+  @apply flex-1 min-h-0 m-0 bg-bg-subtle overflow-y-auto;
 }
 
 /* デスクトップ表示用レスポンシブ */
@@ -22,7 +22,9 @@
 
 /* --- 下部ナビゲーション --- */
 .bottom-nav-bar {
-  @apply absolute bottom-0 left-0 w-full h-16 bg-card-bg border-t border-border-light flex justify-around items-center z-[100];
+  @apply w-full min-h-16 shrink-0 bg-card-bg border-t border-border-light flex justify-around items-center z-[100];
+  height: calc(4rem + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 .nav-item {
@@ -69,9 +71,8 @@
   -ms-overflow-style: none !important;
 }
 
-/* 念のため：アプリの主要コンテナに対しても明示的に適用 */
-.app-body, .app-wrapper, .app-content-area, .home-container {
-  overflow-y: auto; /* コンテンツが長い場合はスクロール可能にする */
+/* スクロール領域に対して明示的に適用 */
+.app-content-area, .home-container {
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
 }
