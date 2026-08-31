@@ -1,7 +1,7 @@
 import Foundation
 
 enum APIConstants {
-    static let baseURL = URL(string: "https://taptrip.qnwnp.com/api/v1/")!
+    static let baseURL = URL(string: "https://taptrip-api.qnwnp.com/api/v1/")!
     static let googlePlacesBaseURL = URL(string: "https://places.googleapis.com")!
     static let guestQuestionsURL = baseURL.appendingPathComponent("questions/guest")
     static let placeSearchURL = baseURL.appendingPathComponent("placeSearch")
