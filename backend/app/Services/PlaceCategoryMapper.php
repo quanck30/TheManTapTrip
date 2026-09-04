@@ -97,7 +97,7 @@ class PlaceCategoryMapper
             ],
             // リラックス：公園、庭園、温泉・スパ、自然豊かな場所（ビーチやハイキングなど）
             'relax' => [
-                'apiSearchTypes' => ['park', 'botanical_garden', 'spa', 'hot_spring', 'public_bath', 'beach'],
+                'apiSearchTypes' => ['park', 'botanical_garden', 'spa', 'public_bath', 'beach'],
                 'matchTypes'    => [
                     'park', 'campground', 'spa', 'garden', 'beach', 'hiking_area',
                     'national_park', 'lodging', 'public_bath', 'hot_spring', 'solarium',
